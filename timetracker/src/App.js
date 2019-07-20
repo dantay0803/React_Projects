@@ -249,5 +249,3 @@ class App extends Component {
 }
 
 export default App;
-
-// ref - https://www.reddit.com/r/webdev/comments/c9u4zk/showoff_saturday_we_created_log_a_simple_website/
