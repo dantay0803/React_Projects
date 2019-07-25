@@ -1,4 +1,5 @@
 Site Name - What to watch - logo could be shrugging shoulders emoji
+Logo - https://flyclipart.com/free-png-image-shrug-emoji-png-303772
 
 API CALLS
 Search Bar:
