@@ -3,22 +3,39 @@ import styled from 'styled-components';
 import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import Logo from '../images/logo.png';
 
-const Styles = styled.div`
-  .navbar {
-    background-color: transparent;
-  }
+const StyledNavbar = styled(Navbar)`
+  background-color: ${props => props.backgroundcolor || 'transparent'};
+  -webkit-transition: background 1s;
+  -moz-transition: background 1s;
+  -ms-transition: background 1s;
+  -o-transition: background 1s;
+  transition: background 1s;
+`;
 
+const Styles = styled.div`
   .navbar-brand,
   .navbar-light .navbar-nav .nav-link {
-    color: white;
+    color: #66fcf1;
+  }
+
+  .navbar-brand: hover,
+  .navbar-light .navbar-nav .nav-link: hover {
+    color: #45a29e;
   }
 `;
 
 export default class Navigationbar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <Styles>
-        <Navbar expand='lg' fixed='top'>
+        <StyledNavbar
+          expand='lg'
+          fixed='top'
+          backgroundcolor={this.props.backgroundcolor}>
           <Navbar.Brand href='#home'>
             <img
               alt='What to watch logo'
@@ -50,7 +67,7 @@ export default class Navigationbar extends Component {
               />
             </Form>
           </Navbar.Collapse>
-        </Navbar>
+        </StyledNavbar>
       </Styles>
     );
   }

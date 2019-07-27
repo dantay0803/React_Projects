@@ -7,23 +7,31 @@ const Styles = styled.div`
   .jumbotron {
     background: url(${pickOfTheWeekImage}) no-repeat fixed bottom;
     background-size: cover;
-    height: 750px;
+    height: 50rem;
     position: relative;
-    z-index: -2;
+    mask-image: linear-gradient(rgba(0, 0, 0, 1) 75%, transparent);
   }
 
   .description {
-    padding-top: 75px;
-    width: 450px;
+    padding-top: 10rem;
+    padding-left: 6rem;
+    width: 40rem;
   }
 
   .pickOfTheWeekDetails {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
     border: none;
     height: 50px;
     width: 150px;
     font-size: 20px;
     font-weight: bold;
+    transition: all 0.2s ease-in-out;
+  }
+  .pickOfTheWeekDetails:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: #0b0c10;
+    font-size: 24px;
+    transform: scale(1.1);
   }
 `;
 
@@ -32,20 +40,18 @@ export default class PickOfTheWeek extends Component {
     return (
       <Styles>
         <Jumbotron fluid>
-          <Container>
-            <div className='description'>
-              <h1>Pick of the Week</h1>
-              <h2>Luther</h2>
-              <p>
-                A dark psychological crime drama starring Idris Elba as Luther,
-                a man struggling with his own terrible demons, who might be as
-                dangerous as the depraved murderers he hunts.
-              </p>
-              <p>
-                <Button className='pickOfTheWeekDetails'>Details</Button>
-              </p>
-            </div>
-          </Container>
+          <div className='description'>
+            <h1>Pick of the Week</h1>
+            <h2>Luther</h2>
+            <p>
+              A dark psychological crime drama starring Idris Elba as Luther, a
+              man struggling with his own terrible demons, who might be as
+              dangerous as the depraved murderers he hunts.
+            </p>
+            <p>
+              <Button className='pickOfTheWeekDetails'>Details</Button>
+            </p>
+          </div>
         </Jumbotron>
       </Styles>
     );
