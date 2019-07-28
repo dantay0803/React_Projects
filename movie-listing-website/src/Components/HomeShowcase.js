@@ -13,7 +13,7 @@ const Styles = styled.div`
   }
 
   .showcaseTitle {
-    color: #66fcf1;
+    color: var(--bert-blue-bright);
     font-size: 1.5rem;
     margin: 0;
     padding: 0;

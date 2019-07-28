@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Navigationbar from './Components/Navigationbar';
+import Footer from './Components/Footer';
 import PickOfTheWeek from './Components/PickOfTheWeek';
 import HomeShowcase from './Components/HomeShowcase';
+
 import './App.css';
 
 export default class App extends Component {
@@ -26,10 +28,10 @@ export default class App extends Component {
       window.pageYOffset >= 100 &&
       this.state.navBackgroundColor === 'transparent'
     ) {
-      this.setState({ navBackgroundColor: '#0b0c10' });
+      this.setState({ navBackgroundColor: 'var(--bert-black)' });
     } else if (
       window.pageYOffset < 200 &&
-      this.state.navBackgroundColor === '#0b0c10'
+      this.state.navBackgroundColor === 'var(--bert-black)'
     ) {
       this.setState({ navBackgroundColor: 'transparent' });
     }
@@ -45,6 +47,7 @@ export default class App extends Component {
         <HomeShowcase title={'Superior Sci-Fi'} />
         <HomeShowcase title={'Laugh out Loud'} />
         <HomeShowcase title={'Crime Stoppers'} />
+        <Footer />
       </div>
     );
   }

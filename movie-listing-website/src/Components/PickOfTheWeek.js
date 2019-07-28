@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Container, Jumbotron, Button } from 'react-bootstrap';
+import { Jumbotron, Button } from 'react-bootstrap';
 import pickOfTheWeekImage from '../images/PickOfTheWeek.jpg';
 
 const Styles = styled.div`
@@ -29,7 +29,7 @@ const Styles = styled.div`
   }
   .pickOfTheWeekDetails:hover {
     background-color: rgba(255, 255, 255, 1);
-    color: #0b0c10;
+    color: var(--bert-black);
     font-size: 24px;
     transform: scale(1.1);
   }
