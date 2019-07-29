@@ -3,6 +3,7 @@ import Navigationbar from './Components/Navigationbar';
 import Footer from './Components/Footer';
 import PickOfTheWeek from './Components/PickOfTheWeek';
 import HomeShowcase from './Components/HomeShowcase';
+import SearchResults from './Components/SearchResults';
 
 import './App.css';
 
@@ -41,12 +42,13 @@ export default class App extends Component {
     return (
       <div className='App'>
         <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
-        <PickOfTheWeek />
+        {/* <PickOfTheWeek />
         <HomeShowcase title={'Marvelous Heroes & Determined Crusaders'} />
         <HomeShowcase title={'Fantastic Fantasies'} />
         <HomeShowcase title={'Superior Sci-Fi'} />
         <HomeShowcase title={'Laugh out Loud'} />
-        <HomeShowcase title={'Crime Stoppers'} />
+        <HomeShowcase title={'Crime Stoppers'} /> */}
+        <SearchResults />
         <Footer />
       </div>
     );

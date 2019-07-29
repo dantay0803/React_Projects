@@ -50,6 +50,7 @@ const Styles = styled.div`
   .form-control {
     background-color: transparent;
     border: none;
+    color: white;
   }
 `;
 
