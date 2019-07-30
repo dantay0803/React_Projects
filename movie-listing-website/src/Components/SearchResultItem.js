@@ -7,6 +7,7 @@ import {
   OverlayTrigger,
   Tooltip
 } from 'react-bootstrap';
+import { FaChartArea } from 'react-icons/fa';
 import searchPlaceHolder from '../images/spidermansearchresultplaceholder.jpg';
 
 const Styles = styled.div`
@@ -30,7 +31,7 @@ const StyledMedia = styled(Media)`
   margin-bottom: 2rem;
 `;
 
-const StyledCard = styled(Card)`
+const StyledDetailsCard = styled(Card)`
   border-radius: 0;
   color: black;
   height: 17.38rem;
@@ -45,18 +46,61 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const StyledImageCard = styled(Card)`
+  width: 11.55rem;
+  height: 17.4rem;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  margin-right: 0.3rem;
+
+  a: hover ~.card-img-overlay {
+    opacity: 0.9;
+  }
+
+  .card-img-overlay {
+    background-color: var(--bert-navy);
+    color: white;
+    opacity: 0;
+    height: 3rem;
+    top: auto;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-img-overlay: hover {
+    opacity: 0.9;
+  }
+`;
+
 export default function SearchResultItem() {
   return (
     <Styles>
       <StyledMedia>
-        <img
-          width={185}
-          height={278}
-          src={searchPlaceHolder}
-          alt='Generic placeholder'
-        />
+        <StyledImageCard>
+          <a href=''>
+            <Card.Img src={searchPlaceHolder} alt='Card image' />
+          </a>
+          <Card.ImgOverlay>
+            <OverlayTrigger
+              placement='top'
+              overlay={
+                <Tooltip>
+                  <strong>Popularity Rank</strong>
+                  <br />
+                  Today: 4
+                  <br />
+                  Last Week: 2
+                </Tooltip>
+              }>
+              <FaChartArea className='chartIcon' />
+            </OverlayTrigger>
+          </Card.ImgOverlay>
+        </StyledImageCard>
         <Media.Body>
-          <StyledCard>
+          <StyledDetailsCard>
             <Card.Body>
               <Card.Title>Spider-Man: Far From Home</Card.Title>
               <small className='text-muted'>June 28, 2019</small>
@@ -72,9 +116,11 @@ export default function SearchResultItem() {
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>
-              <small className='text-muted'>Full Details</small>
+              <a href=''>
+                <small className='text-muted'>Full Details</small>
+              </a>
             </Card.Footer>
-          </StyledCard>
+          </StyledDetailsCard>
         </Media.Body>
       </StyledMedia>
     </Styles>

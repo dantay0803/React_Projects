@@ -8,10 +8,12 @@
 
 body {
   font-family: 'Rubik', sans-serif;
-  background-color: var(--bert-black);
   /* background-color: white; */
   color: white;
   overflow-x: hidden;
+  background-repeat: repeat;
+  background-color: var(--bert-navy);
+  background-blend-mode: lighten;
 }
 
 h1,

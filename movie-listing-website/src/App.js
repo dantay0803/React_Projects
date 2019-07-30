@@ -29,10 +29,10 @@ export default class App extends Component {
       window.pageYOffset >= 100 &&
       this.state.navBackgroundColor === 'transparent'
     ) {
-      this.setState({ navBackgroundColor: 'var(--bert-black)' });
+      this.setState({ navBackgroundColor: 'var(--bert-navy)' });
     } else if (
       window.pageYOffset < 200 &&
-      this.state.navBackgroundColor === 'var(--bert-black)'
+      this.state.navBackgroundColor === 'var(--bert-navy)'
     ) {
       this.setState({ navBackgroundColor: 'transparent' });
     }
