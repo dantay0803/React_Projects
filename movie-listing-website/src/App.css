@@ -14,6 +14,7 @@ body {
   background-repeat: repeat;
   background-color: var(--bert-navy);
   background-blend-mode: lighten;
+  height: 100%;
 }
 
 h1,

@@ -4,7 +4,7 @@ import Footer from './Components/Footer';
 import PickOfTheWeek from './Components/PickOfTheWeek';
 import HomeShowcase from './Components/HomeShowcase';
 import SearchResults from './Components/SearchResults';
-
+import ItemDetails from './Components/ItemDetails';
 import './App.css';
 
 export default class App extends Component {
@@ -47,8 +47,9 @@ export default class App extends Component {
         <HomeShowcase title={'Fantastic Fantasies'} />
         <HomeShowcase title={'Superior Sci-Fi'} />
         <HomeShowcase title={'Laugh out Loud'} />
-        <HomeShowcase title={'Crime Stoppers'} /> */}
-        <SearchResults />
+        <HomeShowcase title={'Crime Stoppers'} />
+        <SearchResults /> */}
+        <ItemDetails />
         <Footer />
       </div>
     );
