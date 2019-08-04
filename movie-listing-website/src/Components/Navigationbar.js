@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   Navbar,
@@ -10,6 +10,8 @@ import {
 } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import Logo from '../images/logo.png';
+import config from '../Config';
+const axios = require('axios');
 
 const StyledNavbar = styled(Navbar)`
   background-color: ${props => props.backgroundcolor || 'transparent'};
@@ -54,99 +56,82 @@ const Styles = styled.div`
   }
 `;
 
-export default class Navigationbar extends Component {
-  constructor(props) {
-    super(props);
+export default function Navigationbar(props) {
+  const [searchbarStatus, setSearchbarStatus] = useState(0);
+  const [searchbarWidth, setSearchbarWidth] = useState('2.75rem');
+  const [searchbarBackgroundColor, setSearchbarBackgroundColor] = useState(
+    'rgba(0, 0, 0, 0)'
+  );
+  const [searchbarBorder, setSearchbarBorder] = useState('none');
+  const [searchbarDisplay, setSearchbarDisplay] = useState('none');
 
-    this.state = {
-      searchbarStatus: 0,
-      searchbarWidth: '2.75rem',
-      searchbarBackgroundColor: 'rgba(0, 0, 0, 0)',
-      searchbarBorder: 'none',
-      searchbarDisplay: 'none'
-    };
-  }
+  const toggleSearchBar = () => {
+    let updatedSearchbarDisplay;
 
-  toggleSearchBar = () => {
-    let searchbarStatus;
-    let searchbarBackgroundColor;
-    let searchbarBorder;
-    let searchbarDisplay;
-    let searchbarWidth;
-
-    if (this.state.searchbarStatus === 0) {
-      searchbarStatus = 1;
-      searchbarWidth = '25rem';
-      searchbarBackgroundColor = 'rgba(0, 0, 0, 0.8)';
-      searchbarBorder = '1px solid white';
-      searchbarDisplay = 'block';
+    if (searchbarStatus === 0) {
+      setSearchbarStatus(1);
+      setSearchbarWidth('25rem');
+      setSearchbarBackgroundColor('rgba(0, 0, 0, 0.8)');
+      setSearchbarBorder('1px solid white');
+      updatedSearchbarDisplay = 'block';
     } else {
-      searchbarStatus = 0;
-      searchbarWidth = '2.75rem';
-      searchbarBackgroundColor = 'rgba(0, 0, 0, 0)';
-      searchbarBorder = 'none';
-      searchbarDisplay = 'none';
+      setSearchbarStatus(0);
+      setSearchbarWidth('2.75rem');
+      setSearchbarBackgroundColor('rgba(0, 0, 0, 0)');
+      setSearchbarBorder('none');
+      updatedSearchbarDisplay = 'none';
     }
 
-    this.setState({
-      searchbarStatus,
-      searchbarWidth,
-      searchbarBackgroundColor,
-      searchbarBorder
-    });
-
-    setTimeout(() => this.setState({ searchbarDisplay }), 500);
+    setTimeout(() => setSearchbarDisplay(updatedSearchbarDisplay), 500);
   };
 
-  render() {
-    return (
-      <Styles>
-        <StyledNavbar
-          expand='lg'
-          fixed='top'
-          backgroundcolor={this.props.backgroundcolor}>
-          <Navbar.Brand href='#home'>
-            <img
-              alt='What to watch logo'
-              src={Logo}
-              width='33'
-              height='30'
-              className='d-inline-block align-top'
+  return (
+    <Styles>
+      <StyledNavbar
+        expand='lg'
+        fixed='top'
+        backgroundcolor={props.backgroundcolor}>
+        <Navbar.Brand href='#home'>
+          <img
+            alt='What to watch logo'
+            src={Logo}
+            width='33'
+            height='30'
+            className='d-inline-block align-top'
+          />
+          {' What to Watch...'}
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='mr-auto'>
+            <Nav.Link href='#home'>Home</Nav.Link>
+            <NavDropdown title='Series' id='basic-nav-dropdown'>
+              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title='Films' id='basic-nav-dropdown'>
+              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link href='#home'>Recently Added</Nav.Link>
+            <Nav.Link href='#home'>My List</Nav.Link>
+          </Nav>
+          <StyledInputGroup
+            searchbarwidth={searchbarWidth}
+            searchbarbackgroundcolor={searchbarBackgroundColor}
+            searchbarborder={searchbarBorder}>
+            <InputGroup.Prepend>
+              <Button onClick={() => toggleSearchBar()}>
+                <FaSearch />
+              </Button>
+            </InputGroup.Prepend>
+            <StyledFormControl
+              placeholder='Keywords, Titles, People, Genres...'
+              aria-label="Recipient's username"
+              aria-describedby='basic-addon2'
+              searchbardisplay={searchbarDisplay}
             />
-            {' What to Watch...'}
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='mr-auto'>
-              <Nav.Link href='#home'>Home</Nav.Link>
-              <NavDropdown title='Series' id='basic-nav-dropdown'>
-                <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown title='Films' id='basic-nav-dropdown'>
-                <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href='#home'>Recently Added</Nav.Link>
-              <Nav.Link href='#home'>My List</Nav.Link>
-            </Nav>
-            <StyledInputGroup
-              searchbarwidth={this.state.searchbarWidth}
-              searchbarbackgroundcolor={this.state.searchbarBackgroundColor}
-              searchbarborder={this.state.searchbarBorder}>
-              <InputGroup.Prepend>
-                <Button onClick={this.toggleSearchBar}>
-                  <FaSearch />
-                </Button>
-              </InputGroup.Prepend>
-              <StyledFormControl
-                placeholder='Keywords, Titles, People, Genres...'
-                aria-label="Recipient's username"
-                aria-describedby='basic-addon2'
-                searchbardisplay={this.state.searchbarDisplay}
-              />
-            </StyledInputGroup>
-          </Navbar.Collapse>
-        </StyledNavbar>
-      </Styles>
-    );
-  }
+          </StyledInputGroup>
+        </Navbar.Collapse>
+      </StyledNavbar>
+    </Styles>
+  );
 }

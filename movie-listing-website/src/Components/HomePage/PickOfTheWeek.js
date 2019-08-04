@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Jumbotron, Button } from 'react-bootstrap';
-import pickOfTheWeekImage from '../images/PickOfTheWeek.jpg';
+import pickOfTheWeekImage from '../../images/PickOfTheWeek.jpg';
 
 const Styles = styled.div`
   .jumbotron {

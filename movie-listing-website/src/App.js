@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Navigationbar from './Components/Navigationbar';
 import Footer from './Components/Footer';
-import PickOfTheWeek from './Components/PickOfTheWeek';
-import HomeShowcase from './Components/HomeShowcase';
+import PickOfTheWeek from './Components/HomePage/PickOfTheWeek';
+import HomeShowcase from './Components/HomePage/HomeShowcase';
 import SearchResults from './Components/SearchResults';
 import ItemDetailsPage from './Components/ItemDetailsPage/ItemDetailsPage';
 import './App.css';
@@ -43,13 +43,33 @@ export default class App extends Component {
       <div className='App'>
         <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
         {/* <PickOfTheWeek />
-        <HomeShowcase title={'Marvelous Heroes & Determined Crusaders'} />
-        <HomeShowcase title={'Fantastic Fantasies'} />
-        <HomeShowcase title={'Superior Sci-Fi'} />
-        <HomeShowcase title={'Laugh out Loud'} />
-        <HomeShowcase title={'Crime Stoppers'} />
-        <SearchResults /> */}
-        <ItemDetailsPage />
+        <HomeShowcase
+          title={'Marvelous Heroes & Determined Crusaders'}
+          discoverOption={'movie'}
+          searchOptions={'year=none&sort_by=popularity.desc&with_keywords=9715'}
+        />
+        <HomeShowcase
+          title={'Laugh out Loud'}
+          discoverOption={'tv'}
+          searchOptions={'year=none&sort_by=popularity.desc&with_genres=35'}
+        />
+        <HomeShowcase
+          title={'Fantastic Fantasies'}
+          discoverOption={'movie'}
+          searchOptions={'year=none&sort_by=popularity.desc&with_genres=14'}
+        />
+        <HomeShowcase
+          title={'Prime Time Crime Time'}
+          discoverOption={'tv'}
+          searchOptions={'year=none&sort_by=popularity.desc&with_genres=80'}
+        />
+        <HomeShowcase
+          title={'Superior Sci-Fi'}
+          discoverOption={'movie'}
+          searchOptions={'year=none&sort_by=popularity.desc&with_genres=878'}
+        /> */}
+        <SearchResults />
+        {/* <ItemDetailsPage /> */}
         <Footer />
       </div>
     );
