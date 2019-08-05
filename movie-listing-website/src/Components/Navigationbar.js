@@ -10,8 +10,6 @@ import {
 } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import Logo from '../images/logo.png';
-import config from '../Config';
-const axios = require('axios');
 
 const StyledNavbar = styled(Navbar)`
   background-color: ${props => props.backgroundcolor || 'transparent'};

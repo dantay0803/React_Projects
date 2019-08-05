@@ -8,7 +8,6 @@ import {
   Tooltip
 } from 'react-bootstrap';
 import { FaChartArea } from 'react-icons/fa';
-import searchPlaceHolder from '../images/spidermansearchresultplaceholder.jpg';
 
 const Styles = styled.div`
   img {
@@ -52,10 +51,15 @@ const StyledImageCard = styled(Card)`
   border: none;
   box-shadow: none;
   background-color: transparent;
-  margin-right: 0.3rem;
+  margin: 0;
 
   a: hover ~.card-img-overlay {
     opacity: 0.9;
+  }
+
+  .card-img {
+    border-radius: 0;
+    height: 278.25px;
   }
 
   .card-img-overlay {
@@ -75,13 +79,16 @@ const StyledImageCard = styled(Card)`
   }
 `;
 
-export default function SearchResultItem() {
+export default function SearchResultItem(props) {
   return (
     <Styles>
       <StyledMedia>
         <StyledImageCard>
           <a href=''>
-            <Card.Img src={searchPlaceHolder} alt='Card image' />
+            <Card.Img
+              src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}
+              alt='Card image'
+            />
           </a>
           <Card.ImgOverlay>
             <OverlayTrigger
@@ -102,17 +109,14 @@ export default function SearchResultItem() {
         <Media.Body>
           <StyledDetailsCard>
             <Card.Body>
-              <Card.Title>Spider-Man: Far From Home</Card.Title>
-              <small className='text-muted'>June 28, 2019</small>
-              <Card.Text>
-                Peter Parker and his friends go on a summer trip to Europe.
-                However, they will hardly be able to rest - Peter will have to
-                agree to help Nick Fury uncover the mystery of creatures that
-                cause natural disasters and destruction throughout the
-                continent.
-              </Card.Text>
+              <Card.Title>{props.title}</Card.Title>
+              <small className='text-muted'>{props.releaseDate}</small>
+              <Card.Text>{props.description.substring(0, 381)}...</Card.Text>
               <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
-                <ProgressBar now={78} label={'78%'} />
+                <ProgressBar
+                  now={props.popularity}
+                  label={`${props.popularity}`}
+                />
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>

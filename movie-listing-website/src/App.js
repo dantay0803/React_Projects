@@ -3,7 +3,7 @@ import Navigationbar from './Components/Navigationbar';
 import Footer from './Components/Footer';
 import PickOfTheWeek from './Components/HomePage/PickOfTheWeek';
 import HomeShowcase from './Components/HomePage/HomeShowcase';
-import SearchResults from './Components/SearchResults';
+import SearchResultsPage from './Components/SearchPage/SearchResultsPage';
 import ItemDetailsPage from './Components/ItemDetailsPage/ItemDetailsPage';
 import './App.css';
 
@@ -68,7 +68,7 @@ export default class App extends Component {
           discoverOption={'movie'}
           searchOptions={'year=none&sort_by=popularity.desc&with_genres=878'}
         /> */}
-        <SearchResults />
+        <SearchResultsPage />
         {/* <ItemDetailsPage /> */}
         <Footer />
       </div>
