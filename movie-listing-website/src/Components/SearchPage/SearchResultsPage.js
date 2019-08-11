@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
 import { FaInfoCircle } from 'react-icons/fa';
 import SearchResultItem from './SearchResultItem';
+import CollectionResultItem from './CollectionResultItem';
 import config from '../../Config';
 const axios = require('axios');
 
@@ -47,26 +48,86 @@ const Styles = styled.div`
 `;
 
 export default function SearchResultsPage() {
-  const [searchResults, setSearchResults] = useState(null);
+  const [movieResults, setMovieResults] = useState([]);
+  const [tvResults, setTVResults] = useState([]);
+  const [peopleResults, setPeopleResults] = useState([]);
+  const [collectionResults, setCollectionResults] = useState([]);
   const [searchOption, setSearchOption] = useState('movie');
+  const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
     fetchData(searchOption);
   }, []);
 
-  const fetchData = async category => {
-    const results = await axios(
-      `https://api.themoviedb.org/3/search/${category}?api_key=${
-        config.API_KEY_V3
-      }&query=Jack+Reacher`
+  const fetchData = async query => {
+    query = 'Jack+Reacher';
+
+    await axios.all([multiSearch(query), collectionsSearch(query)]).then(
+      axios.spread((multiResults, collectionResults) => {
+        const tempMoviesResults = [];
+        const tempTVResults = [];
+        const tempPersonResults = [];
+        multiResults.data.results.map(item => {
+          switch (item.media_type) {
+            case 'movie':
+              tempMoviesResults.push(item);
+              break;
+            case 'tv':
+              tempTVResults.push(item);
+              break;
+            case 'person':
+              tempPersonResults.push(item);
+              break;
+            default:
+              break;
+          }
+        });
+        setCollectionResults(collectionResults.data.results);
+        setPeopleResults(tempPersonResults);
+        setTVResults(tempTVResults);
+        setMovieResults(tempMoviesResults);
+        setSearchResults(tempMoviesResults);
+
+        console.log(collectionResults.data.results);
+      })
     );
-    console.log(results.data);
-    setSearchResults(results.data);
   };
 
   const resultSelect = selection => {
+    switch (selection) {
+      case 'movie':
+        setSearchResults(movieResults);
+        break;
+      case 'tv':
+        setSearchResults(tvResults);
+        break;
+      case 'collection':
+        setSearchResults(collectionResults);
+        break;
+      case 'person':
+        setSearchResults(peopleResults);
+        break;
+      default:
+        break;
+    }
+
     setSearchOption(selection);
-    fetchData(selection);
+  };
+
+  const multiSearch = query => {
+    return axios.get(
+      `https://api.themoviedb.org/3/search/multi?api_key=${
+        config.API_KEY_V3
+      }&query=${query}`
+    );
+  };
+
+  const collectionsSearch = query => {
+    return axios.get(
+      `https://api.themoviedb.org/3/search/collection?api_key=${
+        config.API_KEY_V3
+      }&query=${query}`
+    );
   };
 
   return (
@@ -74,69 +135,42 @@ export default function SearchResultsPage() {
       <Container>
         <Row>
           <Col sm={3}>
-            <ListGroup defaultActiveKey='#movie'>
+            <ListGroup>
               <ListGroup.Item
                 action
-                href='#movie'
+                active={searchOption === 'movie'}
                 onClick={e => {
                   e.preventDefault();
                   resultSelect('movie');
                 }}>
-                Movies
+                Movies <span>{movieResults.length}</span>
               </ListGroup.Item>
               <ListGroup.Item
                 action
-                href='#tv'
+                active={searchOption === 'tv'}
                 onClick={e => {
                   e.preventDefault();
                   resultSelect('tv');
                 }}>
-                TV Shows
+                TV Shows <span>{tvResults.length}</span>
               </ListGroup.Item>
               <ListGroup.Item
                 action
-                href='#collection'
+                active={searchOption === 'collection'}
                 onClick={e => {
                   e.preventDefault();
                   resultSelect('collection');
                 }}>
-                Collections
+                Collections <span>{collectionResults.length}</span>
               </ListGroup.Item>
               <ListGroup.Item
                 action
-                href='#keyword'
-                onClick={e => {
-                  e.preventDefault();
-                  resultSelect('keyword');
-                }}>
-                Keywords
-              </ListGroup.Item>
-              <ListGroup.Item
-                action
-                href='#person'
+                active={searchOption === 'person'}
                 onClick={e => {
                   e.preventDefault();
                   resultSelect('person');
                 }}>
-                People
-              </ListGroup.Item>
-              <ListGroup.Item
-                action
-                href='#company'
-                onClick={e => {
-                  e.preventDefault();
-                  resultSelect('company');
-                }}>
-                Companies
-              </ListGroup.Item>
-              <ListGroup.Item
-                action
-                href='#network'
-                onClick={e => {
-                  e.preventDefault();
-                  resultSelect('network');
-                }}>
-                Networks
+                People <span>{peopleResults.length}</span>
               </ListGroup.Item>
             </ListGroup>
             <Row className='searchInfo'>
@@ -153,13 +187,14 @@ export default function SearchResultsPage() {
             <h3 className='searchTitle'>Search > Collection Results</h3>
             {searchResults === null
               ? null
-              : searchResults.results.map(item => {
+              : searchResults.map(item => {
                   switch (searchOption) {
                     case 'movie':
                     case 'tv':
                       return (
                         <SearchResultItem
                           key={item.id}
+                          id={item.id}
                           title={
                             searchOption === 'movie' ? item.title : item.name
                           }
@@ -173,6 +208,16 @@ export default function SearchResultsPage() {
                           posterPath={item.poster_path}
                         />
                       );
+                    case 'collection':
+                      return (
+                        <CollectionResultItem
+                          key={item.id}
+                          id={item.id}
+                          title={item.name}
+                          backdropPath={item.backdrop_path}
+                        />
+                      );
+                    default:
                       break;
                   }
                 })}

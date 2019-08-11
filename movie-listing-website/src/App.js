@@ -6,6 +6,7 @@ import HomeShowcase from './Components/HomePage/HomeShowcase';
 import SearchResultsPage from './Components/SearchPage/SearchResultsPage';
 import ItemDetailsPage from './Components/ItemDetailsPage/ItemDetailsPage';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export default class App extends Component {
   constructor(props) {
@@ -40,38 +41,48 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
-        {/* <PickOfTheWeek />
-        <HomeShowcase
-          title={'Marvelous Heroes & Determined Crusaders'}
-          discoverOption={'movie'}
-          searchOptions={'year=none&sort_by=popularity.desc&with_keywords=9715'}
-        />
-        <HomeShowcase
-          title={'Laugh out Loud'}
-          discoverOption={'tv'}
-          searchOptions={'year=none&sort_by=popularity.desc&with_genres=35'}
-        />
-        <HomeShowcase
-          title={'Fantastic Fantasies'}
-          discoverOption={'movie'}
-          searchOptions={'year=none&sort_by=popularity.desc&with_genres=14'}
-        />
-        <HomeShowcase
-          title={'Prime Time Crime Time'}
-          discoverOption={'tv'}
-          searchOptions={'year=none&sort_by=popularity.desc&with_genres=80'}
-        />
-        <HomeShowcase
-          title={'Superior Sci-Fi'}
-          discoverOption={'movie'}
-          searchOptions={'year=none&sort_by=popularity.desc&with_genres=878'}
-        /> */}
-        <SearchResultsPage />
-        {/* <ItemDetailsPage /> */}
-        <Footer />
-      </div>
+      <Router>
+        <div className='App'>
+          <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
+          <Switch>
+            <Route exact={true} path='/' component={Home} />
+            <Route path='/SearchResults' component={SearchResultsPage} />
+            <Route path='/Details/:id' component={ItemDetailsPage} />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
+
+const Home = () => (
+  <React.Fragment>
+    <PickOfTheWeek />
+    <HomeShowcase
+      title={'Marvelous Heroes & Determined Crusaders'}
+      discoverOption={'movie'}
+      searchOptions={'year=none&sort_by=popularity.desc&with_keywords=9715'}
+    />
+    <HomeShowcase
+      title={'Laugh out Loud'}
+      discoverOption={'tv'}
+      searchOptions={'year=none&sort_by=popularity.desc&with_genres=35'}
+    />
+    <HomeShowcase
+      title={'Fantastic Fantasies'}
+      discoverOption={'movie'}
+      searchOptions={'year=none&sort_by=popularity.desc&with_genres=14'}
+    />
+    <HomeShowcase
+      title={'Prime Time Crime Time'}
+      discoverOption={'tv'}
+      searchOptions={'year=none&sort_by=popularity.desc&with_genres=80'}
+    />
+    <HomeShowcase
+      title={'Superior Sci-Fi'}
+      discoverOption={'movie'}
+      searchOptions={'year=none&sort_by=popularity.desc&with_genres=878'}
+    />
+  </React.Fragment>
+);

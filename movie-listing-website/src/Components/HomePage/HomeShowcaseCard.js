@@ -59,7 +59,7 @@ export default function HomeShowcaseCard(props) {
             <div>
               <Card.Title>{props.title}</Card.Title>
               <Card.Text>
-                {`${props.overview.substring(0, 125)}...`}
+                {`${props.overview.substring(0, 94)}...`}
                 <br />
                 <IoIosArrowDropright className='icon' />
               </Card.Text>

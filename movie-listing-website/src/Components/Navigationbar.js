@@ -9,6 +9,7 @@ import {
   Button
 } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const StyledNavbar = styled(Navbar)`
@@ -89,16 +90,18 @@ export default function Navigationbar(props) {
         expand='lg'
         fixed='top'
         backgroundcolor={props.backgroundcolor}>
-        <Navbar.Brand href='#home'>
-          <img
-            alt='What to watch logo'
-            src={Logo}
-            width='33'
-            height='30'
-            className='d-inline-block align-top'
-          />
-          {' What to Watch...'}
-        </Navbar.Brand>
+        <Link to='/'>
+          <Navbar.Brand>
+            <img
+              alt='What to watch logo'
+              src={Logo}
+              width='33'
+              height='30'
+              className='d-inline-block align-top'
+            />
+            {' What to Watch...'}
+          </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>

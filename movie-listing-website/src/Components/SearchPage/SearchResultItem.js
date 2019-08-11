@@ -8,6 +8,7 @@ import {
   Tooltip
 } from 'react-bootstrap';
 import { FaChartArea } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Styles = styled.div`
   img {
@@ -84,12 +85,12 @@ export default function SearchResultItem(props) {
     <Styles>
       <StyledMedia>
         <StyledImageCard>
-          <a href=''>
+          <Link to={`/Details/${props.id}`}>
             <Card.Img
               src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}
               alt='Card image'
             />
-          </a>
+          </Link>
           <Card.ImgOverlay>
             <OverlayTrigger
               placement='top'
@@ -120,9 +121,9 @@ export default function SearchResultItem(props) {
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>
-              <a href=''>
+              <Link to={`/Details/${props.id}`}>
                 <small className='text-muted'>Full Details</small>
-              </a>
+              </Link>
             </Card.Footer>
           </StyledDetailsCard>
         </Media.Body>
