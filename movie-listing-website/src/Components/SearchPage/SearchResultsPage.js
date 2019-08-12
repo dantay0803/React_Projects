@@ -47,50 +47,49 @@ const Styles = styled.div`
   }
 `;
 
-export default function SearchResultsPage() {
+export default function SearchResultsPage(props) {
   const [movieResults, setMovieResults] = useState([]);
   const [tvResults, setTVResults] = useState([]);
   const [peopleResults, setPeopleResults] = useState([]);
   const [collectionResults, setCollectionResults] = useState([]);
   const [searchOption, setSearchOption] = useState('movie');
   const [searchResults, setSearchResults] = useState(null);
+  const { query } = props.match.params;
 
   useEffect(() => {
-    fetchData(searchOption);
+    // fetchData(query.replace('query=', ''));
   }, []);
 
-  const fetchData = async query => {
-    query = 'Jack+Reacher';
-
-    await axios.all([multiSearch(query), collectionsSearch(query)]).then(
-      axios.spread((multiResults, collectionResults) => {
-        const tempMoviesResults = [];
-        const tempTVResults = [];
-        const tempPersonResults = [];
-        multiResults.data.results.map(item => {
-          switch (item.media_type) {
-            case 'movie':
-              tempMoviesResults.push(item);
-              break;
-            case 'tv':
-              tempTVResults.push(item);
-              break;
-            case 'person':
-              tempPersonResults.push(item);
-              break;
-            default:
-              break;
-          }
-        });
-        setCollectionResults(collectionResults.data.results);
-        setPeopleResults(tempPersonResults);
-        setTVResults(tempTVResults);
-        setMovieResults(tempMoviesResults);
-        setSearchResults(tempMoviesResults);
-
-        console.log(collectionResults.data.results);
-      })
-    );
+  const fetchData = async searchQuery => {
+    await axios
+      .all([multiSearch(searchQuery), collectionsSearch(searchQuery)])
+      .then(
+        axios.spread((multiResults, collectionResults) => {
+          const tempMoviesResults = [];
+          const tempTVResults = [];
+          const tempPersonResults = [];
+          multiResults.data.results.map(item => {
+            switch (item.media_type) {
+              case 'movie':
+                tempMoviesResults.push(item);
+                break;
+              case 'tv':
+                tempTVResults.push(item);
+                break;
+              case 'person':
+                tempPersonResults.push(item);
+                break;
+              default:
+                break;
+            }
+          });
+          setCollectionResults(collectionResults.data.results);
+          setPeopleResults(tempPersonResults);
+          setTVResults(tempTVResults);
+          setMovieResults(tempMoviesResults);
+          setSearchResults(tempMoviesResults);
+        })
+      );
   };
 
   const resultSelect = selection => {
@@ -114,19 +113,19 @@ export default function SearchResultsPage() {
     setSearchOption(selection);
   };
 
-  const multiSearch = query => {
+  const multiSearch = searchQuery => {
     return axios.get(
       `https://api.themoviedb.org/3/search/multi?api_key=${
         config.API_KEY_V3
-      }&query=${query}`
+      }&query=${searchQuery}`
     );
   };
 
-  const collectionsSearch = query => {
+  const collectionsSearch = searchQuery => {
     return axios.get(
       `https://api.themoviedb.org/3/search/collection?api_key=${
         config.API_KEY_V3
-      }&query=${query}`
+      }&query=${searchQuery}`
     );
   };
 

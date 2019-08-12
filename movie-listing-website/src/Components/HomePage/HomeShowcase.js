@@ -84,13 +84,11 @@ export default function HomeShowcase(props) {
         }?api_key=${config.API_KEY_V3}&${props.searchOptions}`
       );
 
-      console.log(results.data);
-
       setSearchResults(results.data);
       setMaxScroll(elScroll.current.scrollWidth - elScroll.current.offsetWidth);
     };
 
-    fetchData();
+    // fetchData();
   }, []);
 
   return (

@@ -9,7 +9,7 @@ import {
   Button
 } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const StyledNavbar = styled(Navbar)`
@@ -55,7 +55,7 @@ const Styles = styled.div`
   }
 `;
 
-export default function Navigationbar(props) {
+function Navigationbar(props) {
   const [searchbarStatus, setSearchbarStatus] = useState(0);
   const [searchbarWidth, setSearchbarWidth] = useState('2.75rem');
   const [searchbarBackgroundColor, setSearchbarBackgroundColor] = useState(
@@ -63,6 +63,8 @@ export default function Navigationbar(props) {
   );
   const [searchbarBorder, setSearchbarBorder] = useState('none');
   const [searchbarDisplay, setSearchbarDisplay] = useState('none');
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleSearchBar = () => {
     let updatedSearchbarDisplay;
@@ -82,6 +84,17 @@ export default function Navigationbar(props) {
     }
 
     setTimeout(() => setSearchbarDisplay(updatedSearchbarDisplay), 500);
+  };
+
+  const searchInput = e => {
+    e.preventDefault();
+
+    if (e.key === 'Enter') {
+      props.history.push(`/searchresults/query=${searchQuery}`);
+    } else {
+      setSearchInputValue(e.target.value);
+      setSearchQuery(e.target.value.replace(/\s/g, '%20'));
+    }
   };
 
   return (
@@ -129,6 +142,9 @@ export default function Navigationbar(props) {
               aria-label="Recipient's username"
               aria-describedby='basic-addon2'
               searchbardisplay={searchbarDisplay}
+              value={searchInputValue}
+              onChange={e => searchInput(e)}
+              onKeyUp={e => searchInput(e)}
             />
           </StyledInputGroup>
         </Navbar.Collapse>
@@ -136,3 +152,5 @@ export default function Navigationbar(props) {
     </Styles>
   );
 }
+
+export default withRouter(Navigationbar);
