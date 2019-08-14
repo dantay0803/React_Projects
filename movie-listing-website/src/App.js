@@ -47,7 +47,7 @@ export default class App extends Component {
           <Switch>
             <Route exact={true} path='/' component={Home} />
             <Route path='/Searchresults/:query' component={SearchResultsPage} />
-            <Route path='/details/:id' component={ItemDetailsPage} />
+            <Route path='/details/:cat/:id' component={ItemDetailsPage} />
           </Switch>
           <Footer />
         </div>

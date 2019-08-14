@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Button,
+  Media
+} from 'react-bootstrap';
 import { FaInfoCircle } from 'react-icons/fa';
 import SearchResultItem from './SearchResultItem';
 import CollectionResultItem from './CollectionResultItem';
+import PersonResultItem from './PersonResultItem';
 import config from '../../Config';
+
 const axios = require('axios');
 
 const Styles = styled.div`
@@ -183,7 +193,7 @@ export default function SearchResultsPage(props) {
             </Row>
           </Col>
           <Col sm={9}>
-            <h3 className='searchTitle'>Search > Collection Results</h3>
+            <h3 className='searchTitle'>Search > {searchOption} Results</h3>
             {searchResults === null
               ? null
               : searchResults.map(item => {
@@ -205,6 +215,7 @@ export default function SearchResultsPage(props) {
                           description={item.overview}
                           popularity={item.vote_average * 10}
                           posterPath={item.poster_path}
+                          category={searchOption}
                         />
                       );
                     case 'collection':
@@ -214,6 +225,18 @@ export default function SearchResultsPage(props) {
                           id={item.id}
                           title={item.name}
                           backdropPath={item.backdrop_path}
+                          category={'collection'}
+                        />
+                      );
+                    case 'person':
+                      return (
+                        <PersonResultItem
+                          key={item.id}
+                          id={item.id}
+                          name={item.name}
+                          info={item.details}
+                          imagePath={item.image}
+                          category={'person'}
                         />
                       );
                     default:
