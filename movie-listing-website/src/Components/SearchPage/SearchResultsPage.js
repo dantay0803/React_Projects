@@ -15,8 +15,6 @@ import CollectionResultItem from './CollectionResultItem';
 import PersonResultItem from './PersonResultItem';
 import config from '../../Config';
 
-const axios = require('axios');
-
 const Styles = styled.div`
   .container {
     margin-top: 5rem;
@@ -67,40 +65,9 @@ export default function SearchResultsPage(props) {
   const { query } = props.match.params;
 
   useEffect(() => {
-    // fetchData(query.replace('query=', ''));
+    multiSearch(query.replace('query=', ''));
+    collectionsSearch(query.replace('query=', ''));
   }, []);
-
-  const fetchData = async searchQuery => {
-    await axios
-      .all([multiSearch(searchQuery), collectionsSearch(searchQuery)])
-      .then(
-        axios.spread((multiResults, collectionResults) => {
-          const tempMoviesResults = [];
-          const tempTVResults = [];
-          const tempPersonResults = [];
-          multiResults.data.results.map(item => {
-            switch (item.media_type) {
-              case 'movie':
-                tempMoviesResults.push(item);
-                break;
-              case 'tv':
-                tempTVResults.push(item);
-                break;
-              case 'person':
-                tempPersonResults.push(item);
-                break;
-              default:
-                break;
-            }
-          });
-          setCollectionResults(collectionResults.data.results);
-          setPeopleResults(tempPersonResults);
-          setTVResults(tempTVResults);
-          setMovieResults(tempMoviesResults);
-          setSearchResults(tempMoviesResults);
-        })
-      );
-  };
 
   const resultSelect = selection => {
     switch (selection) {
@@ -124,19 +91,49 @@ export default function SearchResultsPage(props) {
   };
 
   const multiSearch = searchQuery => {
-    return axios.get(
-      `https://api.themoviedb.org/3/search/multi?api_key=${
-        config.API_KEY_V3
-      }&query=${searchQuery}`
-    );
+    fetch(`https://api.themoviedb.org/3/search/multi?api_key=${
+      config.API_KEY_V3
+      }&query=${searchQuery}`)
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        const tempMoviesResults = [];
+        const tempTVResults = [];
+        const tempPersonResults = [];
+        data.results.map(item => {
+          switch (item.media_type) {
+            case 'movie':
+              tempMoviesResults.push(item);
+              break;
+            case 'tv':
+              tempTVResults.push(item);
+              break;
+            case 'person':
+              tempPersonResults.push(item);
+              break;
+            default:
+              break;
+          }
+        });
+
+        setPeopleResults(tempPersonResults);
+        setTVResults(tempTVResults);
+        setMovieResults(tempMoviesResults);
+        setSearchResults(tempMoviesResults);
+      })
+      .catch(err => console.log(`Could not fetch data - Error: ${err}`));
+
   };
 
   const collectionsSearch = searchQuery => {
-    return axios.get(
-      `https://api.themoviedb.org/3/search/collection?api_key=${
-        config.API_KEY_V3
-      }&query=${searchQuery}`
-    );
+    fetch(`https://api.themoviedb.org/3/search/collection?api_key=${
+      config.API_KEY_V3
+      }&query=${searchQuery}`)
+      .then(resp => resp.json())
+      .then(data => {
+        setCollectionResults(data.results);
+      })
+      .catch(err => console.log(`Could not fetch data - Error: ${err}`));
   };
 
   return (
@@ -197,52 +194,52 @@ export default function SearchResultsPage(props) {
             {searchResults === null
               ? null
               : searchResults.map(item => {
-                  switch (searchOption) {
-                    case 'movie':
-                    case 'tv':
-                      return (
-                        <SearchResultItem
-                          key={item.id}
-                          id={item.id}
-                          title={
-                            searchOption === 'movie' ? item.title : item.name
-                          }
-                          releaseDate={
-                            searchOption === 'movie'
-                              ? item.release_date
-                              : item.first_air_date
-                          }
-                          description={item.overview}
-                          popularity={item.vote_average * 10}
-                          posterPath={item.poster_path}
-                          category={searchOption}
-                        />
-                      );
-                    case 'collection':
-                      return (
-                        <CollectionResultItem
-                          key={item.id}
-                          id={item.id}
-                          title={item.name}
-                          backdropPath={item.backdrop_path}
-                          category={'collection'}
-                        />
-                      );
-                    case 'person':
-                      return (
-                        <PersonResultItem
-                          key={item.id}
-                          id={item.id}
-                          name={item.name}
-                          info={item.details}
-                          imagePath={item.image}
-                          category={'person'}
-                        />
-                      );
-                    default:
-                      break;
-                  }
-                })}
+                switch (searchOption) {
+                  case 'movie':
+                  case 'tv':
+                    return (
+                      <SearchResultItem
+                        key={item.id}
+                        id={item.id}
+                        title={
+                          searchOption === 'movie' ? item.title : item.name
+                        }
+                        releaseDate={
+                          searchOption === 'movie'
+                            ? item.release_date
+                            : item.first_air_date
+                        }
+                        description={item.overview}
+                        popularity={item.vote_average * 10}
+                        posterPath={item.poster_path}
+                        category={searchOption}
+                      />
+                    );
+                  case 'collection':
+                    return (
+                      <CollectionResultItem
+                        key={item.id}
+                        id={item.id}
+                        title={item.name}
+                        backdropPath={item.backdrop_path}
+                        category={'collection'}
+                      />
+                    );
+                  case 'person':
+                    return (
+                      <PersonResultItem
+                        key={item.id}
+                        id={item.id}
+                        name={item.name}
+                        info={item.details}
+                        imagePath={item.image}
+                        category={'person'}
+                      />
+                    );
+                  default:
+                    break;
+                }
+              })}
           </Col>
         </Row>
       </Container>

@@ -7,8 +7,6 @@ import ItemDetailsInfo from './ItemDetailsInfo';
 import ItemDetailsFacts from './ItemDetailsFacts';
 import config from '../../Config';
 
-const axios = require('axios');
-
 const Styles = styled.div`
   .container-fluid {
     padding: 0;
@@ -20,19 +18,19 @@ export default function ItemDetailsPage(props) {
   const { cat, id } = props.match.params;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const results = await axios(
-        `
-        https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
-          config.API_KEY_V3
-        }`
-      );
-
-      console.log(results.data);
-      setSearchResults(results.data);
+    const fetchData = () => {
+      fetch(`
+      https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
+        config.API_KEY_V3
+        }`)
+        .then(resp => resp.json())
+        .then(data => {
+          setSearchResults(data);
+        })
+        .catch(err => console.log(`Could not fetch data - Error: ${err}`));
     };
 
-    // fetchData();
+    fetchData();
   }, []);
 
   return (

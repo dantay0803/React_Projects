@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import HomeShowcaseCard from './HomeShowcaseCard.js';
 import config from '../../Config';
-const axios = require('axios');
 
 const Styles = styled.div`
   .content {
@@ -77,18 +76,19 @@ export default function HomeShowcase(props) {
     });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const results = await axios(
-        `https://api.themoviedb.org/3/discover/${
-          props.discoverOption
-        }?api_key=${config.API_KEY_V3}&${props.searchOptions}`
-      );
-
-      setSearchResults(results.data);
-      setMaxScroll(elScroll.current.scrollWidth - elScroll.current.offsetWidth);
+    const fetchData = () => {
+      fetch(`https://api.themoviedb.org/3/discover/${
+        props.discoverOption
+        }?api_key=${config.API_KEY_V3}&${props.searchOptions}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setSearchResults(data.results);
+          setMaxScroll(elScroll.current.scrollWidth - elScroll.current.offsetWidth);
+        })
+        .catch(err => console.log(`Could not fetch data - Error: ${err}`));
     };
 
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
@@ -99,21 +99,21 @@ export default function HomeShowcase(props) {
           <div ref={elScroll} className='cardList'>
             <div className='firstCard'>
               {searchResults != null
-                ? searchResults.results.map(item => {
-                    return (
-                      <HomeShowcaseCard
-                        key={item.id}
-                        title={
-                          props.discoverOption === 'movie'
-                            ? item.title
-                            : item.name
-                        }
-                        overview={item.overview}
-                        backdrop_path={item.backdrop_path}
-                        poster_path={item.poster_path}
-                      />
-                    );
-                  })
+                ? searchResults.map(item => {
+                  return (
+                    <HomeShowcaseCard
+                      key={item.id}
+                      title={
+                        props.discoverOption === 'movie'
+                          ? item.title
+                          : item.name
+                      }
+                      overview={item.overview}
+                      backdrop_path={item.backdrop_path}
+                      poster_path={item.poster_path}
+                    />
+                  );
+                })
                 : null}
             </div>
           </div>

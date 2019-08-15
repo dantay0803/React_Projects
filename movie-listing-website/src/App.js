@@ -46,7 +46,7 @@ export default class App extends Component {
           <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
           <Switch>
             <Route exact={true} path='/' component={Home} />
-            <Route path='/Searchresults/:query' component={SearchResultsPage} />
+            <Route path='/searchresults/:query' component={SearchResultsPage} />
             <Route path='/details/:cat/:id' component={ItemDetailsPage} />
           </Switch>
           <Footer />
