@@ -85,7 +85,7 @@ export default function SearchResultItem(props) {
     <Styles>
       <StyledMedia>
         <StyledImageCard>
-          <Link to={`/Details/cat=${props.category}%20id=${props.id}`}>
+          <Link to={`/Details/${props.category}/id=${props.id}`}>
             <Card.Img
               src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}
               alt='Card image'
@@ -121,7 +121,7 @@ export default function SearchResultItem(props) {
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>
-              <Link to={`/Details/cat=${props.category}%20id=${props.id}`}>
+              <Link to={`/Details/${props.category}/id=${props.id}`}>
                 <small className='text-muted'>Full Details</small>
               </Link>
             </Card.Footer>

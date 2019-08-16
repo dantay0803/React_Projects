@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react'
 import styled from 'styled-components';
 import { Jumbotron, Button } from 'react-bootstrap';
 import pickOfTheWeekImage from '../../images/PickOfTheWeek.jpg';
+import { withRouter } from 'react-router-dom';
 
 const Styles = styled.div`
   .jumbotron {
@@ -35,25 +36,25 @@ const Styles = styled.div`
   }
 `;
 
-export default class PickOfTheWeek extends Component {
-  render() {
-    return (
-      <Styles>
-        <Jumbotron fluid>
-          <div className='description'>
-            <h1>Pick of the Week</h1>
-            <h2>Luther</h2>
-            <p>
-              A dark psychological crime drama starring Idris Elba as Luther, a
-              man struggling with his own terrible demons, who might be as
-              dangerous as the depraved murderers he hunts.
+function PickOfTheWeek(props) {
+  return (
+    <Styles>
+      <Jumbotron fluid>
+        <div className='description'>
+          <h1>Pick of the Week</h1>
+          <h2>Luther</h2>
+          <p>
+            A dark psychological crime drama starring Idris Elba as Luther, a
+            man struggling with his own terrible demons, who might be as
+            dangerous as the depraved murderers he hunts.
             </p>
-            <p>
-              <Button className='pickOfTheWeekDetails'>Details</Button>
-            </p>
-          </div>
-        </Jumbotron>
-      </Styles>
-    );
-  }
+          <p>
+            <Button className='pickOfTheWeekDetails' onClick={() => props.history.push(`/details/tv/id=1426`)}>Details</Button>
+          </p>
+        </div>
+      </Jumbotron>
+    </Styles>
+  )
 }
+
+export default withRouter(PickOfTheWeek);
