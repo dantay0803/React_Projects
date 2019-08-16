@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, Button } from 'react-bootstrap';
 import { IoIosArrowDropright } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 const Styles = styled.div`
   .card {
@@ -49,24 +50,26 @@ const Styles = styled.div`
 export default function HomeShowcaseCard(props) {
   return (
     <Styles>
-      <Card>
-        <Card.Img
-          src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
-          alt='Card image'
-        />
-        <Card.ImgOverlay>
-          <Button>
-            <div>
-              <Card.Title>{props.title}</Card.Title>
-              <Card.Text>
-                {`${props.overview.substring(0, 94)}...`}
-                <br />
-                <IoIosArrowDropright className='icon' />
-              </Card.Text>
-            </div>
-          </Button>
-        </Card.ImgOverlay>
-      </Card>
+      <Link to={`/Details/${props.category}/id=${props.id}`}>
+        <Card>
+          <Card.Img
+            src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
+            alt='Card image'
+          />
+          <Card.ImgOverlay>
+            <Button>
+              <div>
+                <Card.Title>{props.title}</Card.Title>
+                <Card.Text>
+                  {`${props.overview.substring(0, 94)}...`}
+                  <br />
+                  <IoIosArrowDropright className='icon' />
+                </Card.Text>
+              </div>
+            </Button>
+          </Card.ImgOverlay>
+        </Card>
+      </Link>
     </Styles>
   );
 }

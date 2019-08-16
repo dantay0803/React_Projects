@@ -118,15 +118,22 @@ function Navigationbar(props) {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <NavDropdown title='Series' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown title='Discover' id='basic-nav-dropdown'>
+              <NavDropdown.Item>Movies</NavDropdown.Item>
+              <NavDropdown.Item>TV</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title='Films' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+              <NavDropdown.Item>Popular</NavDropdown.Item>
+              <NavDropdown.Item>Top Rated</NavDropdown.Item>
+              <NavDropdown.Item>Up & Coming</NavDropdown.Item>
+              <NavDropdown.Item>Now Playing</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='#home'>Recently Added</Nav.Link>
-            <Nav.Link href='#home'>My List</Nav.Link>
+            <NavDropdown title='Series' id='basic-nav-dropdown'>
+              <NavDropdown.Item>Popular</NavDropdown.Item>
+              <NavDropdown.Item>Top Rated</NavDropdown.Item>
+              <NavDropdown.Item>On TV</NavDropdown.Item>
+              <NavDropdown.Item>Airing Today</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <StyledInputGroup
             searchbarwidth={searchbarWidth}
@@ -139,7 +146,7 @@ function Navigationbar(props) {
             </InputGroup.Prepend>
             <StyledFormControl
               placeholder='Keywords, Titles, People, Genres...'
-              aria-label="Recipient's username"
+              aria-label="Search entry"
               aria-describedby='basic-addon2'
               searchbardisplay={searchbarDisplay}
               value={searchInputValue}

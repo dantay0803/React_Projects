@@ -1,3 +1,6 @@
+After details page add a Discover page for movies and tv shows - can reuse the search result item components
+
+
 Site Name - What to watch - logo could be shrugging shoulders emoji
 Logo - https://flyclipart.com/free-png-image-shrug-emoji-png-303772
 

@@ -18,6 +18,9 @@ export default function ItemDetailsPage(props) {
   const { cat, id } = props.match.params;
 
   useEffect(() => {
+
+    // /movie/{movie_id}/keywords 
+    // /tv/{tv_id}/keywords
     const fetchData = () => {
       fetch(`
       https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
@@ -25,6 +28,7 @@ export default function ItemDetailsPage(props) {
         }`)
         .then(resp => resp.json())
         .then(data => {
+          console.log(data);
           setSearchResults(data);
         })
         .catch(err => console.log(`Could not fetch data - Error: ${err}`));
@@ -36,29 +40,41 @@ export default function ItemDetailsPage(props) {
   return (
     <Styles>
       <Container fluid>
-        <Row>
-          <Col lg={12}>
-            <Row>
-              <Col lg={12}>
-                <ItemDetailsHeader />
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
-                <ItemDetailsNavbar />
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={3} />
-              <Col lg={6} className='mt-4'>
-                <ItemDetailsInfo />
-              </Col>
-              <Col lg={3} className='mt-4'>
-                <ItemDetailsFacts />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        {searchResults === null ? null :
+          <Row>
+            <Col lg={12}>
+              <Row>
+                <Col lg={12}>
+                  <ItemDetailsHeader />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={12}>
+                  <ItemDetailsNavbar />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={3} />
+                <Col lg={6} className='mt-4'>
+                  <ItemDetailsInfo />
+                </Col>
+                <Col lg={3} className='mt-4'>
+                  <ItemDetailsFacts
+                    status={searchResults.status}
+                    releaseInformation={''}
+                    OriginalLanguage={searchResults.original_language}
+                    runtime={searchResults.runtime}
+                    budget={searchResults.budget}
+                    revenue={searchResults.revenue}
+                    genres={searchResults.genres}
+                    keywords={[]}
+
+                  />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        }
       </Container>
     </Styles>
   );

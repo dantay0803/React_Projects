@@ -103,6 +103,8 @@ export default function HomeShowcase(props) {
                   return (
                     <HomeShowcaseCard
                       key={item.id}
+                      id={item.id}
+                      category={props.discoverOption}
                       title={
                         props.discoverOption === 'movie'
                           ? item.title
