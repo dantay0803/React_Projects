@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import HomeShowcaseCard from './HomeShowcaseCard.js';
+import HomeShowcaseCard from '../HomePage/HomeShowcaseCard';
 import config from '../../Config';
 
 const Styles = styled.div`
@@ -11,14 +11,6 @@ const Styles = styled.div`
     padding: 0;
     margin-bottom: 3rem;
     position: relative;
-  }
-
-  .showcaseTitle {
-    color: var(--bert-blue-bright);
-    font-size: 1.5rem;
-    margin: 0;
-    padding: 0;
-    margin-left: 6rem;
   }
 
   .cardList {
@@ -37,12 +29,11 @@ const Styles = styled.div`
     display: flex;
     flex-direction: row;
     margin-right: 0.3rem;
-    margin-left: 6rem;
   }
 
   .scrollButton {
     position: absolute;
-    top: 3.5rem;
+    top: 1.25rem;
     width: 3.75rem;
     height: 9.125rem;
     background-color: rgba(0, 0, 0, 0.4);
@@ -61,12 +52,14 @@ const Styles = styled.div`
   }
 `;
 
-export default function HomeShowcase(props) {
+export default function Recommendations(props) {
   const elScroll = useRef(null);
   const [scrollPos, setScrollPos] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
-  const [scrollValue, setScrollValue] = useState(1745);
+  const [scrollValue, setScrollValue] = useState(950);
   const [searchResults, setSearchResults] = useState(null);
+
+  const { id, category } = props;
 
   const scrollRef = value =>
     elScroll.current.scrollBy({
@@ -78,13 +71,14 @@ export default function HomeShowcase(props) {
   useEffect(() => {
     const fetchData = () => {
       fetch(
-        `https://api.themoviedb.org/3/discover/${
-          props.discoverOption
-        }?api_key=${config.API_KEY_V3}&${props.searchOptions}`
+        `https://api.themoviedb.org/3/${category}/${id}/recommendations?api_key=${
+          config.API_KEY_V3
+        }&${props.searchOptions}`
       )
         .then(resp => resp.json())
         .then(data => {
-          setSearchResults(data.results);
+          console.log(data);
+          setSearchResults(data.results.slice(0, 9));
           setMaxScroll(
             elScroll.current.scrollWidth - elScroll.current.offsetWidth
           );
@@ -99,7 +93,6 @@ export default function HomeShowcase(props) {
     <div>
       <Styles>
         <div className='content'>
-          <p className='showcaseTitle'>{props.title}</p>
           <div ref={elScroll} className='cardList'>
             <div className='firstCard'>
               {searchResults != null
@@ -108,13 +101,9 @@ export default function HomeShowcase(props) {
                       <HomeShowcaseCard
                         key={item.id}
                         id={item.id}
-                        category={props.discoverOption}
-                        title={
-                          props.discoverOption === 'movie'
-                            ? item.title
-                            : item.name
-                        }
-                        overview={`${item.overview.substring(0, 94)}...`}
+                        category={category}
+                        title={category === 'movie' ? item.title : item.name}
+                        overview={`User Rating: ${item.vote_average}`}
                         backdrop_path={item.backdrop_path}
                         poster_path={item.poster_path}
                       />

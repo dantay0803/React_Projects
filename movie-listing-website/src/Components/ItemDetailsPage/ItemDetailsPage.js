@@ -15,37 +15,93 @@ const Styles = styled.div`
 
 export default function ItemDetailsPage(props) {
   const [searchResults, setSearchResults] = useState(null);
+  const [creditsResults, setCreditsResults] = useState(null);
+  const [KeywordsResults, setKeywordsResults] = useState(null);
+  const [reviewsResults, setReviewsResults] = useState(null);
   const { cat, id } = props.match.params;
 
   useEffect(() => {
-
-    // /movie/{movie_id}/keywords 
-    // /tv/{tv_id}/keywords
-    const fetchData = () => {
-      fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
-        config.API_KEY_V3
-        }`)
-        .then(resp => resp.json())
-        .then(data => {
-          console.log(data);
-          setSearchResults(data);
-        })
-        .catch(err => console.log(`Could not fetch data - Error: ${err}`));
-    };
-
-    fetchData();
+    fetchDetails();
+    fetchCredits();
+    fetchKeywords();
+    fetchReviews();
   }, []);
+
+  const fetchDetails = () => {
+    fetch(`
+      https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
+      config.API_KEY_V3
+    }`)
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        setSearchResults(data);
+      })
+      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+  };
+
+  const fetchCredits = () => {
+    fetch(`
+      https://api.themoviedb.org/3/${cat}/${id.replace(
+      'id=',
+      ''
+    )}/credits?api_key=${config.API_KEY_V3}`)
+      .then(resp => resp.json())
+      .then(data => {
+        setCreditsResults(data);
+      })
+      .catch(err =>
+        console.error(`Could not fetch credit data - Error: ${err}`)
+      );
+  };
+
+  const fetchKeywords = () => {
+    fetch(`
+      https://api.themoviedb.org/3/${cat}/${id.replace(
+      'id=',
+      ''
+    )}/keywords?api_key=${config.API_KEY_V3}`)
+      .then(resp => resp.json())
+      .then(data => {
+        setKeywordsResults(data);
+      })
+      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+  };
+
+  const fetchReviews = () => {
+    fetch(`
+      https://api.themoviedb.org/3/${cat}/${id.replace(
+      'id=',
+      ''
+    )}/reviews?api_key=${config.API_KEY_V3}`)
+      .then(resp => resp.json())
+      .then(data => {
+        setReviewsResults(data);
+      })
+      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+  };
 
   return (
     <Styles>
       <Container fluid>
-        {searchResults === null ? null :
+        {searchResults === null ? null : (
           <Row>
             <Col lg={12}>
               <Row>
                 <Col lg={12}>
-                  <ItemDetailsHeader />
+                  <ItemDetailsHeader
+                    title={searchResults.title}
+                    popularity={searchResults.vote_average * 10}
+                    overview={searchResults.overview}
+                    posterPath={searchResults.poster_path}
+                    backdropPath={searchResults.backdrop_path}
+                    releaseYear={searchResults.release_date}
+                    featuredCrew={
+                      creditsResults !== null
+                        ? creditsResults.crew.slice(0, 3)
+                        : []
+                    }
+                  />
                 </Col>
               </Row>
               <Row>
@@ -56,25 +112,36 @@ export default function ItemDetailsPage(props) {
               <Row>
                 <Col lg={3} />
                 <Col lg={6} className='mt-4'>
-                  <ItemDetailsInfo />
+                  <ItemDetailsInfo
+                    id={searchResults.id}
+                    category={cat}
+                    topBilledCast={
+                      creditsResults !== null
+                        ? creditsResults.cast.slice(0, 5)
+                        : []
+                    }
+                    reviews={reviewsResults !== null ? reviewsResults : null}
+                    collection={searchResults.belongs_to_collection}
+                  />
                 </Col>
                 <Col lg={3} className='mt-4'>
                   <ItemDetailsFacts
                     status={searchResults.status}
-                    releaseInformation={''}
+                    releaseInformation={searchResults.release_date}
                     OriginalLanguage={searchResults.original_language}
                     runtime={searchResults.runtime}
                     budget={searchResults.budget}
                     revenue={searchResults.revenue}
                     genres={searchResults.genres}
-                    keywords={[]}
-
+                    keywords={
+                      KeywordsResults !== null ? KeywordsResults.keywords : []
+                    }
                   />
                 </Col>
               </Row>
             </Col>
           </Row>
-        }
+        )}
       </Container>
     </Styles>
   );

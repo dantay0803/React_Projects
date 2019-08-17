@@ -1,38 +1,44 @@
 import React from 'react';
 import CustomBadge from '../CustomBadge';
 
-export default function ItemDetailsFacts() {
+export default function ItemDetailsFacts(props) {
+  const {
+    status,
+    releaseInformation,
+    OriginalLanguage,
+    runtime,
+    budget,
+    revenue,
+    genres,
+    keywords
+  } = props;
+
   return (
     <>
       <h6>Facts</h6>
       <h6>Status</h6>
-      <p>Released</p>
-      <h6>Release Information</h6>
-      <p>
-        June 26, 2019 PG-13 Premiere <br />
-        July 2, 2019 Theatrical{' '}
-      </p>
+      <p>{status}</p>
+      <h6>Release Date</h6>
+      <p>{releaseInformation}</p>
       <h6>Original Language</h6>
-      <p>English</p>
+      <p>{OriginalLanguage}</p>
       <h6>Runtime</h6>
-      <p>2h 9m</p>
+      <p>{runtime}</p>
       <h6>Budget</h6>
-      <p>$160,000,000.00</p>
+      <p>${budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
       <h6>Revenue</h6>
-      <p>$982,052,266.00</p>
+      <p>${revenue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
       <h6>Genres</h6>
       <p>
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
+        {genres.map(genre => (
+          <CustomBadge key={genre.id} text={genre.name} />
+        ))}
       </p>
       <h6>Keywords</h6>
       <p>
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
-        <CustomBadge text={'Action'} />
+        {keywords.map(keyword => (
+          <CustomBadge key={keyword.id} text={keyword.name} />
+        ))}
       </p>
     </>
   );

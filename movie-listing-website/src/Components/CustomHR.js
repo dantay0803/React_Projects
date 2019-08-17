@@ -15,7 +15,7 @@ const Styles = styled.div`
   );
 `;
 
-export default function CutsomHR() {
+export default function CustomHR() {
   return (
     <Styles>
       <div />

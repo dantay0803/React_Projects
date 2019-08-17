@@ -10,12 +10,11 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
-import searchPlaceHolder from '../../images/spidermansearchresultplaceholder.jpg';
-import infoPlaceHolder from '../../images/info.jpg';
 
 const Styles = styled.div`
   .jumbotronImage {
-    background-image: url(${infoPlaceHolder});
+    background-image: url('https://image.tmdb.org/t/p/original/${props =>
+      props.backdropPath}');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -65,46 +64,45 @@ const MainInfoMedia = styled(Media)`
   }
 `;
 
-export default function ItemDetailsHeader() {
+export default function ItemDetailsHeader(props) {
+  const {
+    title,
+    popularity,
+    overview,
+    posterPath,
+    backdropPath,
+    releaseYear,
+    featuredCrew
+  } = props;
   return (
-    <Styles>
+    <Styles backdropPath={backdropPath}>
       <Jumbotron fluid className='jumbotronImage'>
         <Jumbotron fluid className='jumbotronColor'>
           <Container>
             <MainInfoMedia>
-              <img src={searchPlaceHolder} alt='Generic placeholder' />
+              <img
+                src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+                alt='Generic placeholder'
+              />
               <Media.Body>
                 <h2>
-                  Spider-Man: Far from Home{' '}
-                  <p className='releaseYear'>(2019)</p>
+                  {title}
+                  <p className='releaseYear'>{releaseYear.substring(0, 4)}</p>
                 </h2>
                 <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
-                  <ProgressBar now={78} label={'78%'} />
+                  <ProgressBar now={popularity} label={`${popularity}%`} />
                 </OverlayTrigger>
                 <h5>Overview</h5>
-                <p>
-                  David Haller, AKA Legion, is a troubled young man who may be
-                  more than human. Diagnosed as schizophrenic, David has been in
-                  and out of psychiatric hospitals for years. But after a
-                  strange encounter with a fellow patient, he’s confronted with
-                  the possibility that the voices he hears and the visions he
-                  sees might be real.
-                </p>
+                <p>{overview}</p>
 
                 <h5 className='mt-5'>Featured Crew</h5>
                 <Row>
-                  <Col>
-                    <h6>Jon Watts</h6>
-                    <p>Director</p>
-                  </Col>
-                  <Col>
-                    <h6>Erik Sommers</h6>
-                    <p>Screenplay</p>
-                  </Col>
-                  <Col>
-                    <h6>Chris McKenna</h6>
-                    <p>Writer</p>
-                  </Col>
+                  {featuredCrew.map(crew => (
+                    <Col key={crew.id}>
+                      <h6>{crew.name}</h6>
+                      <p>{crew.job}</p>
+                    </Col>
+                  ))}
                 </Row>
               </Media.Body>
             </MainInfoMedia>

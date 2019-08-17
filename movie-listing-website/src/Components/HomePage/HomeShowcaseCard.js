@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
@@ -15,35 +15,22 @@ const Styles = styled.div`
   }
 
   .card-img-overlay {
-    padding: 0;
-    margin: 0;
-  }
-
-  .card-img-overlay > button {
-    display: block;
-    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--bert-white);
+    text-align: center;
+    opacity: 0;
     overflow: hidden;
-    font-size: 0.8rem;
     border: none;
     border-color: transparent;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    opacity: 0;
+    font-size: 0.8rem;
   }
 
-  .card-img-overlay>button: hover {
+  .card-img-overlay: hover {
+    background-color: rgba(0, 0, 0, 0.8);
     opacity: 1;
   }
 
-  .card-title {
-    margin: 0rem;
-    padding: 0;
-  }
-
   .icon {
-    padding-top: 0.25rem;
-    font-size: 3rem;
+    font-size: 1rem;
   }
 `;
 
@@ -51,22 +38,27 @@ export default function HomeShowcaseCard(props) {
   return (
     <Styles>
       <Link to={`/Details/${props.category}/id=${props.id}`}>
-        <Card>
+        {/* <Card>
           <Card.Img
             src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
             alt='Card image'
           />
           <Card.ImgOverlay>
-            <Button>
-              <div>
-                <Card.Title>{props.title}</Card.Title>
-                <Card.Text>
-                  {`${props.overview.substring(0, 94)}...`}
-                  <br />
-                  <IoIosArrowDropright className='icon' />
-                </Card.Text>
-              </div>
-            </Button>
+            <Card.Title>{props.title}</Card.Title>
+            <Card.Text>{props.overview}</Card.Text>
+            <Card.Text>
+              <IoIosArrowDropright className='icon' />
+            </Card.Text>
+          </Card.ImgOverlay>
+        </Card> */}
+        <Card className='bg-dark text-white'>
+          <Card.Img
+            src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
+            alt='Card image'
+          />
+          <Card.ImgOverlay>
+            <Card.Title>{props.title}</Card.Title>
+            <Card.Text>{props.overview}</Card.Text>
           </Card.ImgOverlay>
         </Card>
       </Link>
