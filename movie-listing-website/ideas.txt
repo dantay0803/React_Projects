@@ -1,34 +1,13 @@
-After details page add a Discover page for movies and tv shows - can reuse the search result item components
+TO DO:
+Collections page
+Reviews page
+Genres/Keywords page
+Cast and crew results page
+Person details page
 
 
 Site Name - What to watch - logo could be shrugging shoulders emoji
 Logo - https://flyclipart.com/free-png-image-shrug-emoji-png-303772
-
-API CALLS
-Search Bar:
-GET - /search/keyword
-
-Quick Search Box:
-Get movie genres:
-GET - /genre/movie/list
-get tv genres:
-GET - /genre/tv/list
-
-Page Listings
-Trending This Week Movies:
-GET - /trending/move/week
-
-Trending This Week TV:
-GET - /trending/tv/week
-
-Trending This Week People: 
-GET - /trending/person/week
-
-Marvelous Heroes & Determined Crusaders
-Fantastic Fantasies
-Superior Sci-Fi
-Laugh out Loud
-Crime Stoppers
 
 COLOUR SCHEMES
 Main: https://visme.co/blog/website-color-schemes/ - bert

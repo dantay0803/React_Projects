@@ -77,7 +77,6 @@ export default function Recommendations(props) {
       )
         .then(resp => resp.json())
         .then(data => {
-          console.log(data);
           setSearchResults(data.results.slice(0, 9));
           setMaxScroll(
             elScroll.current.scrollWidth - elScroll.current.offsetWidth

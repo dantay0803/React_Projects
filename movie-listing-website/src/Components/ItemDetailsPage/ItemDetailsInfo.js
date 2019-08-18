@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Card, Media, CardDeck, Col, Row } from 'react-bootstrap';
+import {
+  Container,
+  Card,
+  Media,
+  CardDeck,
+  Col,
+  Row,
+  Button
+} from 'react-bootstrap';
 import UserReview from '../UserReview';
 import CustomHR from '../CustomHR';
 import Recommendations from './Recommendations';
@@ -8,7 +16,7 @@ import Recommendations from './Recommendations';
 const TopBilledCastCard = styled(Card)`
   color: var(--bert-black);
   max-width: 8.625rem;
-  max-height: 15.56rem;
+  max-height: 17.56rem;
   border: none;
   border-radius: 0;
   font-size: 0.8rem;
@@ -33,12 +41,41 @@ const TopBilledCastCard = styled(Card)`
   }
 `;
 
+const CollectionsCard = styled(Card)`
+  border: none;
+
+  .card-title {
+  }
+
+  .card-img-overlay {
+    background-color: rgba(31, 40, 51, 0.8);
+  }
+
+  .card-img-overlay > h5 {
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .card-img-overlay > button {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 25px;
+    height: 50px;
+    font-weight: bold;
+  }
+  .card-img-overlay > button:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 1);
+    color: var(--bert-black);
+  }
+`;
+
 export default function ItemDetailsInfo(props) {
   const { id, category, topBilledCast, reviews, collection } = props;
   return (
     <>
       <Container>
-        <h3>Top Billed Cast</h3>
+        <h4>Top Billed Cast</h4>
         <CardDeck>
           {topBilledCast.map(cast => (
             <TopBilledCastCard key={cast.id}>
@@ -61,7 +98,7 @@ export default function ItemDetailsInfo(props) {
       </Container>
       <CustomHR />
       <Container>
-        <h3>Reviews {reviews !== null ? reviews.total_results : '0'}</h3>
+        <h4>Reviews {reviews !== null ? reviews.total_results : '0'}</h4>
         {reviews !== null
           ? reviews.results
               .slice(0, 3)
@@ -84,14 +121,25 @@ export default function ItemDetailsInfo(props) {
       {collection !== null ? (
         <>
           <Container>
-            <h1>Part of the {collection.name}</h1>
+            <CollectionsCard>
+              <Card.Img
+                src={`https://image.tmdb.org/t/p/w1440_and_h320_bestv2/${
+                  collection.backdrop_path
+                }`}
+                alt='Card image'
+              />
+              <Card.ImgOverlay>
+                <h5>Part of the {collection.name}</h5>
+                <Button>VIEW THE COLLECTION</Button>
+              </Card.ImgOverlay>
+            </CollectionsCard>
           </Container>
           <CustomHR />
         </>
       ) : null}
 
       <Container>
-        <h3>Recommendations</h3>
+        <h4>Recommendations</h4>
         <Recommendations category={category} id={id} />
       </Container>
     </>

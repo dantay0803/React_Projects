@@ -19,6 +19,7 @@ const Styles = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     height: 40rem;
+    border-bottom: 5px solid rgba(255, 255, 255, 1);
   }
 
   .jumbotronColor {

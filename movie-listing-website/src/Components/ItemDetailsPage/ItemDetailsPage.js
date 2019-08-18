@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col, Card, Media, CardDeck } from 'react-bootstrap';
 import ItemDetailsHeader from './ItemDetailsHeader';
-import ItemDetailsNavbar from './ItemDetailsNavbar';
 import ItemDetailsInfo from './ItemDetailsInfo';
 import ItemDetailsFacts from './ItemDetailsFacts';
 import config from '../../Config';
@@ -102,11 +101,6 @@ export default function ItemDetailsPage(props) {
                         : []
                     }
                   />
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={12}>
-                  <ItemDetailsNavbar />
                 </Col>
               </Row>
               <Row>

@@ -15,7 +15,7 @@ export default function ItemDetailsFacts(props) {
 
   return (
     <>
-      <h6>Facts</h6>
+      <h5>Facts</h5>
       <h6>Status</h6>
       <p>{status}</p>
       <h6>Release Date</h6>
