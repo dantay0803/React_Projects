@@ -14,6 +14,7 @@ const Styles = styled.div`
   }
 
   .cardList {
+    width: 53.13rem;
     padding-top: 1.25rem;
     overflow-y: hidden;
     overflow-x: scroll;
@@ -48,7 +49,7 @@ const Styles = styled.div`
   }
 
   .scrollButtonRight {
-    right: 0rem;
+    right: 3.5rem;
   }
 `;
 
@@ -56,10 +57,10 @@ export default function Recommendations(props) {
   const elScroll = useRef(null);
   const [scrollPos, setScrollPos] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
-  const [scrollValue, setScrollValue] = useState(950);
+  const [scrollValue, setScrollValue] = useState(0);
   const [searchResults, setSearchResults] = useState(null);
 
-  const { id, category } = props;
+  const { id, cat } = props;
 
   const scrollRef = value =>
     elScroll.current.scrollBy({
@@ -71,7 +72,7 @@ export default function Recommendations(props) {
   useEffect(() => {
     const fetchData = () => {
       fetch(
-        `https://api.themoviedb.org/3/${category}/${id}/recommendations?api_key=${
+        `https://api.themoviedb.org/3/${cat}/${id}/recommendations?api_key=${
           config.API_KEY_V3
         }&${props.searchOptions}`
       )
@@ -80,6 +81,10 @@ export default function Recommendations(props) {
           setSearchResults(data.results.slice(0, 9));
           setMaxScroll(
             elScroll.current.scrollWidth - elScroll.current.offsetWidth
+          );
+
+          setScrollValue(
+            (elScroll.current.scrollWidth - elScroll.current.offsetWidth) / 2
           );
         })
         .catch(err => console.log(`Could not fetch data - Error: ${err}`));
@@ -100,8 +105,8 @@ export default function Recommendations(props) {
                       <HomeShowcaseCard
                         key={item.id}
                         id={item.id}
-                        category={category}
-                        title={category === 'movie' ? item.title : item.name}
+                        category={cat}
+                        title={cat === 'movie' ? item.title : item.name}
                         overview={`User Rating: ${item.vote_average}`}
                         backdrop_path={item.backdrop_path}
                         poster_path={item.poster_path}

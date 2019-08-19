@@ -20,20 +20,20 @@ const Styles = styled.div`
     background-size: cover;
     height: 40rem;
     border-bottom: 5px solid rgba(255, 255, 255, 1);
+    padding: 0;
+    margin: 0;
   }
 
   .jumbotronColor {
     background-color: rgba(31, 40, 51, 0.9);
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 40rem;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
   }
 `;
 
 const MainInfoMedia = styled(Media)`
-  margin-top: 3rem;
+  margin-top: 5rem;
 
   .media > h3,
   h4,
@@ -79,35 +79,37 @@ export default function ItemDetailsHeader(props) {
     <Styles backdropPath={backdropPath}>
       <Jumbotron fluid className='jumbotronImage'>
         <Jumbotron fluid className='jumbotronColor'>
-          <Container>
-            <MainInfoMedia>
-              <img
-                src={`https://image.tmdb.org/t/p/original/${posterPath}`}
-                alt='Generic placeholder'
-              />
-              <Media.Body>
-                <h2>
-                  {title}
-                  <p className='releaseYear'>{releaseYear.substring(0, 4)}</p>
-                </h2>
-                <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
-                  <ProgressBar now={popularity} label={`${popularity}%`} />
-                </OverlayTrigger>
-                <h5>Overview</h5>
-                <p>{overview}</p>
+          <Row>
+            <Col lg={{ span: 8, offset: 2 }}>
+              <MainInfoMedia>
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+                  alt='Generic placeholder'
+                />
+                <Media.Body>
+                  <h2>
+                    {title}
+                    <p className='releaseYear'>{releaseYear.substring(0, 4)}</p>
+                  </h2>
+                  <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
+                    <ProgressBar now={popularity} label={`${popularity}%`} />
+                  </OverlayTrigger>
+                  <h5>Overview</h5>
+                  <p>{overview}</p>
 
-                <h5 className='mt-5'>Featured Crew</h5>
-                <Row>
-                  {featuredCrew.map(crew => (
-                    <Col key={crew.id}>
-                      <h6>{crew.name}</h6>
-                      <p>{crew.job}</p>
-                    </Col>
-                  ))}
-                </Row>
-              </Media.Body>
-            </MainInfoMedia>
-          </Container>
+                  <h5 className='mt-5'>Featured Crew</h5>
+                  <Row>
+                    {featuredCrew.map(crew => (
+                      <Col key={crew.id}>
+                        <h6>{crew.name}</h6>
+                        <p>{crew.job}</p>
+                      </Col>
+                    ))}
+                  </Row>
+                </Media.Body>
+              </MainInfoMedia>
+            </Col>
+          </Row>
         </Jumbotron>
       </Jumbotron>
     </Styles>

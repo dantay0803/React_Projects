@@ -5,6 +5,7 @@ import PickOfTheWeek from './Components/HomePage/PickOfTheWeek';
 import HomeShowcase from './Components/HomePage/HomeShowcase';
 import SearchResultsPage from './Components/SearchPage/SearchResultsPage';
 import ItemDetailsPage from './Components/ItemDetailsPage/ItemDetailsPage';
+import ReviewsPage from './Components/ReviewsPage/ReviewsPage';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -48,6 +49,7 @@ export default class App extends Component {
             <Route exact={true} path='/' component={Home} />
             <Route path='/searchresults/:query' component={SearchResultsPage} />
             <Route path='/details/:cat/:id' component={ItemDetailsPage} />
+            <Route path='/reviews/:cat/:id' component={ReviewsPage} />
           </Switch>
           <Footer />
         </div>

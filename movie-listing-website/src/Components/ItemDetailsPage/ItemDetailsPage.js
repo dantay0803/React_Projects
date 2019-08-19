@@ -16,14 +16,12 @@ export default function ItemDetailsPage(props) {
   const [searchResults, setSearchResults] = useState(null);
   const [creditsResults, setCreditsResults] = useState(null);
   const [KeywordsResults, setKeywordsResults] = useState(null);
-  const [reviewsResults, setReviewsResults] = useState(null);
   const { cat, id } = props.match.params;
 
   useEffect(() => {
     fetchDetails();
     fetchCredits();
     fetchKeywords();
-    fetchReviews();
   }, []);
 
   const fetchDetails = () => {
@@ -33,7 +31,6 @@ export default function ItemDetailsPage(props) {
     }`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         setSearchResults(data);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
@@ -67,19 +64,6 @@ export default function ItemDetailsPage(props) {
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
   };
 
-  const fetchReviews = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace(
-      'id=',
-      ''
-    )}/reviews?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setReviewsResults(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
-
   return (
     <Styles>
       <Container fluid>
@@ -107,15 +91,11 @@ export default function ItemDetailsPage(props) {
                 <Col lg={3} />
                 <Col lg={6} className='mt-4'>
                   <ItemDetailsInfo
-                    id={searchResults.id}
-                    category={cat}
-                    topBilledCast={
-                      creditsResults !== null
-                        ? creditsResults.cast.slice(0, 5)
-                        : []
-                    }
-                    reviews={reviewsResults !== null ? reviewsResults : null}
+                    id={id.replace('id=', '')}
+                    cat={cat}
+                    cast={creditsResults !== null ? creditsResults : null}
                     collection={searchResults.belongs_to_collection}
+                    posterPath={searchResults.poster_path}
                   />
                 </Col>
                 <Col lg={3} className='mt-4'>

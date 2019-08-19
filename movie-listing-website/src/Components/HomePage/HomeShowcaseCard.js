@@ -37,7 +37,7 @@ const Styles = styled.div`
 export default function HomeShowcaseCard(props) {
   return (
     <Styles>
-      <Link to={`/Details/${props.category}/id=${props.id}`}>
+      <Link to={`/details/${props.category}/id=${props.id}`}>
         {/* <Card>
           <Card.Img
             src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
