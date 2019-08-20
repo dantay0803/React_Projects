@@ -148,7 +148,7 @@ export default function ItemDetailsInfo(props) {
         <Link
           to={{
             pathname: `/cast/${props.cat}/id=${props.id}`,
-            state: { cast }
+            state: { cast, posterPath }
           }}>
           <p className='mt-3'>Full Cast & Crew</p>
         </Link>

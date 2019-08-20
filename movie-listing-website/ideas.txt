@@ -1,8 +1,6 @@
 TO DO:
 Collections page
-Reviews page
 Genres/Keywords page
-Cast and crew results page
 Person details page
 Trailers Page
 
