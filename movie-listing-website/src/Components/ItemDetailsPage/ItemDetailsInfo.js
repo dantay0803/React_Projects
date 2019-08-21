@@ -15,7 +15,7 @@ import CustomHR from '../CustomHR';
 import Recommendations from './Recommendations';
 import { Link } from 'react-router-dom';
 import config from '../../Config';
-
+import YouTubePlayer from '../YouTubePlayer';
 const TopBilledCastCard = styled(Card)`
   color: var(--bert-black);
   max-width: 8.625rem;
@@ -74,14 +74,8 @@ const CollectionsCard = styled(Card)`
 `;
 
 const StyledCarousel = styled(Carousel)`
-  height: 30rem;
-
-  .carousel-item {
-    height: 30rem;
-  }
-
-  .carousel-item > img {
-    height: 30rem;
+  .carousel-inner > .carousel-item > img {
+    margin: 0 auto;
   }
 `;
 
@@ -232,6 +226,7 @@ export default function ItemDetailsInfo(props) {
       <Container>
         <h4>Recommendations</h4>
         <Recommendations cat={props.cat} id={id} />
+        <YouTubePlayer />
       </Container>
     </>
   );

@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, Card, Media, CardDeck } from 'react-bootstrap';
-import UserReview from '../UserReview';
-import { withRouter, Link } from 'react-router-dom';
-import config from '../../Config';
+import { Container, Row, Col, Media } from 'react-bootstrap';
+import BasicHeader from '../BasicHeader';
 
 const Styles = styled.div`
   margin-top: 5rem;
-
-  .pageHeader {
-    border-bottom: 5px solid rgba(255, 255, 255, 0.5);
-    padding-bottom: 1rem;
-  }
-
   .crewListing {
     margin-top: 2rem;
   }
@@ -22,36 +14,19 @@ const Styles = styled.div`
   }
 `;
 
-function FullCastPage(props) {
-  const { cat, id } = props.match.params;
+export default function FullCastPage(props) {
   const { cast, posterPath } = props.location.state || {
     cast: null,
     posterPath: ''
   };
 
-  console.log(cast);
   return (
     <Styles>
       <Container fluid>
-        <Row className='pageHeader'>
-          <Col lg={{ span: 8, offset: 3 }}>
-            <Media>
-              <img
-                width={58}
-                height={87}
-                className='align-self-center mr-3'
-                src={`https://image.tmdb.org/t/p/original/${posterPath}`}
-                alt='Generic placeholder'
-              />
-              <Media.Body>
-                <h4>Spider-Man: Far from Home (2019)</h4>
-                <Link onClick={() => props.history.goBack()}>
-                  <p className='mt-3'>Back to details</p>
-                </Link>
-              </Media.Body>
-            </Media>
-          </Col>
-        </Row>
+        <BasicHeader
+          posterPath={posterPath}
+          navigateBack={props.history.goBack}
+        />
         <Row className='crewListing'>
           <Col lg={{ span: 3, offset: 3 }}>
             <h4>Cast {cast !== null ? cast.cast.length : null}</h4>
@@ -102,5 +77,3 @@ function FullCastPage(props) {
     </Styles>
   );
 }
-
-export default withRouter(FullCastPage);
