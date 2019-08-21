@@ -15,7 +15,9 @@ const Styles = styled.div`
 `;
 
 export default function FullCastPage(props) {
-  const { cast, posterPath } = props.location.state || {
+  const { title, releaseYear, cast, posterPath } = props.location.state || {
+    title: null,
+    releaseYear: null,
     cast: null,
     posterPath: ''
   };
@@ -24,6 +26,8 @@ export default function FullCastPage(props) {
     <Styles>
       <Container fluid>
         <BasicHeader
+          title={title}
+          releaseYear={releaseYear}
           posterPath={posterPath}
           navigateBack={props.history.goBack}
         />

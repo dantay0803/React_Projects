@@ -9,7 +9,12 @@ const StyledRow = styled(Row)`
 `;
 
 function BasicHeader(props) {
-  const { posterPath, navigateBack } = props;
+  const { title, releaseYear, posterPath, navigateBack } = props || {
+    title: null,
+    releaseYear: null,
+    posterPath: null,
+    navigateBack: null
+  };
 
   return (
     <StyledRow className='pageHeader'>
@@ -23,7 +28,10 @@ function BasicHeader(props) {
             alt='Generic placeholder'
           />
           <Media.Body>
-            <h4>Spider-Man: Far from Home (2019)</h4>
+            <h4>
+              {title !== null ? title : null}(
+              {releaseYear !== null ? releaseYear.substring(0, 4) : null})
+            </h4>
             <Link onClick={() => navigateBack()}>
               <p className='mt-3'>Back to details</p>
             </Link>

@@ -22,7 +22,7 @@ export default function ItemDetailsPage(props) {
     fetchDetails();
     fetchCredits();
     fetchKeywords();
-  }, []);
+  }, [cat, id]);
 
   const fetchDetails = () => {
     fetch(`
@@ -93,6 +93,8 @@ export default function ItemDetailsPage(props) {
                   <ItemDetailsInfo
                     id={id.replace('id=', '')}
                     cat={cat}
+                    title={searchResults.title}
+                    releaseYear={searchResults.release_date}
                     cast={creditsResults !== null ? creditsResults : null}
                     collection={searchResults.belongs_to_collection}
                     posterPath={searchResults.poster_path}

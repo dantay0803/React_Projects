@@ -82,7 +82,7 @@ const StyledCarousel = styled(Carousel)`
 export default function ItemDetailsInfo(props) {
   const [reviewsResults, setReviewsResults] = useState(null);
   const [trailerResults, setTrailerResults] = useState(null);
-  const { id, cat, cast, collection, posterPath } = props;
+  const { id, cat, title, releaseYear, cast, collection, posterPath } = props;
 
   useEffect(() => {
     fetchReviews();
@@ -142,7 +142,7 @@ export default function ItemDetailsInfo(props) {
         <Link
           to={{
             pathname: `/cast/${props.cat}/id=${props.id}`,
-            state: { cast, posterPath }
+            state: { title, releaseYear, cast, posterPath }
           }}>
           <p className='mt-3'>Full Cast & Crew</p>
         </Link>
@@ -167,7 +167,7 @@ export default function ItemDetailsInfo(props) {
         <Link
           to={{
             pathname: `/reviews/${props.cat}/id=${props.id}`,
-            state: { reviewsResults, posterPath }
+            state: { title, releaseYear, reviewsResults, posterPath }
           }}>
           <p className='mt-3'>Read All Reviews</p>
         </Link>

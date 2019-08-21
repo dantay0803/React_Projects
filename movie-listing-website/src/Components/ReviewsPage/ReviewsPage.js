@@ -9,7 +9,10 @@ const Styles = styled.div`
 `;
 
 export default function ReviewsPage(props) {
-  const { reviewsResults, posterPath } = props.location.state || {
+  const { title, releaseYear, reviewsResults, posterPath } = props.location
+    .state || {
+    title: null,
+    releaseYear: null,
     reviewsResults: null,
     posterPath: ''
   };
@@ -17,6 +20,8 @@ export default function ReviewsPage(props) {
     <Styles>
       <Container fluid>
         <BasicHeader
+          title={title}
+          releaseYear={releaseYear}
           posterPath={posterPath}
           navigateBack={props.history.goBack}
         />

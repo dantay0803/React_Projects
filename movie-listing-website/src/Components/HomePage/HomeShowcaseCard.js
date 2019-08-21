@@ -38,19 +38,6 @@ export default function HomeShowcaseCard(props) {
   return (
     <Styles>
       <Link to={`/details/${props.category}/id=${props.id}`}>
-        {/* <Card>
-          <Card.Img
-            src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
-            alt='Card image'
-          />
-          <Card.ImgOverlay>
-            <Card.Title>{props.title}</Card.Title>
-            <Card.Text>{props.overview}</Card.Text>
-            <Card.Text>
-              <IoIosArrowDropright className='icon' />
-            </Card.Text>
-          </Card.ImgOverlay>
-        </Card> */}
         <Card className='bg-dark text-white'>
           <Card.Img
             src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
