@@ -3,19 +3,18 @@ import styled from 'styled-components';
 import {
   Container,
   Card,
-  Media,
   CardDeck,
   Col,
   Row,
-  Button,
-  Carousel
+  Button
 } from 'react-bootstrap';
 import UserReview from '../UserReview';
 import CustomHR from '../CustomHR';
 import Recommendations from './Recommendations';
 import { Link } from 'react-router-dom';
 import config from '../../Config';
-import YouTubePlayer from '../YouTubePlayer';
+import TrailersCarousel from './TrailersCarousel';
+
 const TopBilledCastCard = styled(Card)`
   color: var(--bert-black);
   max-width: 8.625rem;
@@ -73,12 +72,6 @@ const CollectionsCard = styled(Card)`
   }
 `;
 
-const StyledCarousel = styled(Carousel)`
-  .carousel-inner > .carousel-item > img {
-    margin: 0 auto;
-  }
-`;
-
 export default function ItemDetailsInfo(props) {
   const [reviewsResults, setReviewsResults] = useState(null);
   const [trailerResults, setTrailerResults] = useState(null);
@@ -122,21 +115,21 @@ export default function ItemDetailsInfo(props) {
         <CardDeck>
           {cast !== null
             ? cast.cast.slice(0, 5).map(cast => (
-                <TopBilledCastCard key={cast.id}>
-                  <Card.Img
-                    variant='top'
-                    src={`https://image.tmdb.org/t/p/w138_and_h175_face/${
-                      cast.profile_path
+              <TopBilledCastCard key={cast.id}>
+                <Card.Img
+                  variant='top'
+                  src={`https://image.tmdb.org/t/p/w138_and_h175_face/${
+                    cast.profile_path
                     }`}
-                  />
-                  <Card.Body>
-                    <Card.Title>
-                      <strong>{cast.name}</strong>
-                    </Card.Title>
-                    <Card.Text>{cast.character}</Card.Text>
-                  </Card.Body>
-                </TopBilledCastCard>
-              ))
+                />
+                <Card.Body>
+                  <Card.Title>
+                    <strong>{cast.name}</strong>
+                  </Card.Title>
+                  <Card.Text>{cast.character}</Card.Text>
+                </Card.Body>
+              </TopBilledCastCard>
+            ))
             : null}
         </CardDeck>
         <Link
@@ -154,15 +147,15 @@ export default function ItemDetailsInfo(props) {
         </h4>
         {reviewsResults !== null
           ? reviewsResults.results
-              .slice(0, 3)
-              .map(review => (
-                <UserReview
-                  key={review.id}
-                  id={review.id}
-                  author={review.author}
-                  content={`${review.content.substring(0, 120)}...`}
-                />
-              ))
+            .slice(0, 3)
+            .map(review => (
+              <UserReview
+                key={review.id}
+                id={review.id}
+                author={review.author}
+                content={`${review.content.substring(0, 120)}...`}
+              />
+            ))
           : null}
         <Link
           to={{
@@ -177,21 +170,7 @@ export default function ItemDetailsInfo(props) {
         <h4>Trailers</h4>
         <Row>
           <Col lg={{ span: 8, offset: 2 }}>
-            <StyledCarousel controls={false}>
-              {trailerResults !== null
-                ? trailerResults.results.map(trailer => (
-                    <Carousel.Item key={trailer.id}>
-                      <img
-                        className='d-block'
-                        src={`https://i.ytimg.com/vi/${
-                          trailer.key
-                        }/hqdefault.jpg`}
-                        alt={`${trailer.name} - trailer`}
-                      />
-                    </Carousel.Item>
-                  ))
-                : null}
-            </StyledCarousel>
+            <TrailersCarousel trailerResults={trailerResults} />
           </Col>
         </Row>
         <Link
@@ -210,7 +189,7 @@ export default function ItemDetailsInfo(props) {
               <Card.Img
                 src={`https://image.tmdb.org/t/p/w1440_and_h320_bestv2/${
                   collection.backdrop_path
-                }`}
+                  }`}
                 alt='Card image'
               />
               <Card.ImgOverlay>
@@ -226,7 +205,6 @@ export default function ItemDetailsInfo(props) {
       <Container>
         <h4>Recommendations</h4>
         <Recommendations cat={props.cat} id={id} />
-        <YouTubePlayer />
       </Container>
     </>
   );
