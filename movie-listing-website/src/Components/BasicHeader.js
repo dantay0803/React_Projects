@@ -9,12 +9,7 @@ const StyledRow = styled(Row)`
 `;
 
 function BasicHeader(props) {
-  const { title, releaseYear, posterPath, navigateBack } = props || {
-    title: null,
-    releaseYear: null,
-    posterPath: null,
-    navigateBack: null
-  };
+  const { title, releaseYear, posterPath, navigateBack } = props;
 
   return (
     <StyledRow className='pageHeader'>
@@ -24,13 +19,20 @@ function BasicHeader(props) {
             width={58}
             height={87}
             className='align-self-center mr-3'
-            src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+            src={
+              posterPath !== null
+                ? `https://image.tmdb.org/t/p/original/${posterPath}`
+                : `https://via.placeholder.com/58x87?text=Image+not+available`
+            }
             alt='Generic placeholder'
           />
           <Media.Body>
             <h4>
-              {title !== null ? title : null}(
-              {releaseYear !== null ? releaseYear.substring(0, 4) : null})
+              {title !== undefined ? title : null}(
+              {releaseYear !== undefined && releaseYear !== null
+                ? releaseYear.substring(0, 4)
+                : null}
+              )
             </h4>
             <Link onClick={() => navigateBack()}>
               <p className='mt-3'>Back to details</p>

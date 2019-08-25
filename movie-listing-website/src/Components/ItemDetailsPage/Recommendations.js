@@ -91,7 +91,7 @@ export default function Recommendations(props) {
     };
 
     fetchData();
-  }, []);
+  }, [id, cat]);
 
   return (
     <div>

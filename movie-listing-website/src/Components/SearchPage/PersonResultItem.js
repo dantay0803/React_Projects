@@ -13,23 +13,31 @@ const Styles = styled.div`
 `;
 
 export default function PersonResultItem(props) {
+  const { id, name, info, imagePath, category } = props;
+
+  console.log(imagePath);
+
   return (
     <Styles>
       <Media>
-        <Link to={`/Details/${props.category}/id=${props.id}`}>
+        <Link to={`/Details/${category}/id=${id}`}>
           <img
             width={90}
             height={110}
             className='align-self-center mr-3'
-            src={`https://image.tmdb.org/t/p/w500/${props.imagePath}`}
-            alt={`Image of ${props.name}`}
+            src={
+              imagePath !== null
+                ? `https://image.tmdb.org/t/p/w500/${imagePath}`
+                : `https://via.placeholder.com/185x278?text=Image+not+available`
+            }
+            alt={`Image of ${name}`}
           />
         </Link>
         <Media.Body>
-          <Link to={`/Details/${props.category}/id=${props.id}`}>
-            <h5>{props.name}</h5>
+          <Link to={`/Details/${category}/id=${id}`}>
+            <h5>{name}</h5>
           </Link>
-          <p>{props.info}</p>
+          <p>{info}</p>
         </Media.Body>
       </Media>
     </Styles>

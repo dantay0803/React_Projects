@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col, Media } from 'react-bootstrap';
 import BasicHeader from '../BasicHeader';
+import profileFallback from '../../images/profileFallback.png';
 
 const Styles = styled.div`
   margin-top: 5rem;
@@ -36,14 +37,16 @@ export default function FullCastPage(props) {
             <h4>Cast {cast !== null ? cast.cast.length : null}</h4>
             {cast !== null
               ? cast.cast.map(member => (
-                  <Media>
+                  <Media key={member.id}>
                     <img
                       width={58}
                       height={87}
                       className='align-self-center mr-3'
-                      src={`https://image.tmdb.org/t/p/original/${
-                        member.profile_path
-                      }`}
+                      src={
+                        member.profile_path !== null
+                          ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
+                          : profileFallback
+                      }
                       alt='Generic placeholder'
                     />
                     <Media.Body>
@@ -58,14 +61,16 @@ export default function FullCastPage(props) {
             <h4>Cast {cast !== null ? cast.crew.length : null}</h4>
             {cast !== null
               ? cast.crew.map(member => (
-                  <Media>
+                  <Media key={member.id}>
                     <img
                       width={58}
                       height={87}
                       className='align-self-center mr-3'
-                      src={`https://image.tmdb.org/t/p/original/${
-                        member.profile_path
-                      }`}
+                      src={
+                        member.profile_path !== null
+                          ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
+                          : profileFallback
+                      }
                       alt='Generic placeholder'
                     />
                     <Media.Body>

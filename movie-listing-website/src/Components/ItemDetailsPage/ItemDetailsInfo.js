@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  Container,
-  Card,
-  CardDeck,
-  Col,
-  Row,
-  Button
-} from 'react-bootstrap';
+import { Container, Card, CardDeck, Col, Row, Button } from 'react-bootstrap';
 import UserReview from '../UserReview';
 import CustomHR from '../CustomHR';
 import Recommendations from './Recommendations';
 import { Link } from 'react-router-dom';
 import config from '../../Config';
 import TrailersCarousel from './TrailersCarousel';
+import collectionFallback from '../../images/collectionFallback.jpg';
+import profileFallback from '../../images/profileFallback.png';
 
 const TopBilledCastCard = styled(Card)`
   color: var(--bert-black);
@@ -45,9 +40,9 @@ const TopBilledCastCard = styled(Card)`
 
 const CollectionsCard = styled(Card)`
   border: none;
-
-  .card-title {
-  }
+  width: 56.25rem;
+  height: 12.5rem;
+  overflow: hidden;
 
   .card-img-overlay {
     background-color: rgba(31, 40, 51, 0.8);
@@ -115,21 +110,23 @@ export default function ItemDetailsInfo(props) {
         <CardDeck>
           {cast !== null
             ? cast.cast.slice(0, 5).map(cast => (
-              <TopBilledCastCard key={cast.id}>
-                <Card.Img
-                  variant='top'
-                  src={`https://image.tmdb.org/t/p/w138_and_h175_face/${
-                    cast.profile_path
-                    }`}
-                />
-                <Card.Body>
-                  <Card.Title>
-                    <strong>{cast.name}</strong>
-                  </Card.Title>
-                  <Card.Text>{cast.character}</Card.Text>
-                </Card.Body>
-              </TopBilledCastCard>
-            ))
+                <TopBilledCastCard key={cast.id}>
+                  <Card.Img
+                    variant='top'
+                    src={
+                      cast.profile_path !== null
+                        ? `https://image.tmdb.org/t/p/w138_and_h175_face/${cast.profile_path}`
+                        : profileFallback
+                    }
+                  />
+                  <Card.Body>
+                    <Card.Title>
+                      <strong>{cast.name}</strong>
+                    </Card.Title>
+                    <Card.Text>{cast.character}</Card.Text>
+                  </Card.Body>
+                </TopBilledCastCard>
+              ))
             : null}
         </CardDeck>
         <Link
@@ -145,25 +142,27 @@ export default function ItemDetailsInfo(props) {
         <h4>
           Reviews {reviewsResults !== null ? reviewsResults.total_results : '0'}
         </h4>
-        {reviewsResults !== null
+        {reviewsResults !== null && reviewsResults.results !== null
           ? reviewsResults.results
-            .slice(0, 3)
-            .map(review => (
-              <UserReview
-                key={review.id}
-                id={review.id}
-                author={review.author}
-                content={`${review.content.substring(0, 120)}...`}
-              />
-            ))
+              .slice(0, 3)
+              .map(review => (
+                <UserReview
+                  key={review.id}
+                  id={review.id}
+                  author={review.author}
+                  content={`${review.content.substring(0, 120)}...`}
+                />
+              ))
           : null}
-        <Link
-          to={{
-            pathname: `/reviews/${props.cat}/id=${props.id}`,
-            state: { title, releaseYear, reviewsResults, posterPath }
-          }}>
-          <p className='mt-3'>Read All Reviews</p>
-        </Link>
+        {reviewsResults !== null && reviewsResults.total_results > 0 ? (
+          <Link
+            to={{
+              pathname: `/reviews/${props.cat}/id=${props.id}`,
+              state: { title, releaseYear, reviewsResults, posterPath }
+            }}>
+            <p className='mt-3'>Read All Reviews</p>
+          </Link>
+        ) : null}
       </Container>
       <CustomHR />
       <Container>
@@ -173,23 +172,18 @@ export default function ItemDetailsInfo(props) {
             <TrailersCarousel trailerResults={trailerResults} />
           </Col>
         </Row>
-        <Link
-          to={{
-            pathname: `/trailers/${props.cat}/id=${props.id}`,
-            state: null
-          }}>
-          <p className='mt-3'>View All Trailers</p>
-        </Link>
       </Container>
       <CustomHR />
-      {collection !== null ? (
+      {collection !== undefined && collection !== null ? (
         <>
           <Container>
             <CollectionsCard>
               <Card.Img
-                src={`https://image.tmdb.org/t/p/w1440_and_h320_bestv2/${
-                  collection.backdrop_path
-                  }`}
+                src={
+                  collection.backdrop_path === null
+                    ? collectionFallback
+                    : `https://image.tmdb.org/t/p/w1440_and_h320_bestv2/${collection.backdrop_path}`
+                }
                 alt='Card image'
               />
               <Card.ImgOverlay>

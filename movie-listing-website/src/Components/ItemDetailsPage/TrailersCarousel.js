@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import {
-  Carousel,
-  Modal
-} from 'react-bootstrap';
+import { Carousel, Modal } from 'react-bootstrap';
 import YouTubePlayer from '../YouTubePlayer';
 
 const StyledCarousel = styled(Carousel)`
@@ -42,16 +39,24 @@ export default function TrailersCarousel(props) {
       <StyledCarousel controls={false}>
         {trailerResults !== null
           ? trailerResults.results.map(trailer => (
-            <Carousel.Item key={trailer.id} onClick={() => { setVideoId(trailer.key); setVideoSite('YouTube'); setShow(true); }}>
-              <img
-                className='d-block'
-                src={`https://i.ytimg.com/vi/${
-                  trailer.key
-                  }/hqdefault.jpg`}
-                alt={`${trailer.name} - trailer`}
-              />
-            </Carousel.Item>
-          ))
+              <Carousel.Item
+                key={trailer.id}
+                onClick={() => {
+                  setVideoId(trailer.key);
+                  setVideoSite('YouTube');
+                  setShow(true);
+                }}>
+                <img
+                  className='d-block'
+                  src={
+                    trailer.key !== undefined
+                      ? `https://i.ytimg.com/vi/${trailer.key}/hqdefault.jpg`
+                      : `https://via.placeholder.com/595x360?text=Image+not+available`
+                  }
+                  alt={`${trailer.name} - trailer`}
+                />
+              </Carousel.Item>
+            ))
           : null}
       </StyledCarousel>
 
@@ -61,5 +66,5 @@ export default function TrailersCarousel(props) {
         </Modal.Body>
       </VideoModal>
     </>
-  )
+  );
 }

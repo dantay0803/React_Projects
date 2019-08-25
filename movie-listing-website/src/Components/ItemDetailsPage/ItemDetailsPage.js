@@ -59,6 +59,7 @@ export default function ItemDetailsPage(props) {
     )}/keywords?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
+        console.log(data);
         setKeywordsResults(data);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
@@ -73,12 +74,14 @@ export default function ItemDetailsPage(props) {
               <Row>
                 <Col lg={12}>
                   <ItemDetailsHeader
-                    title={searchResults.title}
+                    title={searchResults.title || searchResults.name}
                     popularity={searchResults.vote_average * 10}
                     overview={searchResults.overview}
                     posterPath={searchResults.poster_path}
                     backdropPath={searchResults.backdrop_path}
-                    releaseYear={searchResults.release_date}
+                    releaseYear={
+                      searchResults.release_date || searchResults.first_air_date
+                    }
                     featuredCrew={
                       creditsResults !== null
                         ? creditsResults.crew.slice(0, 3)
@@ -93,8 +96,10 @@ export default function ItemDetailsPage(props) {
                   <ItemDetailsInfo
                     id={id.replace('id=', '')}
                     cat={cat}
-                    title={searchResults.title}
-                    releaseYear={searchResults.release_date}
+                    title={searchResults.title || searchResults.name}
+                    releaseYear={
+                      searchResults.release_date || searchResults.first_air_date
+                    }
                     cast={creditsResults !== null ? creditsResults : null}
                     collection={searchResults.belongs_to_collection}
                     posterPath={searchResults.poster_path}
@@ -103,15 +108,20 @@ export default function ItemDetailsPage(props) {
                 <Col lg={3} className='mt-4'>
                   <ItemDetailsFacts
                     status={searchResults.status}
-                    releaseInformation={searchResults.release_date}
                     OriginalLanguage={searchResults.original_language}
+                    genres={searchResults.genres}
+                    keywords={
+                      KeywordsResults !== null
+                        ? KeywordsResults.keywords || KeywordsResults.results
+                        : []
+                    }
+                    releaseInformation={searchResults.release_date}
                     runtime={searchResults.runtime}
                     budget={searchResults.budget}
                     revenue={searchResults.revenue}
-                    genres={searchResults.genres}
-                    keywords={
-                      KeywordsResults !== null ? KeywordsResults.keywords : []
-                    }
+                    networks={searchResults.networks}
+                    type={searchResults.type}
+                    episodeRuntime={searchResults.episode_run_time}
                   />
                 </Col>
               </Row>

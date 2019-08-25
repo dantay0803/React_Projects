@@ -67,7 +67,7 @@ export default function SearchResultsPage(props) {
   useEffect(() => {
     multiSearch(query.replace('query=', ''));
     collectionsSearch(query.replace('query=', ''));
-  }, []);
+  }, [query]);
 
   const resultSelect = selection => {
     switch (selection) {
@@ -81,6 +81,7 @@ export default function SearchResultsPage(props) {
         setSearchResults(collectionResults);
         break;
       case 'person':
+        console.log(peopleResults);
         setSearchResults(peopleResults);
         break;
       default:
@@ -92,9 +93,7 @@ export default function SearchResultsPage(props) {
 
   const multiSearch = searchQuery => {
     fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${
-        config.API_KEY_V3
-      }&query=${searchQuery}`
+      `https://api.themoviedb.org/3/search/multi?api_key=${config.API_KEY_V3}&query=${searchQuery}`
     )
       .then(resp => resp.json())
       .then(data => {
@@ -127,9 +126,7 @@ export default function SearchResultsPage(props) {
 
   const collectionsSearch = searchQuery => {
     fetch(
-      `https://api.themoviedb.org/3/search/collection?api_key=${
-        config.API_KEY_V3
-      }&query=${searchQuery}`
+      `https://api.themoviedb.org/3/search/collection?api_key=${config.API_KEY_V3}&query=${searchQuery}`
     )
       .then(resp => resp.json())
       .then(data => {
@@ -234,7 +231,7 @@ export default function SearchResultsPage(props) {
                           id={item.id}
                           name={item.name}
                           info={item.details}
-                          imagePath={item.image}
+                          imagePath={item.profile_path}
                           category={'person'}
                         />
                       );

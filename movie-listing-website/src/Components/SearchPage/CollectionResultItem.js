@@ -7,7 +7,7 @@ const Styles = styled.div`
   color: var(--bert-black);
   width: 40rem;
   height: 16rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 12.5rem;
 
   .card-title {
     margin-top: 1rem;
@@ -17,15 +17,21 @@ const Styles = styled.div`
 `;
 
 export default function CollectionResultItem(props) {
+  const { id, category, title, backdropPath } = props;
+
   return (
     <Styles>
-      <Link to={`/Details/cat=${props.category}%20id=${props.id}`}>
+      <Link to={`/Details/cat=${category}%20id=${id}`}>
         <Card>
           <Card.Img
             variant='top'
-            src={`https://image.tmdb.org/t/p/w500/${props.backdropPath}`}
+            src={
+              backdropPath !== null
+                ? `https://image.tmdb.org/t/p/w500/${backdropPath}`
+                : `https://via.placeholder.com/638x358?text=Image+not+available`
+            }
           />
-          <Card.Title>{props.title}</Card.Title>
+          <Card.Title>{title}</Card.Title>
         </Card>
       </Link>
     </Styles>

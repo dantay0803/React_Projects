@@ -81,13 +81,27 @@ const StyledImageCard = styled(Card)`
 `;
 
 export default function SearchResultItem(props) {
+  const {
+    id,
+    title,
+    releaseDate,
+    description,
+    popularity,
+    posterPath,
+    category
+  } = props;
+
   return (
     <Styles>
       <StyledMedia>
         <StyledImageCard>
-          <Link to={`/Details/${props.category}/id=${props.id}`}>
+          <Link to={`/Details/${category}/id=${id}`}>
             <Card.Img
-              src={`https://image.tmdb.org/t/p/w500/${props.posterPath}`}
+              src={
+                posterPath !== null
+                  ? `https://image.tmdb.org/t/p/w500/${posterPath}`
+                  : `https://via.placeholder.com/185x278?text=Image+not+available`
+              }
               alt='Card image'
             />
           </Link>
@@ -110,14 +124,11 @@ export default function SearchResultItem(props) {
         <Media.Body>
           <StyledDetailsCard>
             <Card.Body>
-              <Card.Title>{props.title}</Card.Title>
-              <small className='text-muted'>{props.releaseDate}</small>
-              <Card.Text>{props.description.substring(0, 381)}...</Card.Text>
+              <Card.Title>{title}</Card.Title>
+              <small className='text-muted'>{releaseDate}</small>
+              <Card.Text>{description.substring(0, 381)}...</Card.Text>
               <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
-                <ProgressBar
-                  now={props.popularity}
-                  label={`${props.popularity}`}
-                />
+                <ProgressBar now={popularity} label={`${props.popularity}`} />
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>

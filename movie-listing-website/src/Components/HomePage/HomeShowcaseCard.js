@@ -40,7 +40,11 @@ export default function HomeShowcaseCard(props) {
       <Link to={`/details/${props.category}/id=${props.id}`}>
         <Card className='bg-dark text-white'>
           <Card.Img
-            src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
+            src={
+              props.backdrop_path !== undefined
+                ? `https://image.tmdb.org/t/p/w500/${props.backdrop_path}`
+                : `https://via.placeholder.com/286x161?text=Image+not+available`
+            }
             alt='Card image'
           />
           <Card.ImgOverlay>
