@@ -3,29 +3,3 @@ Collections page
 Genres/Keywords page
 Person details page
 Trailers Page
-
-Site Name - What to watch - logo could be shrugging shoulders emoji
-Logo - https://flyclipart.com/free-png-image-shrug-emoji-png-303772
-
-COLOUR SCHEMES
-Main: https://visme.co/blog/website-color-schemes/ - bert
-
-GOOGLE FONTS
-Title: Rubik Mono One
-Body: Rubik
-
-UI
-https://react-bootstrap.github.io/getting-started/introduction
-
-ICONS
-https://react-icons.netlify.com/#/
-
-Other Tools
-https://www.styled-components.com/docs/basics#installation
-https://reacttraining.com/react-router/
-
-HEADER PROMO IMAGE - might name pick of the week
-https://www.digitalspy.com/tv/a866143/luther-season-five-batman-idris-elba/
-
-Layout Idea:
-Header will blend when at the top of the page then once scrolling will change colour and get a bottom border.

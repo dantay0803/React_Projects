@@ -167,11 +167,19 @@ export default function ItemDetailsInfo(props) {
       <CustomHR />
       <Container>
         <h4>Trailers</h4>
-        <Row>
-          <Col lg={{ span: 8, offset: 2 }}>
-            <TrailersCarousel trailerResults={trailerResults} />
-          </Col>
-        </Row>
+        <TrailersCarousel trailerResults={trailerResults} />
+        <Link
+          to={{
+            pathname: `/trailers/${props.cat}/id=${props.id}`,
+            state: {
+              title,
+              releaseYear,
+              posterPath,
+              trailerResults
+            }
+          }}>
+          <p className='mt-3'>View All Trailers</p>
+        </Link>
       </Container>
       <CustomHR />
       {collection !== undefined && collection !== null ? (

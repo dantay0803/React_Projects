@@ -59,7 +59,6 @@ export default function ItemDetailsPage(props) {
     )}/keywords?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         setKeywordsResults(data);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
