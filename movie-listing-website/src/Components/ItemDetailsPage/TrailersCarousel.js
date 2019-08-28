@@ -1,11 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Carousel, Modal } from 'react-bootstrap';
 import YouTubePlayer from '../YouTubePlayer';
+import { IoIosPlayCircle } from 'react-icons/io';
 
 const StyledCarousel = styled(Carousel)`
-  .carousel-inner > .carousel-item > img {
-    margin: 0 auto;
+  max-width: 32.38rem;
+  max-height: 22.5rem;
+  margin: 0 auto;
+
+  .carousel-item {
+    overflow: hidden;
+  }
+
+  .carousel-caption {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 7.5rem;
+    position: absolute;
+    top: 50%;
+    left: 42.5%;
+    transform: translate(-50%, -50%);
+  }
+
+  .carousel-caption: hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 57.5%;
+    transform: translate(-50%, -50%);
   }
 `;
 
@@ -38,7 +67,7 @@ export default function TrailersCarousel(props) {
     <>
       <StyledCarousel controls={false}>
         {trailerResults !== null
-          ? trailerResults.results.map(trailer => (
+          ? trailerResults.results.slice(0, 3).map(trailer => (
               <Carousel.Item
                 key={trailer.id}
                 onClick={() => {
@@ -55,6 +84,11 @@ export default function TrailersCarousel(props) {
                   }
                   alt={`${trailer.name} - trailer`}
                 />
+                <Carousel.Caption>
+                  <div className='centered'>
+                    <IoIosPlayCircle />
+                  </div>
+                </Carousel.Caption>
               </Carousel.Item>
             ))
           : null}

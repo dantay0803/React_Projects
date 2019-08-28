@@ -44,6 +44,7 @@ export default function ItemDetailsPage(props) {
     )}/credits?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
+        console.log(data);
         setCreditsResults(data);
       })
       .catch(err =>

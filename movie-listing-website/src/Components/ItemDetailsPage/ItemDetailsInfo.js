@@ -75,7 +75,7 @@ export default function ItemDetailsInfo(props) {
   useEffect(() => {
     fetchReviews();
     fetchTrailers();
-  }, []);
+  }, [id, cat]);
 
   const fetchReviews = () => {
     fetch(`
@@ -168,18 +168,20 @@ export default function ItemDetailsInfo(props) {
       <Container>
         <h4>Trailers</h4>
         <TrailersCarousel trailerResults={trailerResults} />
-        <Link
-          to={{
-            pathname: `/trailers/${props.cat}/id=${props.id}`,
-            state: {
-              title,
-              releaseYear,
-              posterPath,
-              trailerResults
-            }
-          }}>
-          <p className='mt-3'>View All Trailers</p>
-        </Link>
+        {trailerResults !== null && trailerResults.results.length > 0 ? (
+          <Link
+            to={{
+              pathname: `/trailers/${props.cat}/id=${props.id}`,
+              state: {
+                title,
+                releaseYear,
+                posterPath,
+                trailerResults
+              }
+            }}>
+            <p className='mt-3'>View All Trailers</p>
+          </Link>
+        ) : null}
       </Container>
       <CustomHR />
       {collection !== undefined && collection !== null ? (

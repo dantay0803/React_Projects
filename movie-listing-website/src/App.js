@@ -8,6 +8,9 @@ import ItemDetailsPage from './Components/ItemDetailsPage/ItemDetailsPage';
 import ReviewsPage from './Components/ReviewsPage/ReviewsPage';
 import FullCastPage from './Components/FullCastPage/FullCastPage';
 import TrailersPage from './Components/TrailersPage/TrailersPage';
+import PersonPage from './Components/PersonPage/PersonPage';
+import NoMatchPage from './Components/NoMatchPage/NoMatchPage';
+import ScrollToTop from './Components/ScrollToTop';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -46,16 +49,23 @@ export default class App extends Component {
     return (
       <Router>
         <div className='App'>
-          <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
-          <Switch>
-            <Route exact={true} path='/' component={Home} />
-            <Route path='/searchresults/:query' component={SearchResultsPage} />
-            <Route path='/details/:cat/:id' component={ItemDetailsPage} />
-            <Route path='/reviews/:cat/:id' component={ReviewsPage} />
-            <Route path='/cast/:cat/:id' component={FullCastPage} />
-            <Route path='/trailers/:cat/:id' component={TrailersPage} />
-          </Switch>
-          <Footer />
+          <ScrollToTop>
+            <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
+            <Switch>
+              <Route exact={true} path='/' component={Home} />
+              <Route
+                path='/searchresults/:query'
+                component={SearchResultsPage}
+              />
+              <Route path='/details/:cat/:id' component={ItemDetailsPage} />
+              <Route path='/reviews/:cat/:id' component={ReviewsPage} />
+              <Route path='/cast/:cat/:id' component={FullCastPage} />
+              <Route path='/trailers/:cat/:id' component={TrailersPage} />
+              <Route path='/person/:cat/:id' component={PersonPage} />
+              <Route component={NoMatchPage} />
+            </Switch>
+            <Footer />
+          </ScrollToTop>
         </div>
       </Router>
     );
