@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media, ListGroup } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Media,
+  ListGroup,
+  Tab,
+  CardGroup,
+  Card
+} from 'react-bootstrap';
 import styled from 'styled-components';
 import config from '../../Config';
 import profileFallback from '../../images/profileFallback.png';
@@ -30,6 +39,11 @@ const StyledContainer = styled(Container)`
 export default function PersonPage(props) {
   const [personalInfo, setPersonalInfo] = useState(null);
   const [personCredits, setPersonCredits] = useState(null);
+  const [orderedActorMovies, setOrderedActorMovies] = useState(null);
+  const [orderedActorTV, setOrderedActorTV] = useState(null);
+  const [orderedCrewMovies, setOrderedCrewMovies] = useState(null);
+  const [orderedCrewTV, setOrderedCrewTV] = useState(null);
+
   const { id } = props.match.params;
 
   let test;
@@ -60,6 +74,78 @@ export default function PersonPage(props) {
       .then(resp => resp.json())
       .then(data => {
         setPersonCredits(data);
+
+        console.log(data);
+
+        let orderedActorMovies = [];
+        let orderedActorTV = [];
+
+        data.cast.map(item => {
+          if (item.media_type === 'movie') {
+            orderedActorMovies.push({
+              date: new Date(item.release_date).getFullYear().toString(),
+              title: item.title,
+              character: item.character,
+              id: item.id
+            });
+          }
+
+          if (item.media_type === 'tv') {
+            orderedActorTV.push({
+              date: new Date(item.first_air_date).getFullYear().toString(),
+              title: item.name,
+              character: item.character,
+              id: item.id
+            });
+          }
+        });
+
+        setOrderedActorMovies(
+          orderedActorMovies
+            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+            .reverse()
+        );
+
+        setOrderedActorTV(
+          orderedActorTV
+            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+            .reverse()
+        );
+
+        let orderedCrewMovies = [];
+        let orderedCrewTV = [];
+
+        data.crew.map(item => {
+          if (item.media_type === 'movie') {
+            orderedCrewMovies.push({
+              date: new Date(item.release_date).getFullYear().toString(),
+              title: item.title,
+              department: item.department,
+              id: item.id
+            });
+          }
+
+          if (item.media_type === 'tv') {
+            orderedCrewTV.push({
+              date: new Date(item.first_air_date).getFullYear().toString(),
+              title: item.name,
+              department: item.department,
+              id: item.id
+            });
+          }
+        });
+
+        setOrderedCrewMovies(
+          orderedCrewMovies
+            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+            .reverse()
+        );
+
+        setOrderedCrewTV(
+          orderedCrewTV
+            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+            .reverse()
+        );
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
   };
@@ -124,7 +210,119 @@ export default function PersonPage(props) {
           ) : null}
         </Col>
         <Col lg='5'>
-          <ListGroup></ListGroup>
+          <Tab.Container id='list-group-tabs-example' defaultActiveKey='#link1'>
+            <Row>
+              <Row>
+                <CardGroup>
+                  {personCredits !== null
+                    ? personCredits.cast
+                        .sort((a, b) =>
+                          a.date > b.date
+                            ? 1
+                            : b.vote_count > a.vote_count
+                            ? -1
+                            : 0
+                        )
+                        .reverse()
+                        .slice(0, 4)
+                        .map(item => (
+                          <Card>
+                            <Card.Img variant='top' src='holder.js/100px160' />
+                            <Card.Footer>
+                              <small className='text-muted'>
+                                {item.title || item.name}
+                              </small>
+                            </Card.Footer>
+                          </Card>
+                        ))
+                    : null}
+                </CardGroup>
+                <CardGroup>
+                  {personCredits !== null
+                    ? personCredits.cast
+                        .sort((a, b) =>
+                          a.date > b.date
+                            ? 1
+                            : b.vote_count > a.vote_count
+                            ? -1
+                            : 0
+                        )
+                        .reverse()
+                        .slice(4, 8)
+                        .map(item => (
+                          <Card>
+                            <Card.Img variant='top' src='holder.js/100px160' />
+                            <Card.Footer>
+                              <small className='text-muted'>
+                                {item.title || item.name}
+                              </small>
+                            </Card.Footer>
+                          </Card>
+                        ))
+                    : null}
+                </CardGroup>
+              </Row>
+              <Row>
+                <ListGroup>
+                  <ListGroup.Item action href='#link1'>
+                    Movies
+                  </ListGroup.Item>
+                  <ListGroup.Item action href='#link2'>
+                    TV Shows
+                  </ListGroup.Item>
+                </ListGroup>
+
+                <Tab.Content>
+                  <Tab.Pane eventKey='#link1'>
+                    <ListGroup>
+                      <h2>Acting</h2>
+                      {orderedActorMovies !== null
+                        ? orderedActorMovies.map(item => (
+                            <ListGroup.Item>
+                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                              <strong>{item.title}</strong> as {item.character}
+                            </ListGroup.Item>
+                          ))
+                        : null}
+                      <br />
+                      <br />
+                      <h2>Production</h2>
+                      {orderedCrewMovies !== null
+                        ? orderedCrewMovies.map(item => (
+                            <ListGroup.Item>
+                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                              <strong>{item.title}</strong> as {item.department}
+                            </ListGroup.Item>
+                          ))
+                        : null}
+                    </ListGroup>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey='#link2'>
+                    <ListGroup>
+                      <h2>Acting</h2>
+                      {orderedActorTV !== null
+                        ? orderedActorTV.map(item => (
+                            <ListGroup.Item>
+                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                              <strong>{item.title}</strong> as {item.character}
+                            </ListGroup.Item>
+                          ))
+                        : null}
+                      <h2>Production</h2>
+                      {orderedCrewTV !== null
+                        ? orderedCrewTV.map(item => (
+                            <ListGroup.Item>
+                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                              <strong>{item.title}</strong> as {item.department}
+                            </ListGroup.Item>
+                          ))
+                        : null}
+                    </ListGroup>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Row>
+            </Row>
+          </Tab.Container>
         </Col>
       </Row>
     </StyledContainer>

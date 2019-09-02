@@ -2,6 +2,5 @@ TO DO:
 Collections page
 Genres/Keywords page
 Person details page
-  - Known For - /person/{person_id}/combined_credits - select top number of results for movies or tv shows
-  - Movie and TV credits - /person/{person_id}/combined_credits
+  - update personal info - know credits to filter duplicate movies and tv shows in cast and crew credits - so each movie and show is only counted once
 Add Vimeo player for trailers carousel and page
