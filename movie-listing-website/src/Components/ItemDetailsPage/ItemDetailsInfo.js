@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Card, CardDeck, Col, Row, Button } from 'react-bootstrap';
+import { Container, Card, CardDeck, Button } from 'react-bootstrap';
 import UserReview from '../UserReview';
 import CustomHR from '../CustomHR';
 import Recommendations from './Recommendations';

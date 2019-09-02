@@ -146,7 +146,7 @@ function Navigationbar(props) {
             </InputGroup.Prepend>
             <StyledFormControl
               placeholder='Keywords, Titles, People, Genres...'
-              aria-label="Search entry"
+              aria-label='Search entry'
               aria-describedby='basic-addon2'
               searchbardisplay={searchbarDisplay}
               value={searchInputValue}

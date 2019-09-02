@@ -61,7 +61,7 @@ export default class App extends Component {
               <Route path='/reviews/:cat/:id' component={ReviewsPage} />
               <Route path='/cast/:cat/:id' component={FullCastPage} />
               <Route path='/trailers/:cat/:id' component={TrailersPage} />
-              <Route path='/person/:cat/:id' component={PersonPage} />
+              <Route path='/person/:id' component={PersonPage} />
               <Route component={NoMatchPage} />
             </Switch>
             <Footer />

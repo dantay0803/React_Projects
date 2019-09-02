@@ -26,7 +26,7 @@ const Styles = styled.div`
 export default function Footer() {
   return (
     <Styles>
-      <Navbar expand='lg' sticky='bottom'>
+      <Navbar expand='lg'>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse className='justify-content-start'>
           <Navbar.Text>

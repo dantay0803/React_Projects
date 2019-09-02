@@ -2,7 +2,6 @@ TO DO:
 Collections page
 Genres/Keywords page
 Person details page
-  - Personal Info - /person/{person_id}
   - Known For - /person/{person_id}/combined_credits - select top number of results for movies or tv shows
   - Movie and TV credits - /person/{person_id}/combined_credits
 Add Vimeo player for trailers carousel and page
