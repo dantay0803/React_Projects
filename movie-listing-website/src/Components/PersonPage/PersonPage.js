@@ -7,7 +7,8 @@ import {
   ListGroup,
   Tab,
   CardGroup,
-  Card
+  Card,
+  CardDeck
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import config from '../../Config';
@@ -21,19 +22,67 @@ const StyledContainer = styled(Container)`
     margin-bottom: 2rem;
   }
 
-  .media > .media-body > p {
+  .list-group {
+    color: var(--bert-black);
+  }
+`;
+
+const PersonHeaderMedia = styled(Media)`
+  width: 100%;
+
+  .media-body > p {
     width: 75%;
   }
 
-  .media > img {
+  img {
     width: 18.75rem;
     height: 28.13rem;
     margin-bottom: 2rem;
   }
+`;
 
-  .list-group {
-    color: var(--bert-black);
+const KnownForCardDeck = styled(CardDeck)`
+  .card {
+    margin: 1rem;
+    width: 9.375rem;
+    height: 19.38rem;
   }
+
+  .card > img {
+    height: 14.06rem;
+  }
+
+  .card-title {
+    color: var(--bert-black);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0;
+    overflow: hidden;
+  }
+`;
+
+const CategorySwitchListGroup = styled(ListGroup)`
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+
+  .list-group-item {
+    height: 3.125rem;
+    width: 9.375rem;
+    background-color: var(--bert-blue-dark);
+    color: white;
+  }
+
+  .list-group-item.active {
+    background-color: var(--bert-blue-bright);
+    color: var(--bert-black);
+    border-color: var(--bert-blue-bright);
+  }
+`;
+
+const CreditListGroup = styled(ListGroup)`
+  margin-bottom: 3rem;
+  min-width: 600px;
 `;
 
 export default function PersonPage(props) {
@@ -45,8 +94,6 @@ export default function PersonPage(props) {
   const [orderedCrewTV, setOrderedCrewTV] = useState(null);
 
   const { id } = props.match.params;
-
-  let test;
 
   useEffect(() => {
     fetchDetails();
@@ -73,88 +120,90 @@ export default function PersonPage(props) {
     )}/combined_credits?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
-        setPersonCredits(data);
-
         console.log(data);
-
-        let orderedActorMovies = [];
-        let orderedActorTV = [];
-
-        data.cast.map(item => {
-          if (item.media_type === 'movie') {
-            orderedActorMovies.push({
-              date: new Date(item.release_date).getFullYear().toString(),
-              title: item.title,
-              character: item.character,
-              id: item.id
-            });
-          }
-
-          if (item.media_type === 'tv') {
-            orderedActorTV.push({
-              date: new Date(item.first_air_date).getFullYear().toString(),
-              title: item.name,
-              character: item.character,
-              id: item.id
-            });
-          }
-        });
-
-        setOrderedActorMovies(
-          orderedActorMovies
-            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
-            .reverse()
-        );
-
-        setOrderedActorTV(
-          orderedActorTV
-            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
-            .reverse()
-        );
-
-        let orderedCrewMovies = [];
-        let orderedCrewTV = [];
-
-        data.crew.map(item => {
-          if (item.media_type === 'movie') {
-            orderedCrewMovies.push({
-              date: new Date(item.release_date).getFullYear().toString(),
-              title: item.title,
-              department: item.department,
-              id: item.id
-            });
-          }
-
-          if (item.media_type === 'tv') {
-            orderedCrewTV.push({
-              date: new Date(item.first_air_date).getFullYear().toString(),
-              title: item.name,
-              department: item.department,
-              id: item.id
-            });
-          }
-        });
-
-        setOrderedCrewMovies(
-          orderedCrewMovies
-            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
-            .reverse()
-        );
-
-        setOrderedCrewTV(
-          orderedCrewTV
-            .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
-            .reverse()
-        );
+        setPersonCredits(data);
+        orderCredits(data);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+  };
+
+  const orderCredits = data => {
+    let orderedActorMovies = [];
+    let orderedActorTV = [];
+
+    data.cast.map(item => {
+      if (item.media_type === 'movie') {
+        orderedActorMovies.push({
+          date: new Date(item.release_date).getFullYear().toString(),
+          title: item.title,
+          character: item.character,
+          id: item.id
+        });
+      }
+
+      if (item.media_type === 'tv') {
+        orderedActorTV.push({
+          date: new Date(item.first_air_date).getFullYear().toString(),
+          title: item.name,
+          character: item.character,
+          id: item.id
+        });
+      }
+    });
+
+    setOrderedActorMovies(
+      orderedActorMovies
+        .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+        .reverse()
+    );
+
+    setOrderedActorTV(
+      orderedActorTV
+        .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+        .reverse()
+    );
+
+    let orderedCrewMovies = [];
+    let orderedCrewTV = [];
+
+    data.crew.map(item => {
+      if (item.media_type === 'movie') {
+        orderedCrewMovies.push({
+          date: new Date(item.release_date).getFullYear().toString(),
+          title: item.title,
+          department: item.department,
+          id: item.id
+        });
+      }
+
+      if (item.media_type === 'tv') {
+        orderedCrewTV.push({
+          date: new Date(item.first_air_date).getFullYear().toString(),
+          title: item.name,
+          department: item.department,
+          id: item.id
+        });
+      }
+    });
+
+    setOrderedCrewMovies(
+      orderedCrewMovies
+        .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+        .reverse()
+    );
+
+    setOrderedCrewTV(
+      orderedCrewTV
+        .sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
+        .reverse()
+    );
   };
 
   return (
     <StyledContainer fluid>
       <Row className='header'>
         <Col lg={{ span: 8, offset: 2 }}>
-          <Media>
+          <PersonHeaderMedia>
             <img
               className='align-self-center mr-3'
               src={
@@ -175,7 +224,7 @@ export default function PersonPage(props) {
                 </>
               ) : null}
             </Media.Body>
-          </Media>
+          </PersonHeaderMedia>
         </Col>
       </Row>
       <Row>
@@ -183,24 +232,28 @@ export default function PersonPage(props) {
           <h3>Personal Info</h3>
           {personalInfo !== null ? (
             <>
-              <h4>Known For</h4>
+              <h5>Known For</h5>
               <p>{personalInfo.known_for_department}</p>
-              <h4>Gender</h4>
+              <h5>Gender</h5>
               {personalInfo.gender === '1' ? <p>Female</p> : <p>Male</p>}
-              <h4>Known Credits</h4>
+              <h5>Known Credits</h5>
               {personCredits !== null ? (
                 <p>{personCredits.cast.length + personCredits.crew.length}</p>
               ) : null}
               <p></p>
               <h4>Birthday</h4>
               <p>{personalInfo.birthday}</p>
-              <h4>Day of Death</h4>
-              <p>{personalInfo.deathday}</p>
-              <h4>Place of Birth</h4>
+              {personalInfo.deathday !== null ? (
+                <>
+                  <h5>Day of Death</h5>
+                  <p>{personalInfo.deathday}</p>
+                </>
+              ) : null}
+              <h5>Place of Birth</h5>
               <p>{personalInfo.place_of_birth}</p>
-              <h4>Official Site</h4>
+              <h5>Official Site</h5>
               <p>{personalInfo.homepage}</p>
-              <h4>Also Known As</h4>
+              <h5>Also Known As</h5>
               <p>
                 {personalInfo.also_known_as.map(name => (
                   <p>{name}</p>
@@ -213,7 +266,8 @@ export default function PersonPage(props) {
           <Tab.Container id='list-group-tabs-example' defaultActiveKey='#link1'>
             <Row>
               <Row>
-                <CardGroup>
+                <h2>Known For</h2>
+                <KnownForCardDeck>
                   {personCredits !== null
                     ? personCredits.cast
                         .sort((a, b) =>
@@ -227,17 +281,21 @@ export default function PersonPage(props) {
                         .slice(0, 4)
                         .map(item => (
                           <Card>
-                            <Card.Img variant='top' src='holder.js/100px160' />
-                            <Card.Footer>
-                              <small className='text-muted'>
-                                {item.title || item.name}
-                              </small>
-                            </Card.Footer>
+                            <Card.Img
+                              variant='top'
+                              src={
+                                item.poster_path !== undefined
+                                  ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
+                                  : 'https://via.placeholder.com/150x225?text=Image+not+available'
+                              }
+                              alt={`Poster for ${item.name || item.title}`}
+                            />
+                            <Card.Title>{item.title || item.name}</Card.Title>
                           </Card>
                         ))
                     : null}
-                </CardGroup>
-                <CardGroup>
+                </KnownForCardDeck>
+                <KnownForCardDeck>
                   {personCredits !== null
                     ? personCredits.cast
                         .sort((a, b) =>
@@ -251,75 +309,97 @@ export default function PersonPage(props) {
                         .slice(4, 8)
                         .map(item => (
                           <Card>
-                            <Card.Img variant='top' src='holder.js/100px160' />
-                            <Card.Footer>
-                              <small className='text-muted'>
-                                {item.title || item.name}
-                              </small>
-                            </Card.Footer>
+                            <Card.Img
+                              variant='top'
+                              src={
+                                item.poster_path !== undefined
+                                  ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
+                                  : 'https://via.placeholder.com/150x225?text=Image+not+available'
+                              }
+                              alt={`Poster for ${item.name || item.title}`}
+                            />
+                            <Card.Title>{item.title || item.name}</Card.Title>
                           </Card>
                         ))
                     : null}
-                </CardGroup>
+                </KnownForCardDeck>
               </Row>
               <Row>
-                <ListGroup>
-                  <ListGroup.Item action href='#link1'>
-                    Movies
-                  </ListGroup.Item>
-                  <ListGroup.Item action href='#link2'>
-                    TV Shows
-                  </ListGroup.Item>
-                </ListGroup>
+                <Row>
+                  <CategorySwitchListGroup className='list-group-horizontal'>
+                    <ListGroup.Item action href='#link1'>
+                      Movies
+                    </ListGroup.Item>
+                    <ListGroup.Item action href='#link2'>
+                      TV Shows
+                    </ListGroup.Item>
+                  </CategorySwitchListGroup>
+                </Row>
 
-                <Tab.Content>
-                  <Tab.Pane eventKey='#link1'>
-                    <ListGroup>
-                      <h2>Acting</h2>
-                      {orderedActorMovies !== null
-                        ? orderedActorMovies.map(item => (
-                            <ListGroup.Item>
-                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                              <strong>{item.title}</strong> as {item.character}
-                            </ListGroup.Item>
-                          ))
-                        : null}
-                      <br />
-                      <br />
-                      <h2>Production</h2>
-                      {orderedCrewMovies !== null
-                        ? orderedCrewMovies.map(item => (
-                            <ListGroup.Item>
-                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                              <strong>{item.title}</strong> as {item.department}
-                            </ListGroup.Item>
-                          ))
-                        : null}
-                    </ListGroup>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey='#link2'>
-                    <ListGroup>
-                      <h2>Acting</h2>
-                      {orderedActorTV !== null
-                        ? orderedActorTV.map(item => (
-                            <ListGroup.Item>
-                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                              <strong>{item.title}</strong> as {item.character}
-                            </ListGroup.Item>
-                          ))
-                        : null}
-                      <h2>Production</h2>
-                      {orderedCrewTV !== null
-                        ? orderedCrewTV.map(item => (
-                            <ListGroup.Item>
-                              {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                              <strong>{item.title}</strong> as {item.department}
-                            </ListGroup.Item>
-                          ))
-                        : null}
-                    </ListGroup>
-                  </Tab.Pane>
-                </Tab.Content>
+                <Row>
+                  <Tab.Content>
+                    <Tab.Pane eventKey='#link1'>
+                      <CreditListGroup>
+                        <h2>Cast</h2>
+                        {orderedActorMovies !== null
+                          ? orderedActorMovies.map(item => (
+                              <ListGroup.Item>
+                                {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                                <strong>{item.title}</strong>
+                                {item.character !== ''
+                                  ? ` as ${item.character}`
+                                  : null}
+                              </ListGroup.Item>
+                            ))
+                          : null}
+                      </CreditListGroup>
+                      <CreditListGroup>
+                        <h2>Crew</h2>
+                        {orderedCrewMovies !== null
+                          ? orderedCrewMovies.map(item => (
+                              <ListGroup.Item>
+                                {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                                <strong>{item.title}</strong>
+                                {item.department !== ''
+                                  ? ` as ${item.department}`
+                                  : null}
+                              </ListGroup.Item>
+                            ))
+                          : null}
+                      </CreditListGroup>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey='#link2'>
+                      <CreditListGroup>
+                        <h2>Acting</h2>
+                        {orderedActorTV !== null
+                          ? orderedActorTV.map(item => (
+                              <ListGroup.Item>
+                                {item.date === 'NaN' ? 'TBD' : item.date} :
+                                <strong>{item.title}</strong>
+                                {item.character !== ''
+                                  ? ` as ${item.character}`
+                                  : null}
+                              </ListGroup.Item>
+                            ))
+                          : null}
+                      </CreditListGroup>
+                      <CreditListGroup>
+                        <h2>Production</h2>
+                        {orderedCrewTV !== null
+                          ? orderedCrewTV.map(item => (
+                              <ListGroup.Item>
+                                {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
+                                <strong>{item.title}</strong>
+                                {item.department !== ''
+                                  ? ` as ${item.department}`
+                                  : null}
+                              </ListGroup.Item>
+                            ))
+                          : null}
+                      </CreditListGroup>
+                    </Tab.Pane>
+                  </Tab.Content>
+                </Row>
               </Row>
             </Row>
           </Tab.Container>
