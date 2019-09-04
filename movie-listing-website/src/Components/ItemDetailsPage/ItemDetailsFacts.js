@@ -76,11 +76,13 @@ export default function ItemDetailsFacts(props) {
         ))}
       </p>
       <h6>Keywords</h6>
-      <p>
-        {keywords.map(keyword => (
-          <CustomBadge key={keyword.id} text={keyword.name} />
-        ))}
-      </p>
+      {keywords !== undefined ? (
+        <p>
+          {keywords.map(keyword => (
+            <CustomBadge key={keyword.id} text={keyword.name} />
+          ))}
+        </p>
+      ) : null}
     </>
   );
 }

@@ -95,7 +95,7 @@ export default function SearchResultItem(props) {
     <Styles>
       <StyledMedia>
         <StyledImageCard>
-          <Link to={`/Details/${category}/id=${id}`}>
+          <Link to={`/details/${category}/id=${id}`}>
             <Card.Img
               src={
                 posterPath !== null
@@ -132,7 +132,7 @@ export default function SearchResultItem(props) {
               </OverlayTrigger>
             </Card.Body>
             <Card.Footer>
-              <Link to={`/Details/${props.category}/id=${props.id}`}>
+              <Link to={`/details/${props.category}/id=${props.id}`}>
                 <small className='text-muted'>Full Details</small>
               </Link>
             </Card.Footer>

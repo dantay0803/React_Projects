@@ -6,13 +6,13 @@ import {
   Media,
   ListGroup,
   Tab,
-  CardGroup,
   Card,
   CardDeck
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import config from '../../Config';
 import profileFallback from '../../images/profileFallback.png';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
   margin-top: 5rem;
@@ -42,6 +42,8 @@ const PersonHeaderMedia = styled(Media)`
 `;
 
 const KnownForCardDeck = styled(CardDeck)`
+  text-decoration: none;
+
   .card {
     margin: 1rem;
     width: 9.375rem;
@@ -53,12 +55,18 @@ const KnownForCardDeck = styled(CardDeck)`
   }
 
   .card-title {
-    color: var(--bert-black);
     text-align: center;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin: 0;
+    margin-top: 0.25rem;
     overflow: hidden;
+    color: var(--bert-black);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
   }
 `;
 
@@ -88,6 +96,7 @@ const CreditListGroup = styled(ListGroup)`
 export default function PersonPage(props) {
   const [personalInfo, setPersonalInfo] = useState(null);
   const [personCredits, setPersonCredits] = useState(null);
+  const [totalCredits, setTotalCredits] = useState(null);
   const [orderedActorMovies, setOrderedActorMovies] = useState(null);
   const [orderedActorTV, setOrderedActorTV] = useState(null);
   const [orderedCrewMovies, setOrderedCrewMovies] = useState(null);
@@ -107,6 +116,7 @@ export default function PersonPage(props) {
     }`)
       .then(resp => resp.json())
       .then(data => {
+        console.log(data);
         setPersonalInfo(data);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
@@ -120,9 +130,23 @@ export default function PersonPage(props) {
     )}/combined_credits?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         setPersonCredits(data);
         orderCredits(data);
+
+        const totalCredits = [];
+
+        data.cast.map(item =>
+          !totalCredits.includes(item.title || item.name)
+            ? totalCredits.push(item.title || item.name)
+            : null
+        );
+        data.crew.map(item =>
+          !totalCredits.includes(item.title || item.name)
+            ? totalCredits.push(item.title || item.name)
+            : null
+        );
+
+        setTotalCredits(totalCredits.length);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
   };
@@ -137,7 +161,8 @@ export default function PersonPage(props) {
           date: new Date(item.release_date).getFullYear().toString(),
           title: item.title,
           character: item.character,
-          id: item.id
+          id: item.id,
+          media_type: item.media_type
         });
       }
 
@@ -146,7 +171,8 @@ export default function PersonPage(props) {
           date: new Date(item.first_air_date).getFullYear().toString(),
           title: item.name,
           character: item.character,
-          id: item.id
+          id: item.id,
+          media_type: item.media_type
         });
       }
     });
@@ -172,7 +198,8 @@ export default function PersonPage(props) {
           date: new Date(item.release_date).getFullYear().toString(),
           title: item.title,
           department: item.department,
-          id: item.id
+          id: item.id,
+          media_type: item.media_type
         });
       }
 
@@ -181,7 +208,8 @@ export default function PersonPage(props) {
           date: new Date(item.first_air_date).getFullYear().toString(),
           title: item.name,
           department: item.department,
-          id: item.id
+          id: item.id,
+          media_type: item.media_type
         });
       }
     });
@@ -237,9 +265,7 @@ export default function PersonPage(props) {
               <h5>Gender</h5>
               {personalInfo.gender === '1' ? <p>Female</p> : <p>Male</p>}
               <h5>Known Credits</h5>
-              {personCredits !== null ? (
-                <p>{personCredits.cast.length + personCredits.crew.length}</p>
-              ) : null}
+              {totalCredits !== null ? <p>{totalCredits}</p> : null}
               <p></p>
               <h4>Birthday</h4>
               <p>{personalInfo.birthday}</p>
@@ -252,13 +278,21 @@ export default function PersonPage(props) {
               <h5>Place of Birth</h5>
               <p>{personalInfo.place_of_birth}</p>
               <h5>Official Site</h5>
-              <p>{personalInfo.homepage}</p>
+              {personalInfo.homepage !== null ? (
+                <p>{personalInfo.homepage}</p>
+              ) : (
+                <p>-</p>
+              )}
               <h5>Also Known As</h5>
-              <p>
-                {personalInfo.also_known_as.map(name => (
-                  <p>{name}</p>
-                ))}
-              </p>
+              {personalInfo.also_known_as.length > 0 ? (
+                <p>
+                  {personalInfo.also_known_as.map(name => (
+                    <p>{name}</p>
+                  ))}
+                </p>
+              ) : (
+                <p>-</p>
+              )}
             </>
           ) : null}
         </Col>
@@ -281,16 +315,19 @@ export default function PersonPage(props) {
                         .slice(0, 4)
                         .map(item => (
                           <Card>
-                            <Card.Img
-                              variant='top'
-                              src={
-                                item.poster_path !== undefined
-                                  ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
-                                  : 'https://via.placeholder.com/150x225?text=Image+not+available'
-                              }
-                              alt={`Poster for ${item.name || item.title}`}
-                            />
-                            <Card.Title>{item.title || item.name}</Card.Title>
+                            <Link
+                              to={`/details/${item.media_type}/id=${item.id}`}>
+                              <Card.Img
+                                variant='top'
+                                src={
+                                  item.poster_path !== undefined
+                                    ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
+                                    : 'https://via.placeholder.com/150x225?text=Image+not+available'
+                                }
+                                alt={`Poster for ${item.name || item.title}`}
+                              />
+                              <Card.Title>{item.title || item.name}</Card.Title>
+                            </Link>
                           </Card>
                         ))
                     : null}
@@ -309,16 +346,19 @@ export default function PersonPage(props) {
                         .slice(4, 8)
                         .map(item => (
                           <Card>
-                            <Card.Img
-                              variant='top'
-                              src={
-                                item.poster_path !== undefined
-                                  ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
-                                  : 'https://via.placeholder.com/150x225?text=Image+not+available'
-                              }
-                              alt={`Poster for ${item.name || item.title}`}
-                            />
-                            <Card.Title>{item.title || item.name}</Card.Title>
+                            <Link
+                              to={`/details/${item.media_type}/id=${item.id}`}>
+                              <Card.Img
+                                variant='top'
+                                src={
+                                  item.poster_path !== undefined
+                                    ? `https://image.tmdb.org/t/p/w150_and_h225_bestv2/${item.poster_path}`
+                                    : 'https://via.placeholder.com/150x225?text=Image+not+available'
+                                }
+                                alt={`Poster for ${item.name || item.title}`}
+                              />
+                              <Card.Title>{item.title || item.name}</Card.Title>
+                            </Link>
                           </Card>
                         ))
                     : null}
@@ -340,12 +380,15 @@ export default function PersonPage(props) {
                   <Tab.Content>
                     <Tab.Pane eventKey='#link1'>
                       <CreditListGroup>
-                        <h2>Cast</h2>
+                        <h2>Actor</h2>
                         {orderedActorMovies !== null
                           ? orderedActorMovies.map(item => (
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                                <strong>{item.title}</strong>
+                                <Link
+                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  <strong>{item.title}</strong>
+                                </Link>
                                 {item.character !== ''
                                   ? ` as ${item.character}`
                                   : null}
@@ -354,12 +397,15 @@ export default function PersonPage(props) {
                           : null}
                       </CreditListGroup>
                       <CreditListGroup>
-                        <h2>Crew</h2>
+                        <h2>Production</h2>
                         {orderedCrewMovies !== null
                           ? orderedCrewMovies.map(item => (
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                                <strong>{item.title}</strong>
+                                <Link
+                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  <strong>{item.title}</strong>
+                                </Link>
                                 {item.department !== ''
                                   ? ` as ${item.department}`
                                   : null}
@@ -375,7 +421,10 @@ export default function PersonPage(props) {
                           ? orderedActorTV.map(item => (
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :
-                                <strong>{item.title}</strong>
+                                <Link
+                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  <strong>{item.title}</strong>
+                                </Link>
                                 {item.character !== ''
                                   ? ` as ${item.character}`
                                   : null}
@@ -389,7 +438,10 @@ export default function PersonPage(props) {
                           ? orderedCrewTV.map(item => (
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
-                                <strong>{item.title}</strong>
+                                <Link
+                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  <strong>{item.title}</strong>
+                                </Link>
                                 {item.department !== ''
                                   ? ` as ${item.department}`
                                   : null}

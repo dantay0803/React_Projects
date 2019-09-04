@@ -16,7 +16,7 @@ const Styles = styled.div`
 const StyledTrailerCard = styled(Card)`
   margin: 1rem;
   width: 32.5rem;
-  height: 26rem;
+  height: 28rem;
 
   .card-img {
     min-width: 32.38rem;
@@ -31,7 +31,7 @@ const StyledTrailerCard = styled(Card)`
 
   .card-img-overlay {
     opacity: 0;
-    bottom: 3.4rem;
+    bottom: 5.3rem;
   }
 
   .card-img-overlay: hover {

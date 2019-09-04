@@ -89,7 +89,11 @@ export default function ItemDetailsHeader(props) {
                 <Media.Body>
                   <h2>
                     {title}
-                    <p className='releaseYear'>{releaseYear.substring(0, 4)}</p>
+                    {releaseYear !== undefined ? (
+                      <p className='releaseYear'>
+                        {releaseYear.substring(0, 4)}
+                      </p>
+                    ) : null}
                   </h2>
                   <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
                     <ProgressBar now={popularity} label={`${popularity}%`} />

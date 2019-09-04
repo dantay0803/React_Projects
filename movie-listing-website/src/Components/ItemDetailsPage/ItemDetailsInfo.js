@@ -21,6 +21,7 @@ const TopBilledCastCard = styled(Card)`
 
   .card-body {
     padding: 0.5rem;
+    color: var(--bert-black);
   }
 
   .card-title {
@@ -35,6 +36,10 @@ const TopBilledCastCard = styled(Card)`
     height: 10.94rem;
     padding: 0;
     margin: 0;
+  }
+
+  a:hover {
+    text-decoration: none;
   }
 `;
 
@@ -111,20 +116,22 @@ export default function ItemDetailsInfo(props) {
           {cast !== null
             ? cast.cast.slice(0, 5).map(cast => (
                 <TopBilledCastCard key={cast.id}>
-                  <Card.Img
-                    variant='top'
-                    src={
-                      cast.profile_path !== null
-                        ? `https://image.tmdb.org/t/p/w138_and_h175_face/${cast.profile_path}`
-                        : profileFallback
-                    }
-                  />
-                  <Card.Body>
-                    <Card.Title>
-                      <strong>{cast.name}</strong>
-                    </Card.Title>
-                    <Card.Text>{cast.character}</Card.Text>
-                  </Card.Body>
+                  <Link to={`/person/${cast.id}`}>
+                    <Card.Img
+                      variant='top'
+                      src={
+                        cast.profile_path !== null
+                          ? `https://image.tmdb.org/t/p/w138_and_h175_face/${cast.profile_path}`
+                          : profileFallback
+                      }
+                    />
+                    <Card.Body>
+                      <Card.Title>
+                        <strong>{cast.name}</strong>
+                      </Card.Title>
+                      <Card.Text>{cast.character}</Card.Text>
+                    </Card.Body>
+                  </Link>
                 </TopBilledCastCard>
               ))
             : null}

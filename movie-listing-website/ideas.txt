@@ -1,7 +1,4 @@
 TO DO:
 Collections page
 Genres/Keywords page
-Person details page
-  - update personal info - know credits to filter duplicate movies and tv shows in cast and crew credits - so each movie and show is only counted once
-  - Links to movies and shows
 Add Vimeo player for trailers carousel and page

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col, Media } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import BasicHeader from '../BasicHeader';
 import profileFallback from '../../images/profileFallback.png';
 
@@ -38,19 +39,23 @@ export default function FullCastPage(props) {
             {cast !== null
               ? cast.cast.map(member => (
                   <Media key={member.id}>
-                    <img
-                      width={58}
-                      height={87}
-                      className='align-self-center mr-3'
-                      src={
-                        member.profile_path !== null
-                          ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
-                          : profileFallback
-                      }
-                      alt='Generic placeholder'
-                    />
+                    <Link to={`/person/${member.id}`}>
+                      <img
+                        width={58}
+                        height={87}
+                        className='align-self-center mr-3'
+                        src={
+                          member.profile_path !== null
+                            ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
+                            : profileFallback
+                        }
+                        alt='Generic placeholder'
+                      />
+                    </Link>
                     <Media.Body>
-                      <h6>{member.name}</h6>
+                      <Link to={`/person/${member.id}`}>
+                        <h6>{member.name}</h6>
+                      </Link>
                       <p>{member.character}</p>
                     </Media.Body>
                   </Media>
@@ -62,19 +67,23 @@ export default function FullCastPage(props) {
             {cast !== null
               ? cast.crew.map(member => (
                   <Media key={member.id}>
-                    <img
-                      width={58}
-                      height={87}
-                      className='align-self-center mr-3'
-                      src={
-                        member.profile_path !== null
-                          ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
-                          : profileFallback
-                      }
-                      alt='Generic placeholder'
-                    />
+                    <Link to={`/person/${member.id}`}>
+                      <img
+                        width={58}
+                        height={87}
+                        className='align-self-center mr-3'
+                        src={
+                          member.profile_path !== null
+                            ? `https://image.tmdb.org/t/p/original/${member.profile_path}`
+                            : profileFallback
+                        }
+                        alt='Generic placeholder'
+                      />
+                    </Link>
                     <Media.Body>
-                      <h6>{member.name}</h6>
+                      <Link to={`/person/${member.id}`}>
+                        <h6>{member.name}</h6>
+                      </Link>
                       <p>{member.department}</p>
                     </Media.Body>
                   </Media>

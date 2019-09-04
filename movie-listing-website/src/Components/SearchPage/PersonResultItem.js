@@ -20,7 +20,7 @@ export default function PersonResultItem(props) {
   return (
     <Styles>
       <Media>
-        <Link to={`/Details/${category}/id=${id}`}>
+        <Link to={`/details/${category}/id=${id}`}>
           <img
             width={90}
             height={110}
@@ -34,7 +34,7 @@ export default function PersonResultItem(props) {
           />
         </Link>
         <Media.Body>
-          <Link to={`/Details/${category}/id=${id}`}>
+          <Link to={`/details/${category}/id=${id}`}>
             <h5>{name}</h5>
           </Link>
           <p>{info}</p>
