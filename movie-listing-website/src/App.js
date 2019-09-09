@@ -9,6 +9,7 @@ import ReviewsPage from './Components/ReviewsPage/ReviewsPage';
 import FullCastPage from './Components/FullCastPage/FullCastPage';
 import TrailersPage from './Components/TrailersPage/TrailersPage';
 import PersonPage from './Components/PersonPage/PersonPage';
+import KeywordSearchPage from './Components/KeywordSearchPage/KeywordSearchPage';
 import NoMatchPage from './Components/NoMatchPage/NoMatchPage';
 import ScrollToTop from './Components/ScrollToTop';
 import './App.css';
@@ -62,6 +63,7 @@ export default class App extends Component {
               <Route path='/cast/:cat/:id' component={FullCastPage} />
               <Route path='/trailers/:cat/:id' component={TrailersPage} />
               <Route path='/person/:id' component={PersonPage} />
+              <Route path={['/keyword/:id/:cat', '/genre/:id/:cat']} component={KeywordSearchPage} />
               <Route component={NoMatchPage} />
             </Switch>
             <Footer />
