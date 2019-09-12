@@ -15,12 +15,10 @@ const Styles = styled.div`
 export default function PersonResultItem(props) {
   const { id, name, info, imagePath, category } = props;
 
-  console.log(imagePath);
-
   return (
     <Styles>
       <Media>
-        <Link to={`/details/${category}/id=${id}`}>
+        <Link to={`/person/${id}`}>
           <img
             width={90}
             height={110}
@@ -34,7 +32,7 @@ export default function PersonResultItem(props) {
           />
         </Link>
         <Media.Body>
-          <Link to={`/details/${category}/id=${id}`}>
+          <Link to={`/person/${id}`}>
             <h5>{name}</h5>
           </Link>
           <p>{info}</p>

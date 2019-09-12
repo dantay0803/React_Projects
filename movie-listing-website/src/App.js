@@ -63,7 +63,10 @@ export default class App extends Component {
               <Route path='/cast/:cat/:id' component={FullCastPage} />
               <Route path='/trailers/:cat/:id' component={TrailersPage} />
               <Route path='/person/:id' component={PersonPage} />
-              <Route path={['/keyword/:id/:cat', '/genre/:id/:cat']} component={KeywordSearchPage} />
+              <Route
+                path={['/keyword/:id/:cat', '/genre/:id/:cat']}
+                component={KeywordSearchPage}
+              />
               <Route component={NoMatchPage} />
             </Switch>
             <Footer />

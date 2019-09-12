@@ -90,7 +90,7 @@ const CategorySwitchListGroup = styled(ListGroup)`
 
 const CreditListGroup = styled(ListGroup)`
   margin-bottom: 3rem;
-  min-width: 600px;
+  min-width: 650px;
 `;
 
 export default function PersonPage(props) {

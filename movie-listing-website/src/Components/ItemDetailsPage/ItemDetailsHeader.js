@@ -103,8 +103,8 @@ export default function ItemDetailsHeader(props) {
 
                   <h5 className='mt-5'>Featured Crew</h5>
                   <Row>
-                    {featuredCrew.map(crew => (
-                      <Col key={crew.id}>
+                    {featuredCrew.map((crew, index) => (
+                      <Col key={`${crew.id}-${index}`}>
                         <h6>{crew.name}</h6>
                         <p>{crew.job}</p>
                       </Col>

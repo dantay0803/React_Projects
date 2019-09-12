@@ -14,6 +14,7 @@ import SearchResultItem from './SearchResultItem';
 import CollectionResultItem from './CollectionResultItem';
 import PersonResultItem from './PersonResultItem';
 import config from '../../Config';
+import Waypoint from '../Waypoint';
 
 const Styles = styled.div`
   .container {
@@ -60,14 +61,25 @@ export default function SearchResultsPage(props) {
   const [tvResults, setTVResults] = useState([]);
   const [peopleResults, setPeopleResults] = useState([]);
   const [collectionResults, setCollectionResults] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState('1');
+
+  const [collectionsPage, setCollectionsPage] = useState(1);
+  const [totalCollectionPages, setTotalCollectionPages] = useState('1');
+
   const [searchOption, setSearchOption] = useState('movie');
   const [searchResults, setSearchResults] = useState(null);
   const { query } = props.match.params;
 
   useEffect(() => {
-    multiSearch(query.replace('query=', ''));
-    collectionsSearch(query.replace('query=', ''));
-  }, [query]);
+    if (page <= totalPages) {
+      multiSearch(query.replace('query=', ''));
+    }
+    if (collectionsPage <= totalCollectionPages) {
+      collectionsSearch(query.replace('query=', ''));
+    }
+  }, [query, page, collectionsPage]);
 
   const resultSelect = selection => {
     switch (selection) {
@@ -81,7 +93,6 @@ export default function SearchResultsPage(props) {
         setSearchResults(collectionResults);
         break;
       case 'person':
-        console.log(peopleResults);
         setSearchResults(peopleResults);
         break;
       default:
@@ -93,13 +104,16 @@ export default function SearchResultsPage(props) {
 
   const multiSearch = searchQuery => {
     fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${config.API_KEY_V3}&query=${searchQuery}`
+      `https://api.themoviedb.org/3/search/multi?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${page}`
     )
       .then(resp => resp.json())
       .then(data => {
         const tempMoviesResults = [];
         const tempTVResults = [];
         const tempPersonResults = [];
+
+        setTotalPages(data.total_pages);
+
         data.results.map(item => {
           switch (item.media_type) {
             case 'movie':
@@ -116,21 +130,47 @@ export default function SearchResultsPage(props) {
           }
         });
 
-        setPeopleResults(tempPersonResults);
-        setTVResults(tempTVResults);
-        setMovieResults(tempMoviesResults);
-        setSearchResults(tempMoviesResults);
+        switch (searchOption) {
+          case 'movie':
+            setSearchResults([...movieResults, ...tempMoviesResults]);
+            break;
+          case 'tv':
+            setSearchResults([...tvResults, ...tempTVResults]);
+            break;
+          case 'person':
+            setSearchResults([...peopleResults, ...tempPersonResults]);
+            break;
+        }
+
+        setPeopleResults([...peopleResults, ...tempPersonResults]);
+        setTVResults([...tvResults, ...tempTVResults]);
+        setMovieResults([...movieResults, ...tempMoviesResults]);
       })
       .catch(err => console.log(`Could not fetch data - Error: ${err}`));
   };
 
+  const updateSearchPageNumber = () => {
+    if (page <= totalPages) {
+      setPage(page + 1);
+    }
+
+    if (collectionsPage <= totalCollectionPages) {
+      setCollectionsPage(collectionsPage + 1);
+    }
+  };
+
   const collectionsSearch = searchQuery => {
     fetch(
-      `https://api.themoviedb.org/3/search/collection?api_key=${config.API_KEY_V3}&query=${searchQuery}`
+      `https://api.themoviedb.org/3/search/collection?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${collectionsPage}`
     )
       .then(resp => resp.json())
       .then(data => {
-        setCollectionResults(data.results);
+        if (searchOption === 'collection') {
+          setSearchResults([...collectionResults, ...data.results]);
+        }
+
+        setTotalCollectionPages(data.total_pages);
+        setCollectionResults([...collectionResults, ...data.results]);
       })
       .catch(err => console.log(`Could not fetch data - Error: ${err}`));
   };
@@ -148,7 +188,7 @@ export default function SearchResultsPage(props) {
                   e.preventDefault();
                   resultSelect('movie');
                 }}>
-                Movies <span>{movieResults.length}</span>
+                Movies
               </ListGroup.Item>
               <ListGroup.Item
                 action
@@ -157,7 +197,7 @@ export default function SearchResultsPage(props) {
                   e.preventDefault();
                   resultSelect('tv');
                 }}>
-                TV Shows <span>{tvResults.length}</span>
+                TV Shows
               </ListGroup.Item>
               <ListGroup.Item
                 action
@@ -166,7 +206,7 @@ export default function SearchResultsPage(props) {
                   e.preventDefault();
                   resultSelect('collection');
                 }}>
-                Collections <span>{collectionResults.length}</span>
+                Collections
               </ListGroup.Item>
               <ListGroup.Item
                 action
@@ -175,7 +215,7 @@ export default function SearchResultsPage(props) {
                   e.preventDefault();
                   resultSelect('person');
                 }}>
-                People <span>{peopleResults.length}</span>
+                People
               </ListGroup.Item>
             </ListGroup>
             <Row className='searchInfo'>
@@ -192,48 +232,63 @@ export default function SearchResultsPage(props) {
             <h3 className='searchTitle'>Search > {searchOption} Results</h3>
             {searchResults === null
               ? null
-              : searchResults.map(item => {
+              : searchResults.map((item, index) => {
                   switch (searchOption) {
                     case 'movie':
                     case 'tv':
                       return (
-                        <SearchResultItem
-                          key={item.id}
-                          id={item.id}
-                          title={
-                            searchOption === 'movie' ? item.title : item.name
-                          }
-                          releaseDate={
-                            searchOption === 'movie'
-                              ? item.release_date
-                              : item.first_air_date
-                          }
-                          description={item.overview}
-                          popularity={item.vote_average * 10}
-                          posterPath={item.poster_path}
-                          category={searchOption}
-                        />
+                        <React.Fragment key={item.id}>
+                          <SearchResultItem
+                            id={item.id}
+                            title={
+                              searchOption === 'movie' ? item.title : item.name
+                            }
+                            releaseDate={
+                              searchOption === 'movie'
+                                ? item.release_date
+                                : item.first_air_date
+                            }
+                            description={item.overview}
+                            popularity={item.vote_average * 10}
+                            posterPath={item.poster_path}
+                            category={searchOption}
+                          />
+                          {searchResults.length > 5 &&
+                            index === searchResults.length - 5 && (
+                              <Waypoint callback={updateSearchPageNumber} />
+                            )}
+                        </React.Fragment>
                       );
                     case 'collection':
                       return (
-                        <CollectionResultItem
-                          key={item.id}
-                          id={item.id}
-                          title={item.name}
-                          backdropPath={item.backdrop_path}
-                          category={'collection'}
-                        />
+                        <React.Fragment key={item.id}>
+                          <CollectionResultItem
+                            id={item.id}
+                            title={item.name}
+                            backdropPath={item.backdrop_path}
+                            category={'collection'}
+                          />
+                          {searchResults.length > 5 &&
+                            index === searchResults.length - 5 && (
+                              <Waypoint callback={updateSearchPageNumber} />
+                            )}
+                        </React.Fragment>
                       );
                     case 'person':
                       return (
-                        <PersonResultItem
-                          key={item.id}
-                          id={item.id}
-                          name={item.name}
-                          info={item.details}
-                          imagePath={item.profile_path}
-                          category={'person'}
-                        />
+                        <React.Fragment key={item.id}>
+                          <PersonResultItem
+                            id={item.id}
+                            name={item.name}
+                            info={item.details}
+                            imagePath={item.profile_path}
+                            category={'person'}
+                          />
+                          {searchResults.length > 5 &&
+                            index === searchResults.length - 5 && (
+                              <Waypoint callback={updateSearchPageNumber} />
+                            )}
+                        </React.Fragment>
                       );
                     default:
                       break;

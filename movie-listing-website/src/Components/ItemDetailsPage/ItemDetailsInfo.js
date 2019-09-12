@@ -165,7 +165,7 @@ export default function ItemDetailsInfo(props) {
           <Link
             to={{
               pathname: `/reviews/${props.cat}/id=${props.id}`,
-              state: { title, releaseYear, reviewsResults, posterPath }
+              state: { id, cat, title, releaseYear, posterPath }
             }}>
             <p className='mt-3'>Read All Reviews</p>
           </Link>

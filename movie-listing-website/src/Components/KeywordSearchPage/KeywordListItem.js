@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import {
   Media,
@@ -11,6 +11,8 @@ import { FaChartArea } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Styles = styled.div`
+  margin-top: 2rem;
+
   img {
     border: 1px 0 solid rgba(255, 255, 255, 0.125);
     border-right: none;
@@ -25,10 +27,6 @@ const Styles = styled.div`
     font-weight: bold;
     background-color: var(--bert-blue-bright);
   }
-`;
-
-const StyledMedia = styled(Media)`
-  margin-bottom: 2rem;
 `;
 
 const StyledDetailsCard = styled(Card)`
@@ -47,6 +45,11 @@ const StyledDetailsCard = styled(Card)`
     padding-bottom: 0;
     margin-bottom: 0;
   }
+
+  .text-muted {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+  }
 `;
 
 const StyledImageCard = styled(Card)`
@@ -56,30 +59,11 @@ const StyledImageCard = styled(Card)`
   box-shadow: none;
   background-color: transparent;
   margin: 0;
-
-  a: hover ~.card-img-overlay {
-    opacity: 0.9;
-  }
+  padding: 0;
 
   .card-img {
     border-radius: 0;
     height: 8.813rem;
-  }
-
-  .card-img-overlay {
-    background-color: var(--bert-navy);
-    color: white;
-    opacity: 0;
-    height: 3rem;
-    top: auto;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-img-overlay: hover {
-    opacity: 0.9;
   }
 `;
 
@@ -94,14 +78,9 @@ export default function KeywordListItem(props) {
     category
   } = props;
 
-
-  // KEYWORD ITEM LAYOUT
-  // rating circle - title - date
-  // about
-
   return (
     <Styles>
-      <StyledMedia>
+      <Media>
         <StyledImageCard>
           <Link to={`/details/${category}/id=${id}`}>
             <Card.Img
@@ -110,37 +89,30 @@ export default function KeywordListItem(props) {
                   ? `https://image.tmdb.org/t/p/w500/${posterPath}`
                   : `https://via.placeholder.com/185x278?text=Image+not+available`
               }
-              alt='Card image'
+              alt='Poster image'
             />
           </Link>
-          <Card.ImgOverlay>
-            <OverlayTrigger
-              placement='top'
-              overlay={
-                <Tooltip>
-                  <strong>Popularity Rank</strong>
-                  <br />
-                  Today: 4
-                    <br />
-                  Last Week: 2
-                  </Tooltip>
-              }>
-              <FaChartArea className='chartIcon' />
-            </OverlayTrigger>
-          </Card.ImgOverlay>
         </StyledImageCard>
         <Media.Body>
           <StyledDetailsCard>
             <Card.Body>
-              <Card.Title>{title} <small className='text-muted'>{releaseDate}</small></Card.Title>
-              <Card.Text>{description.substring(0, 197)}...</Card.Text>
-              <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
-                <ProgressBar now={popularity} label={`${props.popularity}`} />
-              </OverlayTrigger>
+              <Card.Title>
+                {title} <small className='text-muted'>{releaseDate}</small>
+                <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
+                  <ProgressBar now={popularity} label={`${props.popularity}`} />
+                </OverlayTrigger>
+              </Card.Title>
+              <Card.Text>
+                {description.length > 0
+                  ? description.length > 197
+                    ? `${description.substring(0, 197)}...`
+                    : description
+                  : 'No plot details available'}
+              </Card.Text>
             </Card.Body>
           </StyledDetailsCard>
         </Media.Body>
-      </StyledMedia>
+      </Media>
     </Styles>
-  )
+  );
 }

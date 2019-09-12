@@ -44,7 +44,6 @@ export default function ItemDetailsPage(props) {
     )}/credits?api_key=${config.API_KEY_V3}`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         setCreditsResults(data);
       })
       .catch(err =>
@@ -107,6 +106,8 @@ export default function ItemDetailsPage(props) {
                 </Col>
                 <Col lg={3} className='mt-4'>
                   <ItemDetailsFacts
+                    id={id.replace('id=', '')}
+                    cat={cat}
                     status={searchResults.status}
                     OriginalLanguage={searchResults.original_language}
                     genres={searchResults.genres}

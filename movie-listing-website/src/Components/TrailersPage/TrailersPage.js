@@ -81,8 +81,6 @@ export default function TrailersPage(props) {
     trailerResults: null
   };
 
-  //id, key, name, site, size, type
-
   const listTrailers = () => {
     let rows = [];
 

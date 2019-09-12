@@ -4,9 +4,13 @@ import { Container, Row, Col, Media } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BasicHeader from '../BasicHeader';
 import profileFallback from '../../images/profileFallback.png';
+import castAndCrewHeader from '../../images/castAndCrewHeader.jpg';
 
 const Styles = styled.div`
-  margin-top: 5rem;
+  .container-fluid {
+    padding: 0;
+  }
+
   .crewListing {
     margin-top: 2rem;
   }
@@ -32,13 +36,14 @@ export default function FullCastPage(props) {
           releaseYear={releaseYear}
           posterPath={posterPath}
           navigateBack={props.history.goBack}
+          imagePath={castAndCrewHeader}
         />
         <Row className='crewListing'>
           <Col lg={{ span: 3, offset: 3 }}>
             <h4>Cast {cast !== null ? cast.cast.length : null}</h4>
             {cast !== null
-              ? cast.cast.map(member => (
-                  <Media key={member.id}>
+              ? cast.cast.map((member, index) => (
+                  <Media key={`${member.id}-${index}`}>
                     <Link to={`/person/${member.id}`}>
                       <img
                         width={58}
@@ -63,10 +68,10 @@ export default function FullCastPage(props) {
               : null}
           </Col>
           <Col lg={{ span: 3 }}>
-            <h4>Cast {cast !== null ? cast.crew.length : null}</h4>
+            <h4>Crew {cast !== null ? cast.crew.length : null}</h4>
             {cast !== null
-              ? cast.crew.map(member => (
-                  <Media key={member.id}>
+              ? cast.crew.map((member, index) => (
+                  <Media key={`${member.id}-${index}`}>
                     <Link to={`/person/${member.id}`}>
                       <img
                         width={58}

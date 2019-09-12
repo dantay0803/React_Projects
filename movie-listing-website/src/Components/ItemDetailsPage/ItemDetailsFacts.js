@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CustomBadge from '../CustomBadge';
 
 export default function ItemDetailsFacts(props) {
   const {
+    id,
+    cat,
     status,
     OriginalLanguage,
     genres,
@@ -72,14 +75,28 @@ export default function ItemDetailsFacts(props) {
       <h6>Genres</h6>
       <p>
         {genres.map(genre => (
-          <CustomBadge key={genre.id} text={genre.name} />
+          <Link
+            to={{
+              pathname: `/genre/${genre.id}/${cat}`,
+              state: { name: genre.name }
+            }}
+            key={genre.id}>
+            <CustomBadge text={genre.name} />
+          </Link>
         ))}
       </p>
       <h6>Keywords</h6>
       {keywords !== undefined ? (
         <p>
           {keywords.map(keyword => (
-            <CustomBadge key={keyword.id} text={keyword.name} />
+            <Link
+              to={{
+                pathname: `/keyword/${keyword.id}/${cat}`,
+                state: { name: keyword.name }
+              }}
+              key={keyword.id}>
+              <CustomBadge text={keyword.name} />
+            </Link>
           ))}
         </p>
       ) : null}
