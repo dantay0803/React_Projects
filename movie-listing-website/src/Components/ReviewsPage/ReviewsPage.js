@@ -24,7 +24,6 @@ const Styles = styled.div`
 export default function ReviewsPage(props) {
   const [page, setPage] = useState(1);
   const [searchResults, setSearchResults] = useState([]);
-  const [totalResults, setTotalResults] = useState(null);
   const [totalPages, setTotalPages] = useState('1');
 
   const { id, cat, title, releaseYear, posterPath } = props.location.state || {
@@ -43,7 +42,6 @@ export default function ReviewsPage(props) {
       .then(data => {
         setSearchResults([...searchResults, ...data.results]);
         setTotalPages(data.total_pages);
-        setTotalResults(data.total_results);
       })
       .catch(err => console.error(`Could not fetch data - Error: ${err}`));
   }, [page]);
@@ -70,7 +68,6 @@ export default function ReviewsPage(props) {
               ? searchResults.map((review, index) => (
                   <React.Fragment key={review.id}>
                     <UserReview
-                      id={review.id}
                       author={review.author}
                       content={review.content}
                     />

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-let loadYT;
-
 export default function YouTubePlayer(props) {
   const youtubePlayerRef = useRef(null);
   const [onStateChange, setOnStateChange] = useState(null);
@@ -19,8 +17,7 @@ export default function YouTubePlayer(props) {
 
       const firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-    else {
+    } else {
       loadVideo();
     }
   }, [videoId]);
@@ -43,13 +40,10 @@ export default function YouTubePlayer(props) {
   };
 
   return (
-
     <div className='youtubeComponent-wrapper'>
       <div ref={youtubePlayerRef} />
     </div>
-
   );
 }
-
 
 // https://stackoverflow.com/questions/54017100/how-to-integrate-youtube-iframe-api-in-reactjs-solution

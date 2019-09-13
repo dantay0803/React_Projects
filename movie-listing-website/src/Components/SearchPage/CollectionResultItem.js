@@ -17,11 +17,11 @@ const Styles = styled.div`
 `;
 
 export default function CollectionResultItem(props) {
-  const { id, category, title, backdropPath } = props;
+  const { id, title, backdropPath } = props;
 
   return (
     <Styles>
-      <Link to={`/details/cat=${category}%20id=${id}`}>
+      <Link to={`/collection/${id}`}>
         <Card>
           <Card.Img
             variant='top'

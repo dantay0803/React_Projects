@@ -53,6 +53,15 @@ const Styles = styled.div`
     border: none;
     color: white;
   }
+
+  .dropdown-item {
+    color: var(--bert-gray);
+  }
+
+  .dropdown-item: hover {
+    color: var(--bert-blue-dark);
+    background-color: none;
+  }
 `;
 
 function Navigationbar(props) {
@@ -81,6 +90,21 @@ function Navigationbar(props) {
       setSearchbarBackgroundColor('rgba(0, 0, 0, 0)');
       setSearchbarBorder('none');
       updatedSearchbarDisplay = 'none';
+      setSearchInputValue('');
+    }
+
+    setTimeout(() => setSearchbarDisplay(updatedSearchbarDisplay), 500);
+  };
+
+  const closeSearchBar = () => {
+    let updatedSearchbarDisplay;
+
+    if (searchbarStatus === 1) {
+      setSearchbarStatus(0);
+      setSearchbarWidth('2.75rem');
+      setSearchbarBackgroundColor('rgba(0, 0, 0, 0)');
+      setSearchbarBorder('none');
+      updatedSearchbarDisplay = 'none';
     }
 
     setTimeout(() => setSearchbarDisplay(updatedSearchbarDisplay), 500);
@@ -97,6 +121,13 @@ function Navigationbar(props) {
     }
   };
 
+  const goToQuckSearch = (option, searchName) => {
+    props.history.push({
+      pathname: `/quicksearch/${option}`,
+      state: { searchName }
+    });
+  };
+
   return (
     <Styles>
       <StyledNavbar
@@ -104,7 +135,7 @@ function Navigationbar(props) {
         fixed='top'
         backgroundcolor={props.backgroundcolor}>
         <Link to='/'>
-          <Navbar.Brand>
+          <Navbar.Brand onClick={() => closeSearchBar()}>
             <img
               alt='What to watch logo'
               src={Logo}
@@ -118,21 +149,78 @@ function Navigationbar(props) {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
-            <NavDropdown title='Discover' id='basic-nav-dropdown'>
-              <NavDropdown.Item>Movies</NavDropdown.Item>
-              <NavDropdown.Item>TV</NavDropdown.Item>
+            <NavDropdown
+              title='Discover'
+              id='discover-quicksearch-option'
+              onClick={() => closeSearchBar()}>
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('discover/movie', 'Discover Movies')
+                }>
+                Movies
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() => goToQuckSearch('discover/tv', 'Discover TV')}>
+                TV
+              </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title='Films' id='basic-nav-dropdown'>
-              <NavDropdown.Item>Popular</NavDropdown.Item>
-              <NavDropdown.Item>Top Rated</NavDropdown.Item>
-              <NavDropdown.Item>Up & Coming</NavDropdown.Item>
-              <NavDropdown.Item>Now Playing</NavDropdown.Item>
+            <NavDropdown
+              title='Films'
+              id='movie-quicksearch-options'
+              onClick={() => closeSearchBar()}>
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('movie/popular', 'Popular Movies')
+                }>
+                Popular
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('movie/top_rated', 'Top Rated Movies')
+                }>
+                Top Rated
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('movie/upcoming', 'Up & Coming Movies')
+                }>
+                Up & Coming
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('movie/now_playing', 'Now Playing Movies')
+                }>
+                Now Playing
+              </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title='Series' id='basic-nav-dropdown'>
-              <NavDropdown.Item>Popular</NavDropdown.Item>
-              <NavDropdown.Item>Top Rated</NavDropdown.Item>
-              <NavDropdown.Item>On TV</NavDropdown.Item>
-              <NavDropdown.Item>Airing Today</NavDropdown.Item>
+            <NavDropdown
+              title='Series'
+              id='tv-quicksearch-options'
+              onClick={() => closeSearchBar()}>
+              <NavDropdown.Item
+                onClick={() => goToQuckSearch('tv/popular', 'Popular TV')}>
+                Popular
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() => goToQuckSearch('tv/top_rated', 'Top Rated TV')}>
+                Top Rated
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() => goToQuckSearch('tv/on_the_air', 'On TV')}>
+                On TV
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() =>
+                  goToQuckSearch('tv/airing_today', 'TV Airing Today')
+                }>
+                Airing Today
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <StyledInputGroup

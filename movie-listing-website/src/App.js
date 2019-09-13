@@ -14,6 +14,8 @@ import NoMatchPage from './Components/NoMatchPage/NoMatchPage';
 import ScrollToTop from './Components/ScrollToTop';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import QuickSearchPage from './Components/QuickSearchPage/QuickSearchPage';
+import CollectionDetailsPage from './Components/CollectionDetailsPage/CollectionDetailsPage';
 
 export default class App extends Component {
   constructor(props) {
@@ -67,6 +69,11 @@ export default class App extends Component {
                 path={['/keyword/:id/:cat', '/genre/:id/:cat']}
                 component={KeywordSearchPage}
               />
+              <Route
+                path='/quicksearch/:cat/:option'
+                component={QuickSearchPage}
+              />
+              <Route path='/collection/:id' component={CollectionDetailsPage} />
               <Route component={NoMatchPage} />
             </Switch>
             <Footer />

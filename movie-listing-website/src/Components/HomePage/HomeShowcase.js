@@ -65,7 +65,7 @@ export default function HomeShowcase(props) {
   const elScroll = useRef(null);
   const [scrollPos, setScrollPos] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
-  const [scrollValue, setScrollValue] = useState(1745);
+  const [scrollValue] = useState(1745);
   const [searchResults, setSearchResults] = useState(null);
 
   const scrollRef = value =>
@@ -78,9 +78,7 @@ export default function HomeShowcase(props) {
   useEffect(() => {
     const fetchData = () => {
       fetch(
-        `https://api.themoviedb.org/3/discover/${
-          props.discoverOption
-        }?api_key=${config.API_KEY_V3}&${props.searchOptions}`
+        `https://api.themoviedb.org/3/discover/${props.discoverOption}?api_key=${config.API_KEY_V3}&${props.searchOptions}`
       )
         .then(resp => resp.json())
         .then(data => {

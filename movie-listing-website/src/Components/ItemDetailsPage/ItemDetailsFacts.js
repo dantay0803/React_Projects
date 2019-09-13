@@ -4,7 +4,6 @@ import CustomBadge from '../CustomBadge';
 
 export default function ItemDetailsFacts(props) {
   const {
-    id,
     cat,
     status,
     OriginalLanguage,

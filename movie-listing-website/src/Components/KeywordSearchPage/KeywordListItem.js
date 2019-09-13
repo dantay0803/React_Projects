@@ -7,7 +7,6 @@ import {
   OverlayTrigger,
   Tooltip
 } from 'react-bootstrap';
-import { FaChartArea } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Styles = styled.div`

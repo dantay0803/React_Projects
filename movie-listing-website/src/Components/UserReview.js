@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, Media } from 'react-bootstrap';
-import CustomBadge from './CustomBadge';
 
 const SocialCard = styled(Card)`
   background-color: var(--bert-black);
@@ -14,7 +13,7 @@ const SocialCard = styled(Card)`
 `;
 
 export default function UserReview(props) {
-  const { id, author, content } = props;
+  const { author, content } = props;
 
   return (
     <SocialCard>

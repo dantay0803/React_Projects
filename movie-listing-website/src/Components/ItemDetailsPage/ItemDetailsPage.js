@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, Card, Media, CardDeck } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import ItemDetailsHeader from './ItemDetailsHeader';
 import ItemDetailsInfo from './ItemDetailsInfo';
 import ItemDetailsFacts from './ItemDetailsFacts';
@@ -19,50 +19,50 @@ export default function ItemDetailsPage(props) {
   const { cat, id } = props.match.params;
 
   useEffect(() => {
+    const fetchDetails = () => {
+      fetch(`
+        https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
+        config.API_KEY_V3
+      }`)
+        .then(resp => resp.json())
+        .then(data => {
+          setSearchResults(data);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
+    const fetchCredits = () => {
+      fetch(`
+        https://api.themoviedb.org/3/${cat}/${id.replace(
+        'id=',
+        ''
+      )}/credits?api_key=${config.API_KEY_V3}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setCreditsResults(data);
+        })
+        .catch(err =>
+          console.error(`Could not fetch credit data - Error: ${err}`)
+        );
+    };
+
+    const fetchKeywords = () => {
+      fetch(`
+        https://api.themoviedb.org/3/${cat}/${id.replace(
+        'id=',
+        ''
+      )}/keywords?api_key=${config.API_KEY_V3}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setKeywordsResults(data);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
     fetchDetails();
     fetchCredits();
     fetchKeywords();
   }, [cat, id]);
-
-  const fetchDetails = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace('id=', '')}?api_key=${
-      config.API_KEY_V3
-    }`)
-      .then(resp => resp.json())
-      .then(data => {
-        setSearchResults(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
-
-  const fetchCredits = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace(
-      'id=',
-      ''
-    )}/credits?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setCreditsResults(data);
-      })
-      .catch(err =>
-        console.error(`Could not fetch credit data - Error: ${err}`)
-      );
-  };
-
-  const fetchKeywords = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace(
-      'id=',
-      ''
-    )}/keywords?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setKeywordsResults(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
 
   return (
     <Styles>
@@ -106,7 +106,6 @@ export default function ItemDetailsPage(props) {
                 </Col>
                 <Col lg={3} className='mt-4'>
                   <ItemDetailsFacts
-                    id={id.replace('id=', '')}
                     cat={cat}
                     status={searchResults.status}
                     OriginalLanguage={searchResults.original_language}

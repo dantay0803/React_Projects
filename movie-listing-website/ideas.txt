@@ -1,5 +1,0 @@
-TO DO:
-Collection Details Page
-Quick search options in navbar
-Close navbar searh entry when clicking another navbar button
-Add Vimeo player for trailers carousel and page

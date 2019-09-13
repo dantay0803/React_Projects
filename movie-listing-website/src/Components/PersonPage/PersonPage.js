@@ -105,51 +105,51 @@ export default function PersonPage(props) {
   const { id } = props.match.params;
 
   useEffect(() => {
+    const fetchDetails = () => {
+      fetch(`
+        https://api.themoviedb.org/3/person/${id.replace('id=', '')}?api_key=${
+        config.API_KEY_V3
+      }`)
+        .then(resp => resp.json())
+        .then(data => {
+          console.log(data);
+          setPersonalInfo(data);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
+    const fetchCredits = () => {
+      fetch(`
+      https://api.themoviedb.org/3/person/${id.replace(
+        'id=',
+        ''
+      )}/combined_credits?api_key=${config.API_KEY_V3}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setPersonCredits(data);
+          orderCredits(data);
+
+          const totalCredits = [];
+
+          data.cast.map(item =>
+            !totalCredits.includes(item.title || item.name)
+              ? totalCredits.push(item.title || item.name)
+              : null
+          );
+          data.crew.map(item =>
+            !totalCredits.includes(item.title || item.name)
+              ? totalCredits.push(item.title || item.name)
+              : null
+          );
+
+          setTotalCredits(totalCredits.length);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
     fetchDetails();
     fetchCredits();
   }, [id]);
-
-  const fetchDetails = () => {
-    fetch(`
-      https://api.themoviedb.org/3/person/${id.replace('id=', '')}?api_key=${
-      config.API_KEY_V3
-    }`)
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data);
-        setPersonalInfo(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
-
-  const fetchCredits = () => {
-    fetch(`
-    https://api.themoviedb.org/3/person/${id.replace(
-      'id=',
-      ''
-    )}/combined_credits?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setPersonCredits(data);
-        orderCredits(data);
-
-        const totalCredits = [];
-
-        data.cast.map(item =>
-          !totalCredits.includes(item.title || item.name)
-            ? totalCredits.push(item.title || item.name)
-            : null
-        );
-        data.crew.map(item =>
-          !totalCredits.includes(item.title || item.name)
-            ? totalCredits.push(item.title || item.name)
-            : null
-        );
-
-        setTotalCredits(totalCredits.length);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
 
   const orderCredits = data => {
     let orderedActorMovies = [];

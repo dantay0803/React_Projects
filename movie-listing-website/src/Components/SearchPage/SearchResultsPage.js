@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  Card,
-  Button,
-  Media
-} from 'react-bootstrap';
+import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { FaInfoCircle } from 'react-icons/fa';
 import SearchResultItem from './SearchResultItem';
 import CollectionResultItem from './CollectionResultItem';
@@ -61,24 +53,19 @@ export default function SearchResultsPage(props) {
   const [tvResults, setTVResults] = useState([]);
   const [peopleResults, setPeopleResults] = useState([]);
   const [collectionResults, setCollectionResults] = useState([]);
-
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState('1');
-
   const [collectionsPage, setCollectionsPage] = useState(1);
   const [totalCollectionPages, setTotalCollectionPages] = useState('1');
-
   const [searchOption, setSearchOption] = useState('movie');
   const [searchResults, setSearchResults] = useState(null);
+  const [savedQuery, setSavedQuery] = useState('');
+
   const { query } = props.match.params;
 
   useEffect(() => {
-    if (page <= totalPages) {
-      multiSearch(query.replace('query=', ''));
-    }
-    if (collectionsPage <= totalCollectionPages) {
-      collectionsSearch(query.replace('query=', ''));
-    }
+    multiSearch(query.replace('query=', ''));
+    collectionsSearch(query.replace('query=', ''));
   }, [query, page, collectionsPage]);
 
   const resultSelect = selection => {
@@ -103,16 +90,23 @@ export default function SearchResultsPage(props) {
   };
 
   const multiSearch = searchQuery => {
+    let searchPage = 1;
+
+    if (savedQuery !== query) {
+      setSavedQuery(query);
+      setPage(1);
+    } else {
+      searchPage = page;
+    }
+
     fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${page}`
+      `https://api.themoviedb.org/3/search/multi?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${searchPage}`
     )
       .then(resp => resp.json())
       .then(data => {
         const tempMoviesResults = [];
         const tempTVResults = [];
         const tempPersonResults = [];
-
-        setTotalPages(data.total_pages);
 
         data.results.map(item => {
           switch (item.media_type) {
@@ -130,21 +124,40 @@ export default function SearchResultsPage(props) {
           }
         });
 
-        switch (searchOption) {
-          case 'movie':
-            setSearchResults([...movieResults, ...tempMoviesResults]);
-            break;
-          case 'tv':
-            setSearchResults([...tvResults, ...tempTVResults]);
-            break;
-          case 'person':
-            setSearchResults([...peopleResults, ...tempPersonResults]);
-            break;
-        }
+        if (page <= 1) {
+          setTotalPages(data.total_pages);
+          setPeopleResults(tempPersonResults);
+          setTVResults(tempTVResults);
+          setMovieResults(tempMoviesResults);
 
-        setPeopleResults([...peopleResults, ...tempPersonResults]);
-        setTVResults([...tvResults, ...tempTVResults]);
-        setMovieResults([...movieResults, ...tempMoviesResults]);
+          switch (searchOption) {
+            case 'movie':
+              setSearchResults(tempMoviesResults);
+              break;
+            case 'tv':
+              setSearchResults(tempTVResults);
+              break;
+            case 'person':
+              setSearchResults(tempPersonResults);
+              break;
+          }
+        } else {
+          setPeopleResults([...peopleResults, ...tempPersonResults]);
+          setTVResults([...tvResults, ...tempTVResults]);
+          setMovieResults([...movieResults, ...tempMoviesResults]);
+
+          switch (searchOption) {
+            case 'movie':
+              setSearchResults([...movieResults, ...tempMoviesResults]);
+              break;
+            case 'tv':
+              setSearchResults([...tvResults, ...tempTVResults]);
+              break;
+            case 'person':
+              setSearchResults([...peopleResults, ...tempPersonResults]);
+              break;
+          }
+        }
       })
       .catch(err => console.log(`Could not fetch data - Error: ${err}`));
   };
@@ -160,17 +173,34 @@ export default function SearchResultsPage(props) {
   };
 
   const collectionsSearch = searchQuery => {
+    let searchPage = 1;
+
+    if (savedQuery !== query) {
+      setSavedQuery(query);
+      setCollectionsPage(1);
+    } else {
+      searchPage = page;
+    }
+
     fetch(
-      `https://api.themoviedb.org/3/search/collection?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${collectionsPage}`
+      `https://api.themoviedb.org/3/search/collection?api_key=${config.API_KEY_V3}&query=${searchQuery}&page=${searchPage}`
     )
       .then(resp => resp.json())
       .then(data => {
-        if (searchOption === 'collection') {
-          setSearchResults([...collectionResults, ...data.results]);
-        }
+        if (collectionsPage <= 1) {
+          setTotalCollectionPages(data.total_pages);
+          setCollectionResults(data.results);
 
-        setTotalCollectionPages(data.total_pages);
-        setCollectionResults([...collectionResults, ...data.results]);
+          if (searchOption === 'collection') {
+            setSearchResults(data.results);
+          }
+        } else {
+          setCollectionResults([...collectionResults, ...data.results]);
+
+          if (searchOption === 'collection') {
+            setSearchResults([...collectionResults, ...data.results]);
+          }
+        }
       })
       .catch(err => console.log(`Could not fetch data - Error: ${err}`));
   };
@@ -266,7 +296,6 @@ export default function SearchResultsPage(props) {
                             id={item.id}
                             title={item.name}
                             backdropPath={item.backdrop_path}
-                            category={'collection'}
                           />
                           {searchResults.length > 5 &&
                             index === searchResults.length - 5 && (
@@ -282,7 +311,6 @@ export default function SearchResultsPage(props) {
                             name={item.name}
                             info={item.details}
                             imagePath={item.profile_path}
-                            category={'person'}
                           />
                           {searchResults.length > 5 &&
                             index === searchResults.length - 5 && (

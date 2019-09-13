@@ -72,9 +72,7 @@ export default function Recommendations(props) {
   useEffect(() => {
     const fetchData = () => {
       fetch(
-        `https://api.themoviedb.org/3/${cat}/${id}/recommendations?api_key=${
-          config.API_KEY_V3
-        }&${props.searchOptions}`
+        `https://api.themoviedb.org/3/${cat}/${id}/recommendations?api_key=${config.API_KEY_V3}&${props.searchOptions}`
       )
         .then(resp => resp.json())
         .then(data => {

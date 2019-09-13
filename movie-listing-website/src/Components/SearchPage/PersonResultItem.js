@@ -13,7 +13,7 @@ const Styles = styled.div`
 `;
 
 export default function PersonResultItem(props) {
-  const { id, name, info, imagePath, category } = props;
+  const { id, name, info, imagePath } = props;
 
   return (
     <Styles>
@@ -28,7 +28,7 @@ export default function PersonResultItem(props) {
                 ? `https://image.tmdb.org/t/p/w500/${imagePath}`
                 : `https://via.placeholder.com/185x278?text=Image+not+available`
             }
-            alt={`Image of ${name}`}
+            alt={`Profile picture of ${name}`}
           />
         </Link>
         <Media.Body>

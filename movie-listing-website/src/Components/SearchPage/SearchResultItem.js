@@ -7,7 +7,6 @@ import {
   OverlayTrigger,
   Tooltip
 } from 'react-bootstrap';
-import { FaChartArea } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Styles = styled.div`
@@ -54,29 +53,9 @@ const StyledImageCard = styled(Card)`
   background-color: transparent;
   margin: 0;
 
-  a: hover ~.card-img-overlay {
-    opacity: 0.9;
-  }
-
   .card-img {
     border-radius: 0;
     height: 278.25px;
-  }
-
-  .card-img-overlay {
-    background-color: var(--bert-navy);
-    color: white;
-    opacity: 0;
-    height: 3rem;
-    top: auto;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-img-overlay: hover {
-    opacity: 0.9;
   }
 `;
 
@@ -105,28 +84,17 @@ export default function SearchResultItem(props) {
               alt='Card image'
             />
           </Link>
-          <Card.ImgOverlay>
-            <OverlayTrigger
-              placement='top'
-              overlay={
-                <Tooltip>
-                  <strong>Popularity Rank</strong>
-                  <br />
-                  Today: 4
-                  <br />
-                  Last Week: 2
-                </Tooltip>
-              }>
-              <FaChartArea className='chartIcon' />
-            </OverlayTrigger>
-          </Card.ImgOverlay>
         </StyledImageCard>
         <Media.Body>
           <StyledDetailsCard>
             <Card.Body>
               <Card.Title>{title}</Card.Title>
               <small className='text-muted'>{releaseDate}</small>
-              <Card.Text>{description.substring(0, 381)}...</Card.Text>
+              <Card.Text>
+                {description.length > 300
+                  ? `${description.substring(0, 300)}...`
+                  : description}
+              </Card.Text>
               <OverlayTrigger overlay={<Tooltip>User Score</Tooltip>}>
                 <ProgressBar now={popularity} label={`${props.popularity}`} />
               </OverlayTrigger>

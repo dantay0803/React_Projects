@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'react-bootstrap';
-import { IoIosArrowDropright } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 const Styles = styled.div`

@@ -70,6 +70,10 @@ const CollectionsCard = styled(Card)`
     border: 1px solid rgba(255, 255, 255, 1);
     color: var(--bert-black);
   }
+
+  a: hover {
+    color: var(--bert-black);
+  }
 `;
 
 export default function ItemDetailsInfo(props) {
@@ -78,35 +82,35 @@ export default function ItemDetailsInfo(props) {
   const { id, cat, title, releaseYear, cast, collection, posterPath } = props;
 
   useEffect(() => {
+    const fetchReviews = () => {
+      fetch(`
+        https://api.themoviedb.org/3/${cat}/${id.replace(
+        'id=',
+        ''
+      )}/reviews?api_key=${config.API_KEY_V3}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setReviewsResults(data);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
+    const fetchTrailers = () => {
+      fetch(`
+        https://api.themoviedb.org/3/${cat}/${id.replace(
+        'id=',
+        ''
+      )}/videos?api_key=${config.API_KEY_V3}`)
+        .then(resp => resp.json())
+        .then(data => {
+          setTrailerResults(data);
+        })
+        .catch(err => console.error(`Could not fetch data - Error: ${err}`));
+    };
+
     fetchReviews();
     fetchTrailers();
   }, [id, cat]);
-
-  const fetchReviews = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace(
-      'id=',
-      ''
-    )}/reviews?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setReviewsResults(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
-
-  const fetchTrailers = () => {
-    fetch(`
-      https://api.themoviedb.org/3/${cat}/${id.replace(
-      'id=',
-      ''
-    )}/videos?api_key=${config.API_KEY_V3}`)
-      .then(resp => resp.json())
-      .then(data => {
-        setTrailerResults(data);
-      })
-      .catch(err => console.error(`Could not fetch data - Error: ${err}`));
-  };
 
   return (
     <>
@@ -155,7 +159,6 @@ export default function ItemDetailsInfo(props) {
               .map(review => (
                 <UserReview
                   key={review.id}
-                  id={review.id}
                   author={review.author}
                   content={`${review.content.substring(0, 120)}...`}
                 />
@@ -205,7 +208,12 @@ export default function ItemDetailsInfo(props) {
               />
               <Card.ImgOverlay>
                 <h5>Part of the {collection.name}</h5>
-                <Button>VIEW THE COLLECTION</Button>
+
+                <Button>
+                  <Link to={`/collection/${collection.id}`}>
+                    VIEW THE COLLECTION
+                  </Link>
+                </Button>
               </Card.ImgOverlay>
             </CollectionsCard>
           </Container>

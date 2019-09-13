@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Card, CardDeck, Col, Row, Button } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import Logo from '../../images/logo.png';
 import { withRouter, Link } from 'react-router-dom';
 
