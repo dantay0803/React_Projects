@@ -21,7 +21,7 @@ export default function CollectionResultItem(props) {
 
   return (
     <Styles>
-      <Link to={`/collection/${id}`}>
+      <Link to={`/whattowatch/collection/${id}`}>
         <Card>
           <Card.Img
             variant='top'

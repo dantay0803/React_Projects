@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import { Jumbotron, Button } from 'react-bootstrap';
 import pickOfTheWeekImage from '../../images/PickOfTheWeek.jpg';
@@ -47,14 +47,20 @@ function PickOfTheWeek(props) {
             A dark psychological crime drama starring Idris Elba as Luther, a
             man struggling with his own terrible demons, who might be as
             dangerous as the depraved murderers he hunts.
-            </p>
+          </p>
           <p>
-            <Button className='pickOfTheWeekDetails' onClick={() => props.history.push(`/details/tv/id=1426`)}>Details</Button>
+            <Button
+              className='pickOfTheWeekDetails'
+              onClick={() =>
+                props.history.push(`/whattowatch/details/tv/id=1426`)
+              }>
+              Details
+            </Button>
           </p>
         </div>
       </Jumbotron>
     </Styles>
-  )
+  );
 }
 
 export default withRouter(PickOfTheWeek);

@@ -81,7 +81,7 @@ export default function KeywordListItem(props) {
     <Styles>
       <Media>
         <StyledImageCard>
-          <Link to={`/details/${category}/id=${id}`}>
+          <Link to={`/whattowatch/details/${category}/id=${id}`}>
             <Card.Img
               src={
                 posterPath !== null

@@ -126,6 +126,8 @@ export default function PersonPage(props) {
       )}/combined_credits?api_key=${config.API_KEY_V3}`)
         .then(resp => resp.json())
         .then(data => {
+          console.log(data);
+
           setPersonCredits(data);
           orderCredits(data);
 
@@ -246,9 +248,11 @@ export default function PersonPage(props) {
                 <>
                   <h1>{personalInfo.name}</h1>
                   <h3>Biography</h3>
-                  {personalInfo.biography.split('\n').map((text, i) => (
-                    <p key={i}>{text}</p>
-                  ))}
+                  {personalInfo.biography !== undefined
+                    ? personalInfo.biography
+                        .split('\n')
+                        .map((text, i) => <p key={i}>{text}</p>)
+                    : 'No biography available'}
                 </>
               ) : null}
             </Media.Body>
@@ -284,7 +288,8 @@ export default function PersonPage(props) {
                 <p>-</p>
               )}
               <h5>Also Known As</h5>
-              {personalInfo.also_known_as.length > 0 ? (
+              {personalInfo.also_known_as !== undefined &&
+              personalInfo.also_known_as.length > 0 ? (
                 <p>
                   {personalInfo.also_known_as.map(name => (
                     <p>{name}</p>
@@ -313,10 +318,10 @@ export default function PersonPage(props) {
                         )
                         .reverse()
                         .slice(0, 4)
-                        .map(item => (
-                          <Card>
+                        .map((item, index) => (
+                          <Card key={`${item.id}-${index}`}>
                             <Link
-                              to={`/details/${item.media_type}/id=${item.id}`}>
+                              to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                               <Card.Img
                                 variant='top'
                                 src={
@@ -344,10 +349,10 @@ export default function PersonPage(props) {
                         )
                         .reverse()
                         .slice(4, 8)
-                        .map(item => (
-                          <Card>
+                        .map((item, index) => (
+                          <Card key={`${item.id}-${index}`}>
                             <Link
-                              to={`/details/${item.media_type}/id=${item.id}`}>
+                              to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                               <Card.Img
                                 variant='top'
                                 src={
@@ -386,7 +391,7 @@ export default function PersonPage(props) {
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
                                 <Link
-                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                                   <strong>{item.title}</strong>
                                 </Link>
                                 {item.character !== ''
@@ -403,7 +408,7 @@ export default function PersonPage(props) {
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
                                 <Link
-                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                                   <strong>{item.title}</strong>
                                 </Link>
                                 {item.department !== ''
@@ -422,7 +427,7 @@ export default function PersonPage(props) {
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :
                                 <Link
-                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                                   <strong>{item.title}</strong>
                                 </Link>
                                 {item.character !== ''
@@ -439,7 +444,7 @@ export default function PersonPage(props) {
                               <ListGroup.Item>
                                 {item.date === 'NaN' ? 'TBD' : item.date} :{' '}
                                 <Link
-                                  to={`/details/${item.media_type}/id=${item.id}`}>
+                                  to={`/whattowatch/details/${item.media_type}/id=${item.id}`}>
                                   <strong>{item.title}</strong>
                                 </Link>
                                 {item.department !== ''

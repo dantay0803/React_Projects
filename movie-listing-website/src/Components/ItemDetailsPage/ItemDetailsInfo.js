@@ -120,7 +120,7 @@ export default function ItemDetailsInfo(props) {
           {cast !== null
             ? cast.cast.slice(0, 5).map(cast => (
                 <TopBilledCastCard key={cast.id}>
-                  <Link to={`/person/${cast.id}`}>
+                  <Link to={`/whattowatch/person/${cast.id}`}>
                     <Card.Img
                       variant='top'
                       src={
@@ -142,7 +142,7 @@ export default function ItemDetailsInfo(props) {
         </CardDeck>
         <Link
           to={{
-            pathname: `/cast/${props.cat}/id=${props.id}`,
+            pathname: `/whattowatch/cast/${props.cat}/id=${props.id}`,
             state: { title, releaseYear, cast, posterPath }
           }}>
           <p className='mt-3'>Full Cast & Crew</p>
@@ -167,7 +167,7 @@ export default function ItemDetailsInfo(props) {
         {reviewsResults !== null && reviewsResults.total_results > 0 ? (
           <Link
             to={{
-              pathname: `/reviews/${props.cat}/id=${props.id}`,
+              pathname: `/whattowatch/reviews/${props.cat}/id=${props.id}`,
               state: { id, cat, title, releaseYear, posterPath }
             }}>
             <p className='mt-3'>Read All Reviews</p>
@@ -181,7 +181,7 @@ export default function ItemDetailsInfo(props) {
         {trailerResults !== null && trailerResults.results.length > 0 ? (
           <Link
             to={{
-              pathname: `/trailers/${props.cat}/id=${props.id}`,
+              pathname: `/whattowatch/trailers/${props.cat}/id=${props.id}`,
               state: {
                 title,
                 releaseYear,
@@ -210,7 +210,7 @@ export default function ItemDetailsInfo(props) {
                 <h5>Part of the {collection.name}</h5>
 
                 <Button>
-                  <Link to={`/collection/${collection.id}`}>
+                  <Link to={`/whattowatch/collection/${collection.id}`}>
                     VIEW THE COLLECTION
                   </Link>
                 </Button>

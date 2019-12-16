@@ -18,7 +18,7 @@ export default function PersonResultItem(props) {
   return (
     <Styles>
       <Media>
-        <Link to={`/person/${id}`}>
+        <Link to={`/whattowatch/person/${id}`}>
           <img
             width={90}
             height={110}
@@ -32,7 +32,7 @@ export default function PersonResultItem(props) {
           />
         </Link>
         <Media.Body>
-          <Link to={`/person/${id}`}>
+          <Link to={`/whattowatch/person/${id}`}>
             <h5>{name}</h5>
           </Link>
           <p>{info}</p>

@@ -55,25 +55,43 @@ export default class App extends Component {
           <ScrollToTop>
             <Navigationbar backgroundcolor={this.state.navBackgroundColor} />
             <Switch>
-              <Route exact={true} path='/' component={Home} />
+              <Route exact={true} path='/whattowatch/' component={Home} />
               <Route
-                path='/searchresults/:query'
+                path='/whattowatch/searchresults/:query'
                 component={SearchResultsPage}
               />
-              <Route path='/details/:cat/:id' component={ItemDetailsPage} />
-              <Route path='/reviews/:cat/:id' component={ReviewsPage} />
-              <Route path='/cast/:cat/:id' component={FullCastPage} />
-              <Route path='/trailers/:cat/:id' component={TrailersPage} />
-              <Route path='/person/:id' component={PersonPage} />
               <Route
-                path={['/keyword/:id/:cat', '/genre/:id/:cat']}
+                path='/whattowatch/details/:cat/:id'
+                component={ItemDetailsPage}
+              />
+              <Route
+                path='/whattowatch/reviews/:cat/:id'
+                component={ReviewsPage}
+              />
+              <Route
+                path='/whattowatch/cast/:cat/:id'
+                component={FullCastPage}
+              />
+              <Route
+                path='/whattowatch/trailers/:cat/:id'
+                component={TrailersPage}
+              />
+              <Route path='/whattowatch/person/:id' component={PersonPage} />
+              <Route
+                path={[
+                  '/whattowatch/keyword/:id/:cat',
+                  '/whattowatch/genre/:id/:cat'
+                ]}
                 component={KeywordSearchPage}
               />
               <Route
-                path='/quicksearch/:cat/:option'
+                path='/whattowatch/quicksearch/:cat/:option'
                 component={QuickSearchPage}
               />
-              <Route path='/collection/:id' component={CollectionDetailsPage} />
+              <Route
+                path='/whattowatch/collection/:id'
+                component={CollectionDetailsPage}
+              />
               <Route component={NoMatchPage} />
             </Switch>
             <Footer />

@@ -76,7 +76,7 @@ export default function ItemDetailsFacts(props) {
         {genres.map(genre => (
           <Link
             to={{
-              pathname: `/genre/${genre.id}/${cat}`,
+              pathname: `/whattowatch/genre/${genre.id}/${cat}`,
               state: { name: genre.name }
             }}
             key={genre.id}>
@@ -90,7 +90,7 @@ export default function ItemDetailsFacts(props) {
           {keywords.map(keyword => (
             <Link
               to={{
-                pathname: `/keyword/${keyword.id}/${cat}`,
+                pathname: `/whattowatch/keyword/${keyword.id}/${cat}`,
                 state: { name: keyword.name }
               }}
               key={keyword.id}>

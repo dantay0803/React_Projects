@@ -71,7 +71,7 @@ export default function CollectionDetailsHeader(props) {
                 />
                 <Media.Body>
                   <h3>{name}</h3>
-                  <h5>Average Rating: {averageRating}</h5>
+                  <h5>Average Rating: {Math.round(averageRating * 10) / 10}</h5>
                   <h5>Number of Movies: {numberOfMovies}</h5>
                 </Media.Body>
               </MainInfoMedia>

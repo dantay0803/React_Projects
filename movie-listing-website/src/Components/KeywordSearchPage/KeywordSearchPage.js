@@ -114,9 +114,13 @@ export default function KeywordSearchPage(props) {
     setSearchResults([]);
 
     if (url.includes('keyword')) {
-      props.history.push(`/keyword/${id}/${target}`, { name: searchName });
+      props.history.push(`/whattowatch/keyword/${id}/${target}`, {
+        name: searchName
+      });
     } else {
-      props.history.push(`/genre/${id}/${target}`, { name: searchName });
+      props.history.push(`/whattowatch/genre/${id}/${target}`, {
+        name: searchName
+      });
     }
   };
 
@@ -124,6 +128,11 @@ export default function KeywordSearchPage(props) {
     if (page <= totalPages) {
       setPage(page + 1);
     }
+  };
+
+  const updateSearchOption = sortOption => {
+    setSearchResults([]);
+    setSortOption(sortOption);
   };
 
   return (
@@ -144,19 +153,19 @@ export default function KeywordSearchPage(props) {
                     <StyledDropdown id='dropdown-sort-results' title='SORT'>
                       <Dropdown.Item
                         as='button'
-                        onClick={() => setSortOption('popularity.desc')}>
+                        onClick={() => updateSearchOption('popularity.desc')}>
                         Popularity
                       </Dropdown.Item>
                       <Dropdown.Divider />
                       <Dropdown.Item
                         as='button'
-                        onClick={() => setSortOption('vote_average.desc')}>
+                        onClick={() => updateSearchOption('vote_average.desc')}>
                         Rating
                       </Dropdown.Item>
                       <Dropdown.Divider />
                       <Dropdown.Item
                         as='button'
-                        onClick={() => setSortOption('release_date.desc')}>
+                        onClick={() => updateSearchOption('release_date.desc')}>
                         Release Date
                       </Dropdown.Item>
                     </StyledDropdown>

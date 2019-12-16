@@ -8,7 +8,7 @@ export default function FullCastPersonItem(props) {
 
   return (
     <Media>
-      <Link to={`/person/${id}`}>
+      <Link to={`/whattowatch/person/${id}`}>
         <img
           width={58}
           height={87}
@@ -22,7 +22,7 @@ export default function FullCastPersonItem(props) {
         />
       </Link>
       <Media.Body>
-        <Link to={`/person/${id}`}>
+        <Link to={`/whattowatch/person/${id}`}>
           <h6>{name}</h6>
         </Link>
         <p>{position}</p>

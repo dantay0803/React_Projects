@@ -114,7 +114,7 @@ function Navigationbar(props) {
     e.preventDefault();
 
     if (e.key === 'Enter') {
-      props.history.push(`/searchresults/query=${searchQuery}`);
+      props.history.push(`/whattowatch/searchresults/query=${searchQuery}`);
     } else {
       setSearchInputValue(e.target.value);
       setSearchQuery(e.target.value.replace(/\s/g, '%20'));
@@ -123,7 +123,7 @@ function Navigationbar(props) {
 
   const goToQuckSearch = (option, searchName) => {
     props.history.push({
-      pathname: `/quicksearch/${option}`,
+      pathname: `/whattowatch/quicksearch/${option}`,
       state: { searchName }
     });
   };
@@ -134,7 +134,7 @@ function Navigationbar(props) {
         expand='lg'
         fixed='top'
         backgroundcolor={props.backgroundcolor}>
-        <Link to='/'>
+        <Link to='/whattowatch/'>
           <Navbar.Brand onClick={() => closeSearchBar()}>
             <img
               alt='What to watch logo'
